@@ -4,7 +4,7 @@ title: "Observed Recoverable Behavioral Failure Modes in LLM Workflows: A Multi-
 authors:
   - family-names: Suresh
     given-names: Vijay
-version: "1.15"
+version: "1.18"
 date-released: "2026-05-17"
 type: software
 keywords:
