@@ -1,0 +1,711 @@
+% Observed Recoverable Behavioral Failure Modes in LLM Workflows
+% Version 1.8
+% Author: Vijay Suresh
+%
+% Compile: pdflatex paper_v1.8.tex (twice for TOC and references).
+% Or:      latexmk -pdf paper_v1.8.tex
+%
+% Designed for arXiv submission. Uses only widely available packages.
+
+\documentclass[11pt]{article}
+
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage{textcomp}
+\usepackage{graphicx}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  citecolor=blue!50!black,
+  urlcolor=blue!50!black,
+  pdftitle={Observed Recoverable Behavioral Failure Modes in LLM Workflows (v1.10)},
+  pdfauthor={Vijay Suresh}
+}
+
+\titleformat*{\section}{\large\bfseries}
+\titleformat*{\subsection}{\normalsize\bfseries}
+\setlength{\parskip}{0.5\baselineskip}
+\setlength{\parindent}{0pt}
+
+\newcommand{\Sone}{S_{1}}
+\newcommand{\Sr}{S_{r}}
+\newcommand{\pone}{p_{1}}
+\newcommand{\pr}{p_{r}}
+
+
+% Hyphenation hints (v1.10 polish)
+\hyphenation{
+  re-cov-er-a-ble re-cov-er-a-bil-i-ty be-hav-ior-al
+  re-li-a-bil-i-ty in-ter-pre-ta-tion com-mands
+  ar-ti-fact-rea-di-ness ver-i-fi-ca-tion dis-cor-dant
+  re-tri-ev-al cal-i-bra-tion sub-task
+}
+% Prevent ugly breaks at compound hyphens for high-frequency terms
+\newcommand{\rprobe}{retry-probe}
+\newcommand{\fpass}{first-pass}
+\newcommand{\rafterp}{retry-after-prompt}
+
+\title{\textbf{Observed Recoverable Behavioral Failure Modes in LLM Workflows}\\
+       \large A Multi-Session Cross-Platform Case Study, Retry-Probe Pilot, and\\
+       Multi-Model Evaluation Protocol}
+\author{Vijay Suresh}
+\date{Version 1.8 \quad May 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Standard large-language-model evaluations primarily score terminal outputs: whether a final answer is correct, safe, preferred, or useful. This paper studies a different class of failures, which we call \emph{recoverable behavioral failures} (RBFs). An RBF occurs when a model appears to possess the capability, context, and tool access needed to complete a task but does not exercise that capability on the first pass, and subsequently succeeds after a brief retry, verification, or correction prompt that introduces no new substantive information. RBFs are observable in long, practical AI workflows including research synthesis, source verification, document drafting, code generation, multimodal interpretation, and artifact production. They are not captured by single-turn benchmark accuracy or by aggregate human-preference data, because they only become visible across turns, when a second prompt reveals that the underlying capability was already available.
+
+The paper makes six contributions. First, it defines recoverable behavioral failure as a distinct evaluation construct, separating capability from first-pass execution behavior. Second, it develops a layered sixteen-mode taxonomy spanning retrieval, reasoning, multimodal interpretation, infrastructure, artifact production, and editorial boundary control. Third, it reports a retry-probe pilot on a fifteen-item heterogeneous retrieval task in which first-pass resolution was $12/15$ and after-retry resolution was $15/15$, yielding a $20$ percentage-point recoverability gap. Wilson 95\% confidence intervals are reported for the small-sample rates, and an exact small-sample Fisher test associates first-pass failure with one structural item class (two-sided $p = 0.0022$, exact). Fourth, it extends the taxonomy with abstracted cross-platform workflow observations covering artifact-readiness, source-verification, audience-calibration, and editorial-boundary modes. Fifth, it reports a small intra-vendor pilot on a ten-task experiment pack across three Anthropic models (Sonnet 4.6, Opus 4.7, and Haiku 4.5), with per-model and per-category pass rates and Wilson 95\% confidence intervals. Sixth, it specifies a controlled cross-vendor evaluation protocol grounded in a companion repository, with task families, deterministic and human-judged checks, sample-size guidance, an annotation rubric, raw-output archiving, scored CSV outputs, and a reproducibility checklist. The pilots are exploratory; the cross-vendor protocol is offered as planned replication rather than as a completed cross-vendor study. We additionally report a small intra-vendor pilot result on the ten-task experiment pack across three Anthropic models (Sonnet 4.6, Opus 4.7, and Haiku 4.5), with per-model and per-category pass rates and Wilson 95\% confidence intervals; these results are exploratory and intra-vendor only (cross-vendor extension is deferred to future work because OpenAI and Google credentials were unavailable at pilot time).
+\end{abstract}
+
+\noindent\textbf{Keywords:} large language models; evaluation; behavioral failures; retry behavior; agent reliability; tool use; artifact generation; self-verification; workflow readiness; case-study methodology; reproducible benchmark.
+
+\tableofcontents
+\newpage
+
+
+\section{Introduction}
+
+Public discussion of language-model failures has converged on two broad categories. A \emph{capability failure} occurs when the model lacks the knowledge, reasoning skill, perceptual ability, or tool fluency required to solve the task. An \emph{alignment or safety failure} occurs when the model produces output that is harmful, deceptive, or otherwise off-policy. Existing evaluation infrastructure is built around these two categories: benchmark accuracy (Liang et al., 2022; Srivastava et al., 2023; Hendrycks et al., 2021) indexes the first; preference-based reinforcement learning (Christiano et al., 2017; Bai et al., 2022) and red-teaming index the second.
+
+Many failures observed in practical AI workflows fit neither category cleanly. A user issues a request; the model declares part of the task unresolved, incomplete, or impossible; a short follow-up prompt elicits a substantively correct response without introducing new documents, tools, or facts. The capability was demonstrably available on the first turn. What changed between attempts was a search strategy, a verification step, a recognition of structural input, or an audit of an artifact for placeholders, formatting, or boundary leakage. The first attempt did not fail because the model could not do it. It failed because the model did not.
+
+We refer to these events as \emph{recoverable behavioral failures}. They are \emph{behavioral} not in any anthropomorphic sense but because the failure is located in execution policy: effort allocation, persistence, verification, escalation, search discipline, multimodal reading, artifact finalization, and boundary management between conversation and deliverable. They are \emph{recoverable} because a local correction reveals the model was capable of producing the correct output without additional information.
+
+The distinction matters for modern AI workflows. Frontier models are now used for research synthesis, software debugging, document drafting, slide and spreadsheet generation, literature triage, citation checking, and tool-assisted operations. These are not single-turn tasks with a single final answer. They are multi-step, supervised processes in which the practical cost of a model is not only the probability of a wrong terminal answer; it is the amount of human oversight needed to detect premature stopping, recover incomplete artifacts, correct unsupported claims, and prevent process commentary from contaminating the final deliverable.
+
+This paper is intentionally conservative. It does not estimate population-level failure rates for any vendor, model family, or product. It develops the construct, codes a naturalistic multi-session corpus, measures one mode quantitatively in a small pilot, extends the taxonomy to artifact-production and editorial-boundary failures observed in cross-platform professional workflows, and specifies a multi-model evaluation protocol that a future study can run to replicate and extend the findings.
+
+\subsection{Contributions}
+\begin{enumerate}[leftmargin=*, label=\arabic*.]
+  \item \textbf{Construct.} A definition of recoverable behavioral failure that separates capability from first-pass execution behavior, with operational measurement instruments (first-pass success, retry success, recoverability gap).
+  \item \textbf{Taxonomy.} A layered sixteen-mode taxonomy organized by failure locus.
+  \item \textbf{Pilot.} A retry-probe pilot with first-pass rate $12/15 = 80\%$ (Wilson 95\% CI: $[54.8\%, 93.0\%]$), retry rate $15/15 = 100\%$, recoverability gap $+20$ percentage points (discordant-proportion CI: $[7.0\%, 45.2\%]$). Exact Fisher test on item-structural class association: two-sided $p = 0.0022$.
+  \item \textbf{Cross-workflow extensions.} Four additional modes from professional artifact-production and public-communication workflows.
+  \item \textbf{Multi-model protocol.} A controlled benchmark specification grounded in a ten-task pilot pack covering five task categories.
+  \item \textbf{Intra-vendor pilot results.} A multi-model run of the experiment pack across three Anthropic models (Sonnet 4.6, Opus 4.7, Haiku 4.5) producing per-(model, category) pass rates and Wilson 95\% confidence intervals. The result is reported as a pilot with strong rubric-vocabulary caveats, not as a population estimate or model ranking.
+\end{enumerate}
+
+\section{Related Work}
+
+\subsection{LLM benchmarks and evaluation}
+HELM (Liang et al., 2022), BIG-Bench (Srivastava et al., 2023), and MMLU (Hendrycks et al., 2021) established broad coverage of LLM capabilities across reasoning, knowledge, and language tasks. Their primary measurement target is the correctness, calibration, or preference of a terminal output under a fixed prompt. These benchmarks are essential and continue to drive frontier progress. They do not, however, separate the gap between what a model produces on the first attempt and what it can produce after an explicit retry, verification, or alternative search strategy. The present paper complements terminal-output evaluation by treating first-pass and post-retry performance as separately measurable quantities and by introducing artifact-level readiness checks alongside text-level correctness.
+
+\subsection{RLHF and preference learning}
+Reinforcement learning from human feedback (Christiano et al., 2017; Bai et al., 2022) and subsequent work on direct preference optimization aggregate pairwise human preferences over candidate responses. Preference labels are informative about which of two final answers is preferred, but they do not by themselves encode the reason for the preference. If the dispreferred answer would have improved under a follow-up retry without new information, that recoverability is not captured in the preference signal. As a result, a model trained to optimize aggregate preference can remain susceptible to behavioral failures whose cost is paid in turns of supervision rather than in measured preference deltas.
+
+\subsection{Tool-use and agentic benchmarks}
+SWE-bench (Jimenez et al., 2024) and WebArena (Zhou et al., 2024) evaluate complex multi-step tasks in software-engineering and web-navigation environments respectively. These agentic benchmarks measure end-to-end task completion under tool access. They do not always separate the intermediate decisions that constitute the agent's policy: when to retry a thin search, when to escalate to a different query construction, when to verify a numerical claim, when to ask for structural confirmation of a multimodal input, and when to declare an artifact complete. Recoverable behavioral failures are visible precisely at those intermediate decisions, which is why this paper introduces both retry-probe metrics and artifact-readiness checks.
+
+\subsection{Truthfulness, sycophancy, and deception}
+TruthfulQA (Lin et al., 2022) targets one class of behavioral failure: the assertion of false-but-popular claims. Work on sycophancy (Sharma et al., 2023) documents the tendency to align responses with stated user preferences even when those preferences diverge from the correct answer. Park et al.\ (2024) survey AI deception and adjacent confidently-wrong behavior. The present taxonomy intersects this literature but extends to a complementary surface pattern: the model may also decline, truncate, misread, or produce an incomplete artifact rather than confidently assert a false proposition. These behaviors can be equally costly in real workflows even when they do not look like classical hallucination.
+
+\subsection{Time-sensitive QA and knowledge staleness}
+Time-sensitive question answering (Chen et al., 2021; Liska et al., 2022) documents that static model knowledge degrades as the world changes. The present paper extends this concern from factual decay to procedural decay. When a model confidently describes a third-party tool interface that has been restructured, the resulting failure is not a factual hallucination in the traditional sense; it is a stale procedural assumption that wastes user effort. The proposed mitigation, confidence-decay framing, is the procedural analogue of well-known calibration strategies on factual outputs.
+
+\subsection{Long-horizon agent reliability and human-AI workflow reliability}
+A growing body of empirical and observational work documents the gap between single-turn capability and multi-turn reliability. Agent benchmarks report success rates that decline monotonically with task length, number of tool calls, and number of subgoals, even when single-step accuracy on the same operations is high. Studies of human-AI collaboration on knowledge-intensive tasks document substantial supervisory load placed on users when assistants fail in recoverable but uncaught ways: users absorb the cost of detecting premature stopping, of re-issuing corrective prompts, and of auditing artifacts whose surface form looks acceptable. Work on writing-assistance, coding-assistance, and research-assistance settings repeatedly finds that the time savings attributable to AI assistance are partly recouped by the time spent verifying outputs the assistant produced with insufficient self-checking.
+
+The construct of recoverable behavioral failure offers a unified measurement language for these observations. Each subgoal in a long workflow is itself a candidate first-pass decision: the agent may search, verify, escalate, finalize, or audit, and may do so well or poorly. The practical reliability of the workflow is the cumulative product of those decisions. Reporting first-pass and retry-after-prompt rates separately, and augmenting with artifact-readiness and boundary-contamination checks, converts the informal supervisory-load observation from human-AI collaboration into a set of measurable rates that can be tracked over time and compared across models.
+
+\subsection{Case-study methodology}
+The empirical structure of this paper follows the theory-building case-study logic in Yin (2018). Naturalistic cases are appropriate when the phenomenon is multi-turn, workflow-dependent, and not yet reducible to isolated benchmark questions. The role of the case study is not to replace controlled experimentation. It is to discover and characterize constructs that can then be measured through controlled replication. The retry-probe pilot in \cref{sec:pilot} and the multi-model protocol in \cref{sec:protocol} implement that subsequent measurement step.
+
+\section{Conceptual Framework}
+
+We define a recoverable behavioral failure relative to a verifiable task. Let an item $i$ in task set $T$ have a verifiable target outcome $y_i$. Let $A_1(i)$ denote the model's first-pass attempt under the original prompt, and let $A_r(i)$ denote the model's attempt after a standardized retry prompt that supplies no new substantive information --- no new documents, no new tools, no new facts, no new task specification, no relaxed evaluation standard. Let $\Sone(i) = 1$ when $A_1(i)$ satisfies the verification criterion, and analogously $\Sr(i)$ for the retry attempt.
+
+\subsection{Core quantities}
+\begin{align}
+\text{First-pass success rate:}\quad & \pone = \frac{1}{N} \sum_{i=1}^{N} \Sone(i) \\
+\text{Retry success rate:}\quad     & \pr   = \frac{1}{N} \sum_{i=1}^{N} \Sr(i)   \\
+\text{Recoverability gap:}\quad     & G     = \pr - \pone \\
+\text{RBF indicator for item $i$:}\quad & \mathbb{1}\!\left[\Sone(i) = 0 \;\wedge\; \Sr(i) = 1\right]
+\end{align}
+under the standardized retry. Aggregating the indicator across items yields the empirical RBF rate.
+
+\subsection{Construct boundaries}
+The construct is intentionally conservative. The following are \emph{not} counted as RBFs:
+\begin{itemize}[leftmargin=*]
+  \item Retries in which the user supplies a missing fact, document, or answer (\emph{ordinary interactive correction}).
+  \item Retries in which the task specification or evaluation standard is relaxed (\emph{specification slippage}).
+  \item Retries in which new tool affordances become available between attempts (\emph{tool unlock}).
+  \item Cases where the first-pass output is correct under a reasonable reading and the user demands an unnecessary rephrase (\emph{preference rework}).
+\end{itemize}
+These exclusions protect the construct from inflation.
+
+\subsection{Additional measurable constructs}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Batch-scaling degradation.} The change in per-item first-pass success as batch size $N$ varies.
+  \item \textbf{Artifact-readiness failure.} A deliverable exists but does not meet user-facing readiness criteria.
+  \item \textbf{Boundary-contamination failure.} Process commentary appears inside a deliverable that should be publication-ready.
+  \item \textbf{Verification compliance.} Proportion of items for which a stated verification step is performed when implied by the task.
+\end{itemize}
+
+\section{Data and Methodology}
+\label{sec:method}
+
+\subsection{Evidence base}
+The evidence combines a fourteen-session naturalistic case study of multi-turn workflows (document-generation, source-verification, multi-step research, quantitative reasoning, structured-visual interpretation, publication-preparation) with a cross-platform abstraction over additional professional workflows. The paper reports only abstracted workflow categories and failure mechanisms, with no individual identifying details.
+
+\subsection{Evidence tiers}
+Observations are assigned to evidence tiers to prevent overstating individual claims:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Tier 1}: Measured pilot item outcomes (quantitative PTS result).
+  \item \textbf{Tier 2}: Transcript-verifiable multi-turn observations (mode definitions, examples).
+  \item \textbf{Tier 3}: Abstracted cross-platform workflow summaries (artifact and editorial-boundary extensions).
+  \item \textbf{Tier 4}: Hypothesized mechanisms requiring controlled replication.
+\end{itemize}
+
+\subsection{Coding procedure}
+Each candidate event is coded with: (a) task context; (b) original output; (c) user retry; (d) post-correction outcome; (e) whether new substantive information was introduced; (f) failure mode; (g) trigger; (h) recovery type; (i) user-visible cost. Conservative coding rule: if recovery requires new information from the user, the event is excluded from RBFs.
+
+\subsection{Model-attribution caveats}
+The Claude.ai conversation export schema does not record per-message model identity. Attribution in the case study is reconstructed from user recall and contextual cues. The paper therefore avoids strong model-comparison claims based on the case study; the multi-model protocol in \cref{sec:protocol} is the appropriate vehicle for controlled model comparison.
+
+\subsection{Responsible data handling}
+Raw transcripts are not released. The accompanying benchmark package contains items synthesized from neutral domains and does not incorporate user-specific identifiers. Future public releases should follow a two-layer model: a public benchmark from neutral sources, and a private audit appendix for trusted reviewers.
+
+\section{Taxonomy of Recoverable Behavioral Failures}
+\label{sec:taxonomy}
+
+The taxonomy is layered by failure locus. Locus separation matters because not every user-visible failure should be attributed to the model core. Some failures arise in retrieval policy, some in batch-effort allocation, some in artifact generation, some in client transport, some in product memory, some in the evaluation pipeline itself. A useful framework should locate the failure precisely enough to guide the right mitigation.
+
+\subsection{A note on mode overlap and granularity}
+Sixteen modes is a deliberate choice. Several pairs of modes are clearly adjacent and could in principle be collapsed: PTS and SMI are both retrieval-policy failures; MRT, UCT, and MSI are interruption-style failures at different loci; AFF and EBC are both artifact-side failures. We keep them separate for three reasons. (i) The \emph{mitigation} implied by each mode is different. (ii) The \emph{locus} attribution is different across apparent pairs. (iii) An empirically-driven collapse should follow from data: once cross-model and cross-user data accumulate, modes that always co-occur in the same items can be merged, while modes that dissociate empirically should stay separate. The present taxonomy is offered as a starting partition for measurement.
+
+\begin{table}[h]
+\centering\small
+\caption{Layered taxonomy of recoverable behavioral failure modes.}
+\label{tab:taxonomy}
+\begin{tabularx}{\linewidth}{l X X X}
+\toprule
+\textbf{Code} & \textbf{Name} & \textbf{Primary locus} & \textbf{User-visible cost} \\
+\midrule
+PTS  & Premature Termination of Search     & Model / retrieval policy           & False unresolved answers \\
+BDTF & Breadth-Depth Tradeoff Failure      & Model policy under batch load      & Shallow per-item analysis \\
+SMI  & Search Methodology Inconsistency    & Retrieval strategy                 & Inconsistent escalation \\
+MRT  & Mid-Response Truncation             & Infrastructure                     & Lost progress \\
+MSI  & Mobile Streaming Interruption       & Client / transport                 & Dropped responses \\
+FPG  & Feedback Persistence Gap            & Product / training pipeline        & Corrections not preserved \\
+RFI  & Retry-Failure Invisibility          & Evaluation pipeline                & Cannot-solve vs.\ did-not-try \\
+STK  & Stale Third-Party Tool/UI Knowledge & Model knowledge / tool guidance    & Confident wrong UI paths \\
+QI   & Quantitative Inconsistency          & Reasoning / self-audit             & Contradictory numbers \\
+PPG  & Phantom Placeholder Persistence     & Artifact / code generation         & Placeholders as commands \\
+UCT  & Usage-Cap Termination               & System / rate limit                & Degraded resume state \\
+VMC  & Visual Misreading Cascade           & Multimodal interpretation          & Cascading misreadings \\
+AFF  & Artifact Finalization Failure       & Artifact generation                & File exists but unusable \\
+SVD  & Source Verification Drift           & Citation / retrieval practice      & Weakly supported claims \\
+EBC  & Editorial Boundary Contamination    & Artifact boundary management       & Process notes leak in \\
+ACM  & Audience / Context Miscalibration   & Communication / register           & Off-register content \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+\subsection{Premature Termination of Search (PTS)}
+\paragraph{Definition.} The model declares an information item unresolved after a small number of retrieval attempts, even though a readily available alternative retrieval strategy would resolve it. The first attempt typically uses a thin or generic query construction; the second attempt, issued under a retry prompt that introduces no new information, succeeds.
+
+\paragraph{Observed pattern.} In the pilot retrieval task, three items whose URLs contained opaque numeric identifiers were marked unresolved on the first pass after generic keyword queries returned thin results. After a standardized retry prompt the model used site-targeted query construction and resolved all three. The capability gap on the first pass was therefore a query-construction policy decision rather than a knowledge or tool limit.
+
+\paragraph{Why it matters.} PTS is among the most consequential modes because it masquerades as missing knowledge. The user receives an `unknown' response and reasonably treats it as a capability boundary. In fact the system has not exhausted available retrieval policy. The cost is paid both as missed information and as user-side supervisory load: the user must recognize that the response is recoverable and issue the retry themselves.
+
+\paragraph{Differentiation.} PTS is distinct from \textbf{SMI} (which concerns inconsistency across similar subtasks rather than premature stopping on one subtask) and from \textbf{RFI} (which is the evaluation-pipeline blind spot that makes PTS invisible in offline review). PTS is also distinct from genuine retrieval failure where no alternative strategy would help; the diagnostic for PTS is that an alternative strategy demonstrably exists.
+
+\paragraph{Detection.} Retry probes constructed so that the first-pass query is likely to be thin but at least one alternative strategy is known to succeed. Measure first-pass success and retry-after-prompt success separately; the gap quantifies PTS. Probe construction recipes include items with opaque-identifier URLs, items whose canonical answer is on a specific known site, and items that require an exact-string match the generic query would dilute.
+
+\paragraph{Mitigation.} An explicit retrieval escalation policy: when the first search returns thin, the model should systematically try query rewriting, site restriction, exact-string identifier search, and source triangulation before declaring failure. The escalation should be visible to the user so that supervision is calibrated rather than always assumed; this also helps the user trust the `unknown' verdicts that remain after escalation.
+
+\subsection{Breadth-Depth Tradeoff Failure (BDTF)}
+\paragraph{Definition.} When presented with a large batch, the model implicitly optimizes for covering all items rather than verifying each item deeply. The result is a superficially complete response with weak per-item grounding: every item appears addressed, but per-item depth degrades as the batch size grows.
+
+\paragraph{Observed pattern.} Multi-item evaluation tasks elicit short, uniform dispositions even when individual items differ materially in difficulty. Items requiring secondary lookup are sometimes resolved without the lookup having occurred. Items requiring verification are sometimes presented with confident framings derived from partial reads. The user infers uniform depth from uniform output length, which is exactly the inference the model has not earned.
+
+\paragraph{Why it matters.} BDTF is an allocation error in which the appearance of coverage substitutes for verification. The user reads a list, sees that every item has been addressed, and reasonably assumes uniform depth. Without explicit depth indicators the user is forced to re-verify each item to recover trust---at which point the breadth advantage of the batch was illusory and the depth cost has merely shifted.
+
+\paragraph{Differentiation.} BDTF differs from \textbf{MRT} (which is truncation within a single response) and from \textbf{PTS} (which is premature stopping on a single retrieval). BDTF is a batch-level allocation phenomenon: per-item correctness degrades as N grows even when per-item tasks at small N are reliably solved. It can co-occur with PTS but is operationally separable through batch-size variation.
+
+\paragraph{Detection.} Batch-scaling curves: administer the same items at batch sizes N = 1, 5, 15, 30. Measure per-item correctness against N. The slope quantifies BDTF; the inflection point identifies the effective batch capacity. A healthy policy under load surfaces verification depth per item rather than hiding allocation behind uniform output length.
+
+\paragraph{Mitigation.} Batch-aware effort budgeting: for large batches, the model should state per-item uncertainty, allocate verification depth, and surface items that received only shallow processing. A simple product affordance is per-item flags that distinguish `verified,' `partially verified,' and `not verified' outputs.
+
+\subsection{Search Methodology Inconsistency (SMI)}
+\paragraph{Definition.} The model uses stronger retrieval tactics for some items and weaker tactics for similar items within the same session, with no explicit reason for the difference. Query construction varies between generic keyword search, site-targeted search, and identifier-anchored search without a stated escalation rule.
+
+\paragraph{Observed pattern.} Across a batch of retrieval subtasks, items that would have benefited from the stronger tactic receive the weaker tactic; users notice the inconsistency only when they observe that one item succeeded under exactly the strategy that was not applied to a similar item. The same model can exhibit PTS on one item, escalate appropriately on a similar item, and fail to apply the same escalation to a third.
+
+\paragraph{Why it matters.} Inconsistent retrieval discipline shifts the burden of escalation onto the user. A robust workflow expects a predictable escalation protocol on thin first results: query rewriting, site restriction, identifier search, title extraction, source triangulation. SMI occurs when this escalation is selectively applied, so the user cannot rely on uniform retrieval policy and must monitor strategy choice item by item.
+
+\paragraph{Differentiation.} PTS is a failure mode within a subtask; SMI is a consistency mode across subtasks. The two can co-occur but are operationally separable: SMI persists even when overall PTS incidence is low, because the issue is the conditional probability of strategy escalation given a thin first result, not the absolute incidence of premature stopping.
+
+\paragraph{Detection.} Per-subtask query logging within a session. Compute (a) the distribution of queries-per-subtask, (b) the distribution of query-construction strategies, and (c) the conditional probability of switching strategy given a thin first result. A healthy retrieval policy should exhibit consistent escalation across structurally similar subtasks.
+
+\paragraph{Mitigation.} A documented escalation protocol applied uniformly across retrieval subtasks. Internal logging that exposes the chosen strategy to evaluators and, where appropriate, to the user, so that inconsistencies are noticeable rather than hidden. Consistency is itself a user-trust signal even when the underlying strategy is imperfect.
+
+\subsection{Mid-Response Truncation (MRT)}
+\paragraph{Definition.} The model begins generating a response, makes partial progress, and the stream terminates before completion, often after partial tool use or partial drafting. The termination is signaled by a generic error rather than a graceful wind-down.
+
+\paragraph{Observed pattern.} Long multi-part responses on heterogeneous batches sometimes terminate with a generic recovery message. Partial work is not always preserved or replayable. The user is required to issue a fresh prompt to resume, with no native carry-over of intermediate state. In long workflows the cost of lost intermediate progress compounds: each truncation imposes recovery work proportional to task complexity.
+
+\paragraph{Why it matters.} MRT is costly not only because the answer is incomplete but because the partial work may need to be reassembled manually. The user must reconstruct what the model had already done, decide what to keep, and re-prompt for the remainder. The cost scales with response length and tool-call density---exactly the regime where users were relying on the model to reduce supervisory load.
+
+\paragraph{Differentiation.} MRT is an infrastructure-side termination of a single response; \textbf{UCT} is a system-level rate-limit termination of the conversation; \textbf{MSI} is a client-side stream drop. All three share the user-visible appearance of an interrupted task but differ in locus, signal, and recovery behavior.
+
+\paragraph{Detection.} Near-budget telemetry: log the fraction of token, tool-call, or wall-clock budget consumed at response termination. For a healthy generator, the distribution should be bimodal---very early when the task is short, well below threshold when the model voluntarily concluded. A spike of terminations at or near the budget boundary indicates MRT.
+
+\paragraph{Mitigation.} A structured progress ledger that allows the model and the system to preserve and resume intermediate state when generation fails. Resume-state checkpoints during long generations, with the option to surface and replay partial outputs. Where graceful termination is feasible, the model should be cued to summarize completed work before the budget is exhausted.
+
+\subsection{Mobile Streaming Interruption (MSI)}
+\paragraph{Definition.} Mobile or client-side interruptions can drop an in-progress streaming response, with no recovery of the partial output when the user returns to the session. Screen-lock, backgrounding, and connection drops on mobile clients are common triggers.
+
+\paragraph{Observed pattern.} Screen-lock during streaming generation on mobile clients sometimes terminates the connection. The session reopens without the partial response surfaced. Users describe the failure as workflow unreliability rather than as a model error---they may not know whether the model finished and the partial output was lost in transit, or whether the model itself never finished.
+
+\paragraph{Why it matters.} Long AI workflows increasingly depend on streaming responses. When the client loses partial output, the cost is workflow-level: the user must re-issue the request and absorb the full latency again. The failure compounds with MRT and UCT to make long sessions on mobile materially less reliable than on desktop.
+
+\paragraph{Differentiation.} MSI is client/transport-layer; MRT is infrastructure/model-side; UCT is system rate-limit. All three are recoverable in principle through different mechanisms---client-side buffering for MSI, server-side resume for MRT, graceful continuation for UCT---but the locus determines the correct mitigation.
+
+\paragraph{Detection.} Client-side telemetry on stream-drop events correlated with foreground/background lifecycle and with screen-lock events. The relevant rate is interrupted streams per long-generation request on mobile clients, segmented by client version and connection type.
+
+\paragraph{Mitigation.} Persistent server-side response buffering with client reattachment on resume, so a screen-lock event does not erase work already produced. Notification surfaces that allow the user to recover the interrupted response on next session open, with the partial output highlighted so the user can decide whether to continue or restart.
+
+\subsection{Feedback Persistence Gap (FPG)}
+\paragraph{Definition.} Within-session corrections, scope clarifications, and explicit user preferences do not persist beyond the session unless an explicit memory surface or product mechanism captures them. The same user encounters the same correctable issue in subsequent sessions.
+
+\paragraph{Observed pattern.} A user corrects a stylistic or factual error in one session; the same error recurs in subsequent sessions without the correction being applied. Aggregate signal from preference data eventually reaches model training, but individual users observe no compounding return on their corrective effort across sessions.
+
+\paragraph{Why it matters.} FPG is not always a defect; user control and privacy require limits on cross-session persistence. The evaluation issue is that repeated corrections impose longitudinal cost and are invisible in single-session benchmarks. The same user who invests heavily in shaping behavior receives the least cumulative benefit absent an explicit memory mechanism---an incentive misalignment for power users.
+
+\paragraph{Differentiation.} FPG is the product/training-pipeline analogue of within-session retry behavior. It is distinct from FPG-adjacent caching mechanisms because it concerns user-corrective signal, not retrieval reuse. It is also distinct from explicit memory features whose presence renders FPG inapplicable for the affected facts.
+
+\paragraph{Detection.} Out of scope for single-session response-level evaluation. The appropriate measurement is longitudinal: time-to-recurrence of a corrected error, and the proportion of stable preferences that survive across sessions for a given user. These metrics require user-level instrumentation and informed consent.
+
+\paragraph{Mitigation.} Explicit per-user memory surfaces with user-visible controls. Treating correction events as weighted training signal scaled by user-investment proxies (turn count, correction explicitness). Longitudinal user-level evaluation metrics that surface the FPG cost so it can be tracked and reduced over time.
+
+\subsection{Retry-Failure Invisibility (RFI)}
+\paragraph{Definition.} Standard offline evaluation review records a failed turn but not the counterfactual that the same model would have succeeded under a standardized retry prompt. As a result, capability failures and recoverable behavioral failures are statistically conflated in evaluation pipelines.
+
+\paragraph{Observed pattern.} An evaluator reviewing transcripts sees a model declare an item unresolved and codes it as a capability failure. The fact that a follow-up prompt with no new information produced a correct answer is not consistently captured. Without explicit retry capture, PTS, BDTF, SMI, and VMC all manifest in transcripts as terminal failures that look like capability gaps.
+
+\paragraph{Why it matters.} Without a measurement that isolates retry behavior, the behavioral subset is not separable from the (much larger and more studied) capability-failure population. This is the central evaluation-pipeline blind spot this paper documents. Recoverability remains invisible as long as offline review does not run the counterfactual retry.
+
+\paragraph{Differentiation.} RFI is the only mode in this taxonomy whose locus is the evaluation pipeline itself, not the model or the system. It is in the taxonomy because mitigating the other modes requires first making them measurable, and that measurability is what RFI denies.
+
+\paragraph{Detection.} Counterfactual replay: for any flagged failed turn in offline review, replay the same prompt with explicit retry framing. If success rate jumps materially under retry, the original failure was behavioral, not capability-bound. The behavioral subset can then be re-coded against the rest of the taxonomy.
+
+\paragraph{Mitigation.} Augment offline evaluation pipelines with retry traces. Distinguish first-pass and retry-after-prompt success in dashboards and headline metrics. Track recoverability gap as a first-class evaluation quantity reported alongside accuracy. This change is infrastructural rather than model-side and can be implemented today.
+
+\subsection{Stale Third-Party Tool/UI Knowledge (STK)}
+\paragraph{Definition.} The model provides confident instructions for third-party tools or interfaces whose live UI has changed since training cutoff. Instructions are plausibly worded but cannot be followed because labels, menus, or setup flows differ from the model's stale knowledge.
+
+\paragraph{Observed pattern.} Multi-turn back-and-forth in which the user reports the live UI does not match the model's description. The model corrects only after the user describes the current UI in detail. The cost is paid as user-time spent navigating an interface the model has misdescribed, and as the user-side burden of recognizing that the model's confident instructions are stale.
+
+\paragraph{Why it matters.} Fast-evolving SaaS surfaces have UI-change cadences shorter than typical training-cutoff lags. The cost of stale UI knowledge is real and is paid disproportionately on developer-facing tools whose menus and labels evolve quickly. Unlike factual hallucination, the surface form of the answer is plausible; only by trying to follow the instructions does the user discover the staleness.
+
+\paragraph{Differentiation.} STK is procedural staleness; classic time-sensitive QA is factual staleness. STK is distinct from PTS (which is about effort allocation on a single retrieval) and from QI (which is about internal numerical contradiction). The user-visible signal is the same as a hallucination, but the locus is staleness, not invention.
+
+\paragraph{Detection.} Confidence-decay scoring: any output containing third-party-tool navigation instructions should be wrapped with explicit staleness language proportional to the elapsed time since training cutoff weighted by the target service's historical UI-change cadence. A registry of high-churn services makes this practical.
+
+\paragraph{Mitigation.} Default verification framing on tool instructions: present the path as an estimate, suggest the user confirm against current documentation, and offer to update if the user describes the live UI. The framing converts STK from a confident failure into a collaborative verification step.
+
+\subsection{Quantitative Inconsistency (QI)}
+\paragraph{Definition.} Within a single response, the model emits two or more numerical claims that contradict each other under the response's own stated assumptions. The contradiction is internally checkable but is not self-audited before delivery.
+
+\paragraph{Observed pattern.} An analytic response contains a breakeven figure and an average-cost figure that cannot both be true under the response's own stated unit cost. Users with quantitative fluency catch the inconsistency; users without may rely on the inconsistent analysis. The model owns the error when prompted, but the absence of any self-audit before returning is the behavioral failure.
+
+\paragraph{Why it matters.} QI is especially costly because the answer looks analytical and authoritative. Internal contradiction can propagate into downstream artifacts (slides, spreadsheets, business plans) where it is harder to detect after the fact. The user-visible signal is conscientiousness; the underlying behavior is the absence of arithmetic verification.
+
+\paragraph{Differentiation.} QI is reasoning/self-audit-side. It is distinct from PTS (retrieval-side) and SVD (source-grounding-side). QI does not require any external information to detect; it requires intra-response arithmetic verification under the response's own stated assumptions.
+
+\paragraph{Detection.} Intra-response consistency checks: programmatically extract numerical claims, their stated relationships, and verify arithmetic consistency under the response's own assumptions. The check is mechanical and cheap; it can run model-side as a self-audit or system-side as a post-pass.
+
+\paragraph{Mitigation.} An explicit numeric self-audit pass before returning responses with two or more quantitative claims. Where the audit fails, the model either revises or surfaces the inconsistency to the user. The audit is computationally trivial relative to the generation that produced the claims.
+
+\subsection{Phantom Placeholder Persistence (PPG)}
+\paragraph{Definition.} The model issues a command, file path, citation field, configuration value, or code snippet containing an unresolved template placeholder even when the surrounding context implies a concrete value is needed. The placeholder substring is emitted as if it were a final value.
+
+\paragraph{Observed pattern.} A shell command emitted with a literal placeholder substring; a citation block with a template author or year field; a code snippet with a generic project path. The user pastes the command and receives an immediate error. The fix is mechanical---substitute the context-supplied value---but the responsibility was silently shifted to the user.
+
+\paragraph{Why it matters.} PPG silently shifts work to the user. Placeholders that should have been resolved from context are emitted as final output with no warning that substitution is required. The cost is small per instance but is paid every time the user runs the command and discovers the failure on execution.
+
+\paragraph{Differentiation.} PPG is artifact-side, not reasoning-side. It does not require the model to know any additional facts; it requires the model to recognize when emitted output is meant to be runnable versus illustrative, and to substitute or warn accordingly.
+
+\paragraph{Detection.} Regex-detect placeholder patterns in code-block output: angle-bracketed tokens, path-template strings such as `path/to' or `your-', and common template names. Each match should trigger either substitution from session context or an explicit user-substitution prompt.
+
+\paragraph{Mitigation.} A pre-delivery scan of code and command outputs for placeholder patterns. When found, substitute from session context if context unambiguously supplies the value; otherwise mark the placeholder explicitly and prompt the user. The check is deterministic and cheap.
+
+\subsection{Usage-Cap Termination (UCT)}
+\paragraph{Definition.} A rate limit or usage cap terminates the conversation mid-task. The system surfaces a user-facing message but recovery often degrades to a malformed completion rather than graceful state preservation. The continuation turn following the cap event does not reliably resume the task.
+
+\paragraph{Observed pattern.} After a long agentic stretch, the model emits a usage-cap notice. Subsequent continuation prompts elicit a short, non-substantive completion that does not resume the task. The pattern can recur within a single session under sufficient agentic load, compounding workflow disruption.
+
+\paragraph{Why it matters.} UCT is system-level, but its user-visible effect is workflow-integrity loss. A failure to resume cleanly turns a rate-limit event into a workflow disruption disproportionate to the actual cap. The user loses not only the throttled tokens but also the continuity that depended on resuming where the session paused.
+
+\paragraph{Differentiation.} UCT is rate-limit-driven; MRT is budget-driven within a single response; MSI is client/transport-driven. The mitigation surfaces differ---graceful resume design for UCT, structured progress for MRT, client buffering for MSI---but the user-visible appearance can be similar.
+
+\paragraph{Detection.} System telemetry on conversation-level cap events and on the success rate of the subsequent continuation turn. The latter is the resume-state quality metric; a high rate of malformed continuations indicates degraded UCT recovery.
+
+\paragraph{Mitigation.} Graceful resume design: when a cap fires, the system should preserve a structured progress ledger, summarize work completed, and provide a clean resume entry point when the cap clears. The continuation turn should never degrade to a non-substantive completion such as a literal no-response token.
+
+\subsection{Visual Misreading Cascade (VMC)}
+\paragraph{Definition.} Given a structured visual input (chart, table, dashboard, form, schematic, or culturally conventional diagram), the model produces a confident interpretation. When the user corrects a specific structural element, the model produces a new interpretation that is itself incorrect in a different way. The cascade can repeat across multiple correction cycles.
+
+\paragraph{Observed pattern.} Sequential confident misreadings of basic structural elements of a structured visual input. Each user correction triggers a fresh interpretation rather than a paused structural confirmation; new errors substitute for old ones until the user explicitly restates the structure. The model never reaches a state where it asks the user to verify chart structure before committing to interpretation.
+
+\paragraph{Why it matters.} Multimodal interpretation of structured symbolic inputs (charts, financial statements, diagrams, forms) is a growth area for LLM workflows. VMC implies that the model is not performing a stable first-pass structural extraction before downstream reasoning. The cost compounds because downstream analysis depends on the misread structure.
+
+\paragraph{Differentiation.} VMC is distinct from PTS (model does not decline; it produces confident output), from STK (input is user-supplied, not a third-party UI), and from QI (each interpretation is internally consistent; the failure is at the visual-input to symbolic-interpretation boundary).
+
+\paragraph{Detection.} Visual-input verification loop: on first interpretation of a structured visual input, the model emits a compact structural summary (field-by-field, line-by-line, cell-by-cell) and explicitly requests confirmation before producing downstream analysis.
+
+\paragraph{Mitigation.} Pause-and-confirm protocol on structured visual inputs. The cost is one round-trip; the benefit is elimination of the cascade. Implementable as a model-side reflex or a system-level multimodal pre-check before downstream analysis depends on the reading.
+
+\subsection{Artifact Finalization Failure (AFF)}
+\paragraph{Definition.} In artifact-producing workflows, the model generates a deliverable (PDF, DOCX, slide deck, spreadsheet, code file) that nominally exists but does not satisfy user-facing readiness criteria. Terminal text quality is acceptable; artifact-level readiness is not.
+
+\paragraph{Observed pattern.} A generated document opens but has misaligned headings, broken links, missing sections, or layout problems that make it unfit for the stated purpose. A generated code file runs but has minor formatting that the user must repair before sharing. The user discovers the failure only on opening or running the artifact.
+
+\paragraph{Why it matters.} Terminal text quality is necessary but not sufficient for artifact tasks. Many professional workflows end in deliverables whose acceptance criteria are visual or structural rather than purely textual. A model that produces excellent text but a flawed file imposes recovery cost equal to the gap, and the gap is invisible until the user opens the artifact.
+
+\paragraph{Differentiation.} AFF is artifact-readiness-side; PPG concerns specific placeholder substrings inside an otherwise-formatted output; EBC concerns boundary leakage of advisory content. All three can co-occur in a single artifact, and the rubric distinguishes them by what specifically fails the readiness check.
+
+\paragraph{Detection.} Automated artifact checks: file opens, page count matches expectation, headings render, no placeholder tokens remain, links resolve, citations support claims, format-specific lints pass. Human review supplements where mechanical checks are insufficient.
+
+\paragraph{Mitigation.} A pre-delivery artifact-readiness audit: deterministic checks before emitting the file. Where checks fail, regenerate or surface the failure. Treat the artifact as the unit of evaluation rather than the surrounding text; this is a measurement discipline as much as a model-side change.
+
+\subsection{Source Verification Drift (SVD)}
+\paragraph{Definition.} A workflow begins with a requirement to verify sources, claims, citations, or factual assertions, but progressively drifts into plausible synthesis without sufficient source grounding. The drift can be subtle: citations may support adjacent points but not the exact claim, or a source may be stale for a time-sensitive assertion.
+
+\paragraph{Observed pattern.} Cited sources support adjacent points but not the exact claim. Citation freshness slips on time-sensitive assertions. The model continues to attach citations to claims that are now partially synthesized rather than directly supported. The presence of citations creates a surface appearance of grounding even when the grounding has weakened.
+
+\paragraph{Why it matters.} SVD is corrosive because citations create the appearance of grounding even when grounding has weakened. Downstream consumers of the artifact (reviewers, readers, decision-makers) cannot easily distinguish well-supported claims from drifted ones without re-verifying every citation.
+
+\paragraph{Differentiation.} SVD is citation/retrieval-discipline-side. It differs from classical hallucination (which fabricates the claim itself) in that the claim is plausible and the citation is real, but the alignment between them has weakened. It is distinct from QI, which concerns internal arithmetic, and from STK, which concerns stale procedural knowledge.
+
+\paragraph{Detection.} Claim-source entailment checks for each cited claim. Link-freshness audits for time-sensitive assertions. Independent verification on a sample of claims, with results compared to the entailment check; large divergence indicates drift.
+
+\paragraph{Mitigation.} An explicit verification pass before delivering citation-heavy artifacts: each claim is matched to a source span, and the citation is retained only if the match holds. Where entailment is partial, the claim is softened or removed.
+
+\subsection{Editorial Boundary Contamination (EBC)}
+\paragraph{Definition.} Process commentary, advisory metadata, scoring or readiness language, venue strategy, or other chat-level material appears inside a deliverable that should be publication-ready. The artifact-level boundary between conversation and final output fails.
+
+\paragraph{Observed pattern.} An intermediate manuscript draft contains a sentence about its own venue suitability. A public summary contains an instruction the user had previously issued in chat. A submitted artifact contains a meta-note about what changed between versions. The user must audit deliverables for advisory content even after substantive content is correct.
+
+\paragraph{Why it matters.} Boundary contamination is recoverable but costly because it bleeds private process into public output. The reputational and privacy cost can outweigh the substantive value of the artifact. In professional settings the leakage can be material.
+
+\paragraph{Differentiation.} EBC is the artifact-side analogue of the more general distinction between advisory dialogue and final artifact. It is distinct from AFF (which concerns format and readiness) and from SVD (which concerns source grounding). EBC is specifically about boundary management between conversation and deliverable.
+
+\paragraph{Detection.} Pre-delivery boundary audit: scan the artifact for explicit advisory language (readiness scores, venue lists, `you should,' `I recommend,' process explanations) and for content that should have remained in chat.
+
+\paragraph{Mitigation.} An explicit dual-channel protocol: conversation receives advisory content; the artifact receives only content the user asked to be in the artifact. Pre-delivery audit applied automatically to publication-style outputs.
+
+\subsection{Audience / Context Miscalibration (ACM)}
+\paragraph{Definition.} The model produces technically correct content that is poorly calibrated for the intended audience, register, or distribution channel. The substantive content is acceptable; the communicative fitness for the audience or channel is not.
+
+\paragraph{Observed pattern.} A public-communication artifact contains identifying or personal context that should not appear publicly. A summary written for a general audience uses technical terminology better suited to a specialist audience. A short executive update is delivered as a long, citation-heavy academic paragraph.
+
+\paragraph{Why it matters.} ACM is the bridge between substantive content quality and communicative fitness. A model that produces correct content for the wrong audience imposes rework on the user and, in public-communication contexts, can introduce reputational or privacy risk through accidental disclosure.
+
+\paragraph{Differentiation.} ACM is audience-side; AFF is format-side; EBC is process-leakage-side. ACM can co-occur with EBC when private process notes leak into an artifact aimed at a public audience, but the two failures are conceptually distinct.
+
+\paragraph{Detection.} Audience-and-channel checks: items in the pilot pack require that a summary avoid sensitive personal-context terms and avoid naming specific vendors in audience-restricted artifacts. Boundary terms include identifying personal context, employer-sensitive content, and unrelated personal subject matter.
+
+\paragraph{Mitigation.} Explicit audience and channel framing in the prompt or system policy. A pre-delivery audit that checks for terms incompatible with the stated audience, similar in spirit to the EBC audit. The framing should be set by the user, surfaced in the system policy, and enforced by the audit.
+
+
+\section{Cross-Workflow Observations}
+
+\subsection{Document-generation and artifact-production workflows}
+When the deliverable is a document, slide deck, spreadsheet, or code file, terminal text quality is necessary but not sufficient. The artifact must open cleanly, render correctly, and meet the user's apply-ready criteria. AFF, PPG, and EBC are concentrated in these workflows; their incidence becomes visible only when the artifact is evaluated outside the chat. A reasonable evaluation discipline treats the artifact, not the response describing the artifact, as the primary unit of measurement.
+
+\subsection{Source-verification and multi-step research workflows}
+Citation-heavy and verification-heavy workflows surface SVD, PTS, and SMI together. The model may begin with disciplined source-grounding, drift into plausible synthesis as the task lengthens, and selectively escalate retrieval on some claims but not others. Claim-level verification checks are the appropriate measurement; citation presence alone is insufficient.
+
+\subsection{Public-communication and audience-targeted workflows}
+When an artifact is intended for a public or restricted audience, ACM and EBC become salient. Technically correct content can leak private context, off-register tone, or advisory metadata. Mitigation is policy-level rather than model-capability-level.
+
+\subsection{Quantitative reasoning workflows}
+QI surfaces most often when responses contain multiple quantitative claims under shared assumptions. The detection method is mechanical and is currently underused.
+
+\section{Pilot Experiment: Retry-Probe Quantification of PTS}
+\label{sec:pilot}
+
+\subsection{Setup}
+A fifteen-item heterogeneous retrieval task. Items belong to three structural classes: (1) direct URLs with human-readable paths ($n=9$); (2) URLs containing opaque numeric identifiers ($n=3$); (3) title-only references requiring search ($n=3$).
+
+\subsection{Procedure}
+For each item, first-pass success and retry-after-prompt success were recorded from the verbatim session transcript. The retry prompt (``try a different approach'') supplied no new substantive information. Conservative coding: an item counts as an RBF only when the second-pass success demonstrates previously available capability.
+
+\subsection{Results}
+
+\begin{table}[h]
+\centering\small
+\caption{Retry-probe pilot results with Wilson 95\% confidence intervals.}
+\label{tab:pilot}
+\begin{tabularx}{\linewidth}{X r r}
+\toprule
+\textbf{Metric} & \textbf{Value} & \textbf{95\% CI} \\
+\midrule
+Total items ($N$)                                       & $15$                       & --- \\
+First-pass resolved ($\pone$)                            & $12/15 = 80.0\%$           & Wilson: $[54.8\%, 93.0\%]$ \\
+Resolved after retry ($\pr$)                             & $15/15 = 100.0\%$          & Wilson: $[79.6\%, 100.0\%]$ \\
+Recoverable first-pass failures                          & $3/15 = 20.0\%$            & Wilson: $[7.0\%, 45.2\%]$ \\
+Recoverability gap ($G = \pr - \pone$)                    & $+20.0$ pp                 & Discordant CI: $[7.0\%, 45.2\%]$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[h]
+\centering\small
+\caption{Pilot first-pass performance by item structural class.}
+\label{tab:byclass}
+\begin{tabularx}{\linewidth}{X r r r r}
+\toprule
+\textbf{Item structural class} & \textbf{$n$} & \textbf{First-pass resolved} & \textbf{Rate} & \textbf{RBFs} \\
+\midrule
+Direct URL (human-readable path)        & $9$ & $9$  & $100\%$ & $0$ \\
+URL with opaque numeric identifier      & $3$ & $0$  & $0\%$   & $3$ \\
+Title-only (search-required)            & $3$ & $3$  & $100\%$ & $0$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Exact small-sample statistical analysis}
+A two-sided Fisher exact test on the $2 \times 2$ contingency table (\cref{tab:contingency}) yields $p = 0.0022$. The one-sided test for the hypothesis that opaque-identifier items have lower first-pass success also yields $p = 0.0022$. The result is statistically meaningful for this item set but should not be read as a population-level rate.
+
+\begin{table}[h]
+\centering\small
+\caption{Contingency table for first-pass success by item structural class.}
+\label{tab:contingency}
+\begin{tabular}{l r r r}
+\toprule
+                       & \textbf{First-pass success} & \textbf{First-pass failure} & \textbf{Row total} \\
+\midrule
+Opaque-identifier      & $0$  & $3$ & $3$  \\
+Non-opaque             & $12$ & $0$ & $12$ \\
+\midrule
+Column total           & $12$ & $3$ & $15$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{What the pilot supports and does not support}
+The pilot supports the \emph{existence} of recoverable behavioral failures in at least one measured retrieval workflow and supports treating first-pass and retry-after-prompt success as separately measurable quantities. It suggests, exploratorily, that opaque numeric identifiers may be a high-incidence trigger for PTS under batch load. It does \emph{not} establish a population-level PTS rate for any model or vendor; it does not establish a universal opaque-identifier-to-failure relationship; and it does not establish a model ranking, because workload and model identity are not experimentally balanced.
+
+
+\section{Intra-Vendor Pilot Results: Sonnet, Opus, and Haiku on the Experiment Pack}
+\label{sec:intra-vendor}
+
+To complement the single-batch retry-probe pilot in \cref{sec:pilot}, we ran the ten-task experiment pack (\cref{sec:protocol}, Appendix~B) against three Anthropic models in parallel: \texttt{claude-sonnet-4-6}, \texttt{claude-opus-4-7}, and \texttt{claude-haiku-4-5-20251001}. The run is an \emph{intra-vendor pilot}: it holds vendor constant and removes one common cross-vendor confound (different prompt-engineering norms, different default tool affordances). Cross-vendor extension to OpenAI and Google model families is deferred to future work because credentials for those vendors were unavailable at the time of this run.
+
+\subsection{Setup}
+Each model received the same ten prompts under standardized settings (max\_tokens 800, default decoding; \texttt{temperature} omitted for compatibility with the newest Opus model, which deprecates the parameter). Each task was scored by deterministic checks embedded in the task file (forbidden-term lists, required-term lists, or numeric-expectation regexes for two arithmetic items). The pack contains two items per category in five categories: QI (Quantitative Inconsistency), PPG (Phantom Placeholder Persistence), EBC (Editorial Boundary Contamination), ACM (Audience / Context Miscalibration), and RETRY\_PROXY (a proxy for stated retry strategy). All 30 calls (10 tasks $\times$ 3 models) succeeded at the transport level.
+
+\subsection{Results}
+
+\begin{table}[h]
+\centering\small
+\caption{Per-(model, category) pass rates with Wilson 95\% confidence intervals. Two items per cell.}
+\label{tab:intra-vendor}
+\begin{tabularx}{\linewidth}{l l r r r r r}
+\toprule
+\textbf{Model} & \textbf{Category} & \textbf{$n$} & \textbf{$n_{pass}$} & \textbf{Pass rate} & \textbf{Wilson low} & \textbf{Wilson high} \\
+\midrule
+Sonnet 4.6 & ACM         & 2 & 2 & 1.00 & 0.34 & 1.00 \\
+Sonnet 4.6 & EBC         & 2 & 2 & 1.00 & 0.34 & 1.00 \\
+Sonnet 4.6 & PPG         & 2 & 2 & 1.00 & 0.34 & 1.00 \\
+Sonnet 4.6 & QI          & 2 & 2 & 1.00 & 0.34 & 1.00 \\
+Sonnet 4.6 & RETRY\_PROXY & 2 & 0 & 0.00 & 0.00 & 0.66 \\
+Opus 4.7   & ACM         & 2 & 2 & 1.00 & 0.34 & 1.00 \\
+Opus 4.7   & EBC         & 2 & 2 & 1.00 & 0.34 & 1.00 \\
+Opus 4.7   & PPG         & 2 & 2 & 1.00 & 0.34 & 1.00 \\
+Opus 4.7   & QI          & 2 & 2 & 1.00 & 0.34 & 1.00 \\
+Opus 4.7   & RETRY\_PROXY & 2 & 0 & 0.00 & 0.00 & 0.66 \\
+Haiku 4.5  & ACM         & 2 & 2 & 1.00 & 0.34 & 1.00 \\
+Haiku 4.5  & EBC         & 2 & 2 & 1.00 & 0.34 & 1.00 \\
+Haiku 4.5  & PPG         & 2 & 2 & 1.00 & 0.34 & 1.00 \\
+Haiku 4.5  & QI          & 2 & 2 & 1.00 & 0.34 & 1.00 \\
+Haiku 4.5  & RETRY\_PROXY & 2 & 0 & 0.00 & 0.00 & 0.66 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\linewidth]{figures/comparison.png}
+\caption{Multi-model pilot pass rate by category with Wilson 95\% confidence intervals (intra-vendor). Two items per cell; confidence intervals are wide as expected.}
+\label{fig:intra-vendor-bar}
+\end{figure}
+
+\subsection{Findings}
+\paragraph{Uniform success on artifact and audience checks.} All three Anthropic models passed both items of QI, PPG, EBC, and ACM. This is an existence result for the metrics: the deterministic checks fire cleanly on responses that the rubric considers acceptable, and on these particular tasks all three models produced responses that satisfied the rubric.
+
+\paragraph{Uniform failure on the RETRY\_PROXY rubric.} All three models also failed both RETRY\_PROXY items. Inspection of the outputs and of the deterministic check criteria shows that the failures are largely a \emph{rubric-vocabulary artifact}: the check required specific tokens such as \texttt{site}, \texttt{exact}, \texttt{identifier}, and \texttt{alternative} to appear in the response, and the models produced reasonable retrieval-escalation strategies (metadata search, variant formatting, identifier-as-numeric query) that used different vocabulary. The failure is therefore informative about the rubric, not strictly about the models: a model that proposes a sound retrieval strategy in different words is scored as failing.
+
+\paragraph{Implication for the RFI mode (\cref{sec:taxonomy}).} The RETRY\_PROXY result is itself a clean instance of why retry-failure invisibility (RFI) is non-trivial to measure. A strict deterministic rubric will systematically miss valid behavior; an LLM-as-judge or a semantic-similarity check would catch the same responses as passes. This is consistent with the broader recommendation in \cref{sec:protocol} that automated scoring be paired with double-coded human annotation, especially for retrieval-strategy and persistence-style probes where the space of acceptable answers is open.
+
+\subsection{Caveats}
+The sample is small (two items per cell, ten items per model). Wilson confidence intervals are wide by design. The result is intra-vendor only and cannot speak to cross-vendor differences. The deterministic-check rubric is itself a measurement artifact, as the RETRY\_PROXY failure illustrates. We report the pass-rate table to demonstrate that the protocol is implementable end-to-end across multiple frontier models and to illustrate the kind of measurement the §9 protocol would scale up.
+
+
+\section{Observational Notes Beyond the Pilot}
+Beyond the measured PTS pilot, the case-study corpus contains transcript-verifiable instances of STK, QI, PPG, VMC, UCT, and BDTF. These are reported at the level of pattern, trigger, and recovery so they can be probed in controlled replication. No additional rates are claimed; they are Tier 2 observations supporting taxonomy and protocol design.
+
+\section{Proposed Multi-Model Evaluation Protocol}
+\label{sec:protocol}
+
+This section specifies a controlled multi-model benchmark grounded in an accompanying ten-task pilot pack across five categories (QI, PPG, EBC, ACM, RETRY\_PROXY). A small intra-vendor pilot result on this protocol is reported in \cref{sec:intra-vendor}: ten items \(\times\) three Anthropic models, scored with the deterministic checks below. The cross-vendor extension (OpenAI and Google), the expanded item set (60+ items per category), and the batch-scaling probes ($N = 1, 5, 15, 30$) remain planned future work; we therefore describe the broader protocol below as a \textbf{planned replication}, not yet a completed cross-vendor study.
+
+\subsection{Task families}
+Retrieval retry probes (PTS, SMI); batch retrieval and scaling (BDTF); quantitative consistency (QI); structured visual interpretation (VMC); third-party UI / tool instructions (STK); phantom placeholders (PPG); artifact finalization and delivery (AFF, PPG, EBC); editorial boundary contamination (EBC); audience / context calibration (ACM).
+
+\subsection{Model coverage}
+Designed for parallel administration across frontier model families: Claude (Sonnet, Opus), GPT, Gemini, and any additional frontier model the investigator can access. Standardized prompts, retry prompts, tool access, and decoding settings are held constant.
+
+\subsection{Metrics}
+First-pass success; retry success; recoverability gap; artifact-readiness rate; numeric consistency rate; placeholder leakage rate; boundary-contamination rate; verification compliance rate; claim-source support rate; human intervention cost.
+
+\subsection{Procedure}
+\begin{enumerate}[leftmargin=*, label=\arabic*.]
+  \item Construct a balanced item set (e.g., 20 direct URLs, 20 opaque-ID URLs, 20 title-only).
+  \item Administer matched prompts and retry prompts under standardized settings.
+  \item Hold tool access, temperature, max-tokens, and system prompt constant.
+  \item Retrieval items at batch sizes $N=1,5,15,30$.
+  \item Double-coded annotation with reported Cohen's $\kappa$ or Krippendorff's $\alpha$.
+  \item Report Wilson CIs and exact tests; explicit power statements.
+\end{enumerate}
+
+\subsection{Sample size and power}
+For a binary failure rate near $20\%$ with desired margin of error $\pm 5$ pp at $95\%$ confidence, roughly $250$ items per condition are required; for $\pm 3$ pp, roughly $700$; for $\pm 2$ pp, roughly $1500$. Detection of a $10$ pp across-model difference at $80\%$ power requires approximately $200$ items per arm.
+
+\section{Mitigation Implications}
+\begin{itemize}[leftmargin=*]
+  \item Explicit escalation policy for retrieval (PTS, SMI).
+  \item Batch-aware effort budgeting (BDTF).
+  \item Self-verification gates: arithmetic (QI), claim-source entailment (SVD), file-readiness (AFF, PPG).
+  \item Visual-input verification loop (VMC).
+  \item Staleness-aware tool guidance (STK).
+  \item Pre-delivery boundary audit (EBC); audience-and-channel checks (ACM).
+  \item Graceful resume design (MRT, UCT, MSI).
+  \item Counterfactual-replay evaluation (RFI).
+\end{itemize}
+
+\section{Limitations and Threats to Validity}
+\begin{enumerate}[leftmargin=*, label=\arabic*.]
+  \item Single-user evidence base.
+  \item Single-coder bias.
+  \item Inductive taxonomy --- may be incomplete; some modes may collapse empirically.
+  \item Model self-report uncertainty.
+  \item Missing per-message model attribution in conversation exports.
+  \item Model-task confound.
+  \item Single-batch quantitative anchor.
+  \item Selective observability.
+  \item Cross-platform abstractions are summary-level.
+  \item \textbf{Small intra-vendor pilot.} The \cref{sec:intra-vendor} experiment has only two items per category (ten items per model). Wilson 95\% confidence intervals are wide by design (pass cells \([34\%, 100\%]\); fail cells \([0\%, 66\%]\)). The result should be read as existence evidence for the protocol and an illustration of one rubric artifact, not as a population estimate or a model ranking.
+  \item \textbf{Intra-vendor only.} The \cref{sec:intra-vendor} pilot tested three Anthropic models; the cross-vendor extension to OpenAI and Google frontier models is deferred to future work because credentials for those vendors were unavailable at pilot time.
+\end{enumerate}
+
+\section{Future Work}
+\begin{enumerate}[leftmargin=*, label=\arabic*.]
+  \item Run the \cref{sec:protocol} multi-model protocol across Claude, GPT, Gemini, and additional model families.
+  \item Expand to a multi-user corpus with double-coding and reported $\kappa$.
+  \item Longitudinal tracking across model-version releases.
+  \item Artifact-evaluation infrastructure for downloadability, formatting, placeholder absence, link freshness, boundary contamination.
+  \item Recommendation to providers: include a model field in conversation-export schemas.
+  \item Behavioral-failure capture in product feedback flows.
+\end{enumerate}
+
+\section{Conclusion}
+Recoverable behavioral failures are cases where a model appears capable of completing a task but fails to exercise that capability on the first pass. They are not captured by standard terminal-output evaluation, because they become visible only when a retry, correction, or artifact audit reveals that the model could have produced the correct output without new substantive information. This paper contributes a definition, a layered sixteen-mode taxonomy, a quantitative retry-probe pilot with exploratory confidence intervals and an exact small-sample association test, abstracted cross-platform observations, and a multi-model evaluation protocol with supporting analysis scripts. AI evaluation should measure not only capability but also persistence, verification, escalation, artifact readiness, and boundary control.
+
+\section*{References}
+\begin{itemize}[leftmargin=*, label={}]
+\item Bai, Y., Jones, A., Ndousse, K., Askell, A., Chen, A., DasSarma, N., Drain, D., Fort, S., Ganguli, D., Henighan, T., Joseph, N., Kadavath, S., Kernion, J., Conerly, T., El-Showk, S., Elhage, N., Hatfield-Dodds, Z., Hernandez, D., Hume, T., Johnston, S., Kravec, S., Lovitt, L., Nanda, N., Olsson, C., Amodei, D., Brown, T., Clark, J., McCandlish, S., Olah, C., Mann, B., \& Kaplan, J. (2022). \emph{Training a helpful and harmless assistant with reinforcement learning from human feedback}. arXiv preprint arXiv:2204.05862. \url{https://arxiv.org/abs/2204.05862}
+
+\item Chen, W., Wang, X., \& Wang, W. Y. (2021). \emph{A dataset for answering time-sensitive questions}. arXiv preprint arXiv:2108.06314. \url{https://arxiv.org/abs/2108.06314}
+
+\item Christiano, P. F., Leike, J., Brown, T., Martic, M., Legg, S., \& Amodei, D. (2017). Deep reinforcement learning from human preferences. In \emph{Advances in Neural Information Processing Systems (NeurIPS) 30}.
+
+\item Hendrycks, D., Burns, C., Basart, S., Zou, A., Mazeika, M., Song, D., \& Steinhardt, J. (2021). Measuring massive multitask language understanding. In \emph{International Conference on Learning Representations (ICLR) 2021}.
+
+\item Jimenez, C. E., Yang, J., Wettig, A., Yao, S., Pei, K., Press, O., \& Narasimhan, K. (2024). SWE-bench: Can language models resolve real-world GitHub issues? In \emph{International Conference on Learning Representations (ICLR) 2024}.
+
+\item Liang, P., Bommasani, R., Lee, T., Tsipras, D., Soylu, D., Yasunaga, M., Zhang, Y., Narayanan, D., Wu, Y., Kumar, A., Newman, B., Yuan, B., Yan, B., Zhang, C., Cosgrove, C., Manning, C. D., R\'e, C., Acosta-Navas, D., Hudson, D. A., Zelikman, E., Durmus, E., Ladhak, F., Rong, F., Ren, H., Yao, H., Wang, J., Santhanam, K., Orr, L., Zheng, L., Yuksekgonul, M., Suzgun, M., Kim, N., Guha, N., Chatterji, N., Khattab, O., Henderson, P., Huang, Q., Chi, R., Xie, S. M., Santurkar, S., Ganguli, S., Hashimoto, T., Icard, T., Zhang, T., Chaudhary, V., Wang, W., Li, X., Mai, Y., Zhang, Y., \& Koreeda, Y. (2022). \emph{Holistic evaluation of language models}. arXiv preprint arXiv:2211.09110. \url{https://arxiv.org/abs/2211.09110}
+
+\item Lin, S., Hilton, J., \& Evans, O. (2022). TruthfulQA: Measuring how models mimic human falsehoods. In \emph{Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (ACL) 2022}.
+
+\item Liska, A., Kocisky, T., Gribovskaya, E., Terzi, T., Sezener, E., Agrawal, D., de Masson d'Autume, C., Scholtes, T., Zaheer, M., Young, S., Gilsenan-McMahon, E., Austin, S., Blunsom, P., \& Lazaridou, A. (2022). StreamingQA: A benchmark for adaptation to new knowledge over time in question answering models. In \emph{Proceedings of the 39th International Conference on Machine Learning (ICML) 2022}.
+
+\item Nakano, R., Hilton, J., Balaji, S., Wu, J., Ouyang, L., Kim, C., Hesse, C., Jain, S., Kosaraju, V., Saunders, W., Jiang, X., Cobbe, K., Eloundou, T., Krueger, G., Button, K., Knight, M., Chess, B., \& Schulman, J. (2021). \emph{WebGPT: Browser-assisted question-answering with human feedback}. arXiv preprint arXiv:2112.09332. \url{https://arxiv.org/abs/2112.09332}
+
+\item Park, P. S., Goldstein, S., O'Gara, A., Chen, M., \& Hendrycks, D. (2024). AI deception: A survey of examples, risks, and potential solutions. \emph{Patterns}, 5(5), 100988.
+
+\item Patil, S. G., Zhang, T., Wang, X., \& Gonzalez, J. E. (2023). \emph{Gorilla: Large language model connected with massive APIs}. arXiv preprint arXiv:2305.15334. \url{https://arxiv.org/abs/2305.15334}
+
+\item Qin, Y., Liang, S., Ye, Y., Zhu, K., Yan, L., Lu, Y., Lin, Y., Cong, X., Tang, X., Qian, B., Zhao, S., Hong, L., Tian, R., Xie, R., Zhou, J., Gerstein, M., Li, D., Liu, Z., \& Sun, M. (2023). \emph{ToolLLM: Facilitating large language models to master 16000+ real-world APIs}. arXiv preprint arXiv:2307.16789. \url{https://arxiv.org/abs/2307.16789}
+
+\item Sharma, M., Tong, M., Korbak, T., Duvenaud, D., Askell, A., Bowman, S. R., Cheng, N., Durmus, E., Hatfield-Dodds, Z., Johnston, S. R., Kravec, S., Maxwell, T., McCandlish, S., Ndousse, K., Rausch, O., Schiefer, N., Yan, D., Zhang, M., \& Perez, E. (2023). \emph{Towards understanding sycophancy in language models}. arXiv preprint arXiv:2310.13548. \url{https://arxiv.org/abs/2310.13548}
+
+\item Shinn, N., Cassano, F., Gopinath, A., Narasimhan, K., \& Yao, S. (2023). Reflexion: Language agents with verbal reinforcement learning. In \emph{Advances in Neural Information Processing Systems (NeurIPS) 36}. arXiv:2303.11366.
+
+\item Srivastava, A., Rastogi, A., Rao, A., Shoeb, A. A. M., Abid, A., Fisch, A., et al.\ (BIG-bench authors). (2023). Beyond the imitation game: Quantifying and extrapolating the capabilities of language models. \emph{Transactions on Machine Learning Research (TMLR)}.
+
+\item Wang, G., Xie, Y., Jiang, Y., Mandlekar, A., Xiao, C., Zhu, Y., Fan, L., \& Anandkumar, A. (2023). \emph{Voyager: An open-ended embodied agent with large language models}. arXiv preprint arXiv:2305.16291. \url{https://arxiv.org/abs/2305.16291}
+
+\item Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q. V., \& Zhou, D. (2022). Chain-of-thought prompting elicits reasoning in large language models. In \emph{Advances in Neural Information Processing Systems (NeurIPS) 35}.
+
+\item Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., \& Cao, Y. (2023). ReAct: Synergizing reasoning and acting in language models. In \emph{International Conference on Learning Representations (ICLR) 2023}.
+
+\item Yao, S., Yu, D., Zhao, J., Shafran, I., Griffiths, T. L., Cao, Y., \& Narasimhan, K. (2023). Tree of Thoughts: Deliberate problem solving with large language models. In \emph{Advances in Neural Information Processing Systems (NeurIPS) 36}.
+
+\item Yin, R. K. (2018). \emph{Case Study Research and Applications: Design and Methods} (6th ed.). Thousand Oaks, CA: SAGE Publications.
+
+\item Zhou, S., Xu, F. F., Zhu, H., Zhou, X., Lo, R., Sridhar, A., Cheng, X., Ou, T., Bisk, Y., Fried, D., Alon, U., \& Neubig, G. (2024). WebArena: A realistic web environment for building autonomous agents. In \emph{International Conference on Learning Representations (ICLR) 2024}.
+\end{itemize}
+
+\appendix
+
+\section{Observation Bank Coding Schema}
+Each candidate event in the observation bank is coded with: \texttt{observation\_id}, \texttt{task\_family}, \texttt{original\_prompt}, \texttt{first\_pass\_output}, \texttt{failure\_criterion}, \texttt{retry\_prompt}, \texttt{new\_information\_introduced}, \texttt{post\_retry\_output}, \texttt{mode\_code}, \texttt{trigger}, \texttt{recovery\_type}, \texttt{user\_visible\_cost}, \texttt{evidence\_tier}. Conservative coding rule: if recovery requires new substantive information, the event is excluded.
+
+\section{Experiment Pack and Task Schema}
+The companion pack contains ten items across five categories (QI: 2, PPG: 2, EBC: 2, ACM: 2, RETRY\_PROXY: 2), plus runner and scorer scripts for OpenAI, Anthropic, and Google API surfaces. Per-item fields: \texttt{id}, \texttt{category}, \texttt{prompt}, \texttt{checks} (forbidden terms, required terms, or category-specific numeric expectations). Scoring uses deterministic checks where possible; remaining items are double-coded by independent annotators.
+
+\section{Annotation Rubric}
+\begin{enumerate}[leftmargin=*, label=\arabic*.]
+  \item Did the first-pass output satisfy the task's acceptance criteria? If yes, label \emph{first-pass success}.
+  \item If failed, did the retry succeed?
+  \item Did the retry prompt introduce new substantive information? If yes, label \emph{ordinary interactive correction}.
+  \item If retry succeeded without new information, label \emph{recoverable behavioral failure} and assign a mode code.
+  \item If retry also failed, label \emph{non-recoverable under available context}.
+  \item If unclear, label \emph{ambiguous}.
+\end{enumerate}
+
+\section{Reproducibility Checklist}
+\begin{itemize}[leftmargin=*]
+  \item Item set with stable IDs, prompts, retry prompts, expected outputs, verification methods.
+  \item Model and tool settings recorded.
+  \item Raw outputs archived in append-only JSONL with timestamps.
+  \item Scorer script with deterministic check criteria.
+  \item Annotation guidelines and double-coded labels with reported $\kappa$ or $\alpha$.
+  \item Analysis notebook producing all tables, confidence intervals, statistical tests.
+  \item Data statement: collection method, privacy controls, redaction, licenses.
+  \item Versioning: pack version, model versions, analysis-notebook commit hash.
+\end{itemize}
+
+\end{document}

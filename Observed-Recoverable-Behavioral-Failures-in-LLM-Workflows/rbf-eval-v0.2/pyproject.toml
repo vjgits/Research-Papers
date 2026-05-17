@@ -1,0 +1,10 @@
+[project]
+name = "rbf-eval"
+version = "0.2.0"
+description = "Benchmark scaffold for recoverable behavioral failures in LLM workflows"
+requires-python = ">=3.10"
+dependencies = ["pydantic>=2", "pandas>=2", "scipy>=1.10"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["rbf_eval*"]

@@ -1,0 +1,13 @@
+model,condition,n,n_pass,pass_rate,wilson_low,wilson_high
+claude-haiku-4-5-20251001,first_pass,5,3,0.600,0.231,0.882
+claude-haiku-4-5-20251001,generic_retry,5,4,0.800,0.376,0.964
+claude-haiku-4-5-20251001,null_retry,5,3,0.600,0.231,0.882
+claude-haiku-4-5-20251001,verification_retry,5,2,0.400,0.118,0.769
+claude-opus-4-7,first_pass,5,4,0.800,0.376,0.964
+claude-opus-4-7,generic_retry,5,4,0.800,0.376,0.964
+claude-opus-4-7,null_retry,5,3,0.600,0.231,0.882
+claude-opus-4-7,verification_retry,5,3,0.600,0.231,0.882
+claude-sonnet-4-6,first_pass,5,4,0.800,0.376,0.964
+claude-sonnet-4-6,generic_retry,5,3,0.600,0.231,0.882
+claude-sonnet-4-6,null_retry,5,2,0.400,0.118,0.769
+claude-sonnet-4-6,verification_retry,5,3,0.600,0.231,0.882
