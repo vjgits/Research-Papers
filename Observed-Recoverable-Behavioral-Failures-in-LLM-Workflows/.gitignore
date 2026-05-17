@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Experiment outputs (regenerate from run_eval.py)
+experiment_pack/results/*.jsonl
+experiment_pack/results/*.csv
+experiment_pack/results/*.png
+experiment_pack/results/*.pdf
+!experiment_pack/results/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
