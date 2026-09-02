@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this work, please cite the Zenodo paper below. Cite the preregistration separately when discussing the confirmatory protocol."
+message: "If you use this work, please cite the current Zenodo paper below. Cite the preregistration separately when discussing the confirmatory protocol."
 title: "Emergent Deception in Large Language Models: A Regime-Dependent Taxonomy and Pre-Registered Protocol for Model Self-Report"
 type: article
 authors:
@@ -23,6 +23,15 @@ preferred-citation:
   doi: "10.5281/zenodo.22241085"
   url: "https://doi.org/10.5281/zenodo.22241085"
 references:
+  - type: report
+    title: "Earlier Zenodo record in the Emergent Deception version lineage"
+    authors:
+      - family-names: Suresh
+        given-names: Vijay
+        orcid: "https://orcid.org/0009-0004-1471-0561"
+    year: 2026
+    doi: "10.5281/zenodo.19802283"
+    url: "https://doi.org/10.5281/zenodo.19802283"
   - type: report
     title: "Measuring Regime-Dependent Self-Report in Deployed Language Models: An amended pre-registration for the Emergent Deception measurement protocol"
     authors:
