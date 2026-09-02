@@ -1,17 +1,24 @@
 cff-version: 1.2.0
-message: "If you use this work, please cite it as below."
+message: "If you use this work, please cite the Zenodo paper below."
 title: "Observed Recoverable Behavioral Failure Modes in LLM Workflows: A Multi-Session Cross-Platform Case Study, Retry-Probe Pilot, and Multi-Model Evaluation Protocol"
+type: article
 authors:
   - family-names: Suresh
     given-names: Vijay
-version: "1.18"
-date-released: "2026-05-17"
-type: software
-keywords:
-  - large language models
-  - evaluation
-  - behavioral failures
-  - retry behavior
-  - agent reliability
-  - artifact generation
-  - case-study methodology
+    orcid: "https://orcid.org/0009-0004-1471-0561"
+year: 2026
+version: "1.9"
+doi: "10.5281/zenodo.20271844"
+url: "https://doi.org/10.5281/zenodo.20271844"
+license: CC-BY-4.0
+preferred-citation:
+  type: article
+  title: "Observed Recoverable Behavioral Failure Modes in LLM Workflows: A Multi-Session Cross-Platform Case Study, Retry-Probe Pilot, and Multi-Model Evaluation Protocol"
+  authors:
+    - family-names: Suresh
+      given-names: Vijay
+      orcid: "https://orcid.org/0009-0004-1471-0561"
+  year: 2026
+  version: "1.9"
+  doi: "10.5281/zenodo.20271844"
+  url: "https://doi.org/10.5281/zenodo.20271844"
