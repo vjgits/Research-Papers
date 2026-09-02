@@ -2,9 +2,19 @@
 
 A multi-session cross-platform case study, retry-probe pilot, and multi-model evaluation protocol.
 
-**Author:** Vijay Suresh
-**Current version:** 1.9 (May 2026) — supersedes v1.8
-**Status:** Working paper (preprint stage). Pilot results reported in the paper are exploratory.
+**Author:** Vijay Suresh  
+**Current version:** 1.9 (May 2026) — supersedes v1.8  
+**Status:** Working paper / preprint. Pilot results reported in the paper are exploratory.
+
+[![Zenodo DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20271844.svg)](https://doi.org/10.5281/zenodo.20271844)
+
+## Canonical record
+
+- **Zenodo DOI:** [10.5281/zenodo.20271844](https://doi.org/10.5281/zenodo.20271844)
+- **Zenodo record:** https://zenodo.org/records/20271844
+- **ORCID:** [0009-0004-1471-0561](https://orcid.org/0009-0004-1471-0561)
+
+Zenodo is the canonical archival source for the paper. This GitHub directory is the living companion repository for code, experiment materials, reproducibility, and future extensions.
 
 **v1.9 changes over v1.8:**
 - Adds §8 "Intra-Vendor Pilot Results: Sonnet, Opus, and Haiku on the Experiment Pack" with real results from running the ten-task experiment pack against three Anthropic frontier models. Results are intra-vendor only; cross-vendor extension is deferred to future work.
@@ -17,10 +27,10 @@ A multi-session cross-platform case study, retry-probe pilot, and multi-model ev
 - Strengthened §2.6 (long-horizon agent reliability and human-AI workflow reliability).
 - Added §5.0 — explicit note on mode-overlap and granularity, with the rationale for keeping sixteen modes separate at this stage.
 - Cleaned up Unicode subscript rendering (no more black-square missing-glyph artifacts).
-- Restored the table of contents on both PDF and LaTeX versions (the previous v1.8 build had dropped it).
-- Restored full per-mode depth in §5 — each of the sixteen modes has a six-paragraph treatment (definition / observed pattern / why it matters / differentiation / detection / mitigation) matching v1.7's content depth.
+- Restored the table of contents on both PDF and LaTeX versions.
+- Restored full per-mode depth in §5 — each of the sixteen modes has a six-paragraph treatment matching v1.7's content depth.
 
-Both a reportlab-generated PDF (28 pages) and a LaTeX source + LaTeX-compiled PDF (28 pages) are included. Mode content lives in `paper/mode_content.py` so both generators share a single source of truth.
+Both a reportlab-generated PDF and a LaTeX source + LaTeX-compiled PDF are included. Mode content lives in `paper/mode_content.py` so both generators share a single source of truth.
 
 ---
 
@@ -32,33 +42,32 @@ The pilot finds, on a fifteen-item heterogeneous retrieval task: first-pass reso
 
 ## Repository contents
 
-```
+```text
 .
 ├── paper/
-│   ├── paper_v1.9.pdf                       Current manuscript (30 pp, with multi-model results)
-│   ├── paper_v1.9.tex                       LaTeX source for v1.9 (arXiv-submittable)
-│   ├── figures/comparison.png               Multi-model pass-rate plot (embedded in §8)
+│   ├── paper_v1.9.pdf                       Current manuscript
+│   ├── paper_v1.9.tex                       LaTeX source for v1.9
+│   ├── figures/comparison.png               Multi-model pass-rate plot
 │   ├── paper_v1.8.pdf                       Previous version, retained
 │   ├── paper_v1.8.tex                       Previous LaTeX source
 │   ├── paper_v1.8_latex_compiled.pdf        Previous LaTeX-compiled PDF
 │   ├── mode_content.py                      Shared source of truth for §5 mode treatments
-│   ├── generate_paper_v1_8.py               Reportlab generator (imports mode_content)
-│   ├── generate_paper_v1_8_tex.py           LaTeX generator (imports mode_content)
+│   ├── generate_paper_v1_8.py               Reportlab generator
+│   ├── generate_paper_v1_8_tex.py           LaTeX generator
 │   ├── paper_v1.7.pdf                       Older version, retained for reference
 │   └── experiment_pack_v1.0.pdf             Companion experiment-pack write-up
 ├── experiment_pack/
-│   ├── README.md                            Original pack instructions
-│   ├── requirements.txt                     Python dependencies
-│   ├── run_eval.py                          Runs items against OpenAI, Anthropic, Gemini APIs
-│   ├── score_results.py                     Deterministic scoring on raw outputs
-│   ├── tasks/
-│   │   └── evaluation_tasks.jsonl           10 items across QI, PPG, EBC, ACM, RETRY_PROXY
-│   └── results/                             (empty — populated when you run the experiment)
+│   ├── README.md
+│   ├── requirements.txt
+│   ├── run_eval.py
+│   ├── score_results.py
+│   ├── tasks/evaluation_tasks.jsonl
+│   └── results/
 ├── analysis/
-│   └── compare_models.py                    Cross-model comparison from scored results
-├── CITATION.cff                             Citation metadata
-├── LICENSE                                  CC-BY-4.0 for paper text; MIT for code
-└── README.md                                This file
+│   └── compare_models.py
+├── CITATION.cff
+├── LICENSE
+└── README.md
 ```
 
 ## Running the multi-model experiment
@@ -83,9 +92,6 @@ export GEMINI_API_KEY="..."
 **Run:**
 
 ```bash
-# Pick the actual model identifiers enabled in each account.
-# Examples below use placeholder names; update to your current model strings.
-
 python run_eval.py \
     --models openai:gpt-5.5 anthropic:claude-sonnet-4-5 anthropic:claude-opus-4-7 google:gemini-2.5-pro \
     --tasks tasks/evaluation_tasks.jsonl \
@@ -116,18 +122,18 @@ The analysis script produces, for each (model, category) pair: number of items, 
 ## Important caveats
 
 - The pack contains ten items across five categories (two per category). Results from this pack should be reported as *pilot* evidence, not as model-comparison estimates.
-- Model identifiers in `run_eval.py` are placeholders that need updating to currently-enabled models in your accounts.
+- Model identifiers in `run_eval.py` may need updating to currently enabled models in your accounts.
 - The QI scoring includes hard-coded expected numeric values for the two QI tasks. The PPG, EBC, ACM, and RETRY_PROXY tasks use deterministic forbidden-term and required-term checks.
-- For population-level estimation, scale the item set following the sample-size guidance in §9.5 of the paper.
+- For population-level estimation, scale the item set following the sample-size guidance in the paper.
 
 ## Citation
 
-If you use the taxonomy, the retry-probe construct, or the experiment pack, please cite as:
+If you use the taxonomy, retry-probe construct, or experiment pack, please cite the canonical Zenodo paper:
 
-```
+```text
 Suresh, V. (2026). Observed Recoverable Behavioral Failure Modes in LLM Workflows:
 A Multi-Session Cross-Platform Case Study, Retry-Probe Pilot, and Multi-Model
-Evaluation Protocol. Working paper, v1.9.
+Evaluation Protocol. Version 1.9. Zenodo. https://doi.org/10.5281/zenodo.20271844
 ```
 
 A `CITATION.cff` file is included for automated tooling.
@@ -139,6 +145,6 @@ A `CITATION.cff` file is included for automated tooling.
 
 ## Status and contact
 
-This is a working paper. The pilot is reported as exploratory. The multi-model protocol is offered as a planned replication; results from running the pack are not included in the paper.
+This is a working paper. The pilot is exploratory and should not be interpreted as a definitive population-level model comparison.
 
 Contributions and replications welcome. Please open an issue or pull request.
