@@ -1,0 +1,49 @@
+cff-version: 1.2.0
+message: "This repository contains multiple research papers. GitHub's preferred citation is configured for the current Emergent Deception (ED) paper; the other project folders contain their own citation metadata."
+title: "Vijay Suresh Research Papers"
+type: generic
+authors:
+  - family-names: Suresh
+    given-names: Vijay
+    orcid: "https://orcid.org/0009-0004-1471-0561"
+url: "https://github.com/vjgits/Research-Papers"
+preferred-citation:
+  type: article
+  title: "Emergent Deception in Large Language Models: A Regime-Dependent Taxonomy and Pre-Registered Protocol for Model Self-Report"
+  authors:
+    - family-names: Suresh
+      given-names: Vijay
+      orcid: "https://orcid.org/0009-0004-1471-0561"
+  year: 2026
+  version: "2.0"
+  doi: "10.5281/zenodo.22241085"
+  url: "https://doi.org/10.5281/zenodo.22241085"
+references:
+  - type: report
+    title: "Measuring Regime-Dependent Self-Report in Deployed Language Models: An amended pre-registration for the Emergent Deception measurement protocol"
+    authors:
+      - family-names: Suresh
+        given-names: Vijay
+        orcid: "https://orcid.org/0009-0004-1471-0561"
+    year: 2026
+    version: "1.3"
+    doi: "10.5281/zenodo.22245523"
+    url: "https://doi.org/10.5281/zenodo.22245523"
+  - type: article
+    title: "Observed Recoverable Behavioral Failure Modes in LLM Workflows: A Multi-Session Cross-Platform Case Study, Retry-Probe Pilot, and Multi-Model Evaluation Protocol"
+    authors:
+      - family-names: Suresh
+        given-names: Vijay
+        orcid: "https://orcid.org/0009-0004-1471-0561"
+    year: 2026
+    doi: "10.5281/zenodo.20271844"
+    url: "https://doi.org/10.5281/zenodo.20271844"
+  - type: article
+    title: "Managing the AI Transition: Overshoot, Non-Replacement, and Adaptive Policy"
+    authors:
+      - family-names: Suresh
+        given-names: Vijay
+        orcid: "https://orcid.org/0009-0004-1471-0561"
+    year: 2026
+    doi: "10.5281/zenodo.20078381"
+    url: "https://doi.org/10.5281/zenodo.20078381"
