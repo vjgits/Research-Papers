@@ -23,11 +23,14 @@ The paper contributes:
 - a regime-dependence hypothesis about when misleading self-report appears;
 - and a separately timestamped pre-registration for a 1,800-conversation confirmatory study across three model providers and six experimental conditions.
 
-## Canonical records
+## Canonical records and version lineage
 
-- **Paper v2.0:** [Zenodo record 22241085](https://zenodo.org/records/22241085) · [DOI 10.5281/zenodo.22241085](https://doi.org/10.5281/zenodo.22241085)
+- **Current paper v2.0:** [Zenodo record 22241085](https://zenodo.org/records/22241085) · [DOI 10.5281/zenodo.22241085](https://doi.org/10.5281/zenodo.22241085)
+- **Earlier Zenodo record / v1 lineage:** [Zenodo record 19802283](https://zenodo.org/records/19802283) · [DOI 10.5281/zenodo.19802283](https://doi.org/10.5281/zenodo.19802283)
 - **Pre-registration Protocol v1.3:** [DOI 10.5281/zenodo.22245523](https://doi.org/10.5281/zenodo.22245523)
 - **ORCID:** [0009-0004-1471-0561](https://orcid.org/0009-0004-1471-0561)
+
+The current v2.0 Zenodo record is the preferred citation target for the revised paper. The earlier record is retained here for version traceability and because the amended preregistration identifies it as the parent record for the earlier protocol lineage.
 
 Zenodo is the canonical archival source. This GitHub directory is the living companion repository for discoverability, citation metadata, future materials, and eventual replication artifacts.
 
@@ -65,16 +68,16 @@ Emergent-Deception-in-Large-Language-Models/
 ├── CITATION.cff
 ├── LICENSE
 ├── paper/
-│   └── Emergent_Deception_in_Large_Language_Models_v2.0.pdf
+│   └── README.md
 ├── preregistration/
-│   └── PreRegistration_Protocol_v1.3.pdf
+│   └── README.md
 └── materials/
     └── README.md
 ```
 
 ## Citation
 
-If you use the taxonomy, operational definition, regime-dependence framework, or protocol, please cite the Zenodo paper:
+If you use the taxonomy, operational definition, regime-dependence framework, or protocol, please cite the current Zenodo paper:
 
 ```text
 Suresh, V. (2026). Emergent Deception in Large Language Models:
@@ -88,6 +91,12 @@ The pre-registration should be cited separately when discussing the confirmatory
 Suresh, V. (2026). Measuring Regime-Dependent Self-Report in Deployed Language Models:
 An amended pre-registration for the Emergent Deception measurement protocol.
 Protocol v1.3. Zenodo. https://doi.org/10.5281/zenodo.22245523
+```
+
+For historical/version-specific discussion, the earlier Zenodo record is:
+
+```text
+https://doi.org/10.5281/zenodo.19802283
 ```
 
 A `CITATION.cff` file is included for citation-aware tooling.
