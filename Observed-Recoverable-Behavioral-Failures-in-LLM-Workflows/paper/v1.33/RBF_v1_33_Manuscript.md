@@ -1,0 +1,877 @@
+# Observed Recoverable Behavioral Failures in LLM Workflows
+
+A Multi-Session Cross-Platform Case Study, Retry-Probe Pilot, and Multi-Model Evaluation Protocol
+
+Vijay Suresh | Independent Researcher
+Version 1.33 | September 2026
+
+## Abstract
+
+We examine recovery and regression in AI workflows using separate content, format, and artifact acceptance criteria. Study 1 collected 576 responses across 18 constructed tasks, four configurations, two repetitions, and four conditions. Verification repaired two initial arithmetic failures of one repeated task but introduced 29 output-format violations. Overall acceptance changed from 142/144 to 115/144; these were not 29 new factual errors.
+
+Study 2 obtained completed outputs for 100 incident-derived slots after ten separately recorded retries of interrupted attempts. Correct final numbers coexisted with inconsistent explanations and defective rendered documents. A documented browser rerun also exposed commentary in four saved Study 1 HTML pages. Evidence remains exploratory: tasks share templates, reconstructions are partial, configurations differ, and human review has limited failure coverage. The provisional observation bank and preserved transitions support inspecting answers, artifacts, and completion claims separately; they do not establish population error rates or a common internal cause.
+
+Key results
+Study 1: 2 recoveries and 29 regressions in 144 A-to-E pairs; every regression failed format.
+Study 2: 100 completed slots across 110 attempts; artifact inspection exposed defects missed by final-number and page-count checks.
+Scope: exploratory workflow evidence; human audits leave unresolved scoring disagreements.
+
+Keywords: recoverable behavioral failure; LLM evaluation; self-correction; regression; workflow reliability; artifact validation; human audit.
+
+## 1 Introduction
+
+A research assistant can mark a reference unresolved, then find it after a short follow-up. A document generator can describe a file as finished while leaving a required field incomplete, then repair it when asked to check the requirements. Conversely, a retry can replace a correct answer with an incorrect one. The final answer alone does not reveal the first failure, the harmful revision, or the additional supervision required.
+
+These observations motivate a narrow evaluation question: under fixed task requirements and bounded resources, how often does a standardized retry recover an unsuccessful first response, how often does it damage a successful response, and how does it compare with asking the original question afresh? Recoverability depends on the intervention, task, verifier, system, and resource budget. It is not a permanent property of a model or a proof of inability when a second attempt also fails.
+
+Retry success changes the evidence about what a deployed system can accomplish, but does not identify why the first attempt failed. A second turn adds inference computation, conversational context, and a procedural instruction; tools may retrieve previously unseen evidence from an unchanged environment. The first output can also become working context for the next attempt. We therefore replace the stronger capability-versus-behavior interpretation of earlier versions with an operational transition definition.
+
+The distinction matters for modern AI workflows. Frontier models are now used for research synthesis, software debugging, document drafting, slide and spreadsheet generation, literature triage, citation checking, and tool-assisted operations. These are not single-turn tasks with a single final answer. They are multi-step, supervised processes in which the practical cost of a model is not only the probability of a wrong terminal answer; it is the amount of human oversight needed to detect premature stopping, recover incomplete artifacts, correct unsupported claims, and prevent process commentary from contaminating the final deliverable.
+
+This paper asks two complementary questions. First, how does a standardized verification follow-up change an answer under unchanged task requirements, relative to a fresh answer and a neutral retry? Second, when tasks retain identifiable features of reported workflow incidents, what errors appear in the explanation, delivered artifact, and accompanying completion claim? The first question requires paired transitions; the second requires task-specific inspection of actual files and contextual claims. A collected file, a correct final number, and a reliable completion message are different outcomes.
+
+A provisional observation bank supplies the broader context. Its sixteen labels span retrieval, quantitative consistency, artifact production, communication boundaries, system interruptions, and evaluation omissions. The labels organize candidate events rather than sixteen validated, mutually exclusive model defects. System and client failures are separated from response-level failures, and recovery is counted only under an explicit intervention and acceptance rule. Detailed examples and operational boundaries appear in Appendix A.
+
+The evidence is organized by purpose: Appendix A records motivating observations; Appendix B preserves historical pilots; Section 3 reports the constructed retry study, its original sample audit and a separate follow-up review; Section 4 reports the incident-derived artifact study. Later AI review and browser checks audit saved evidence rather than add subject-model trials. Section 8 contains unexecuted proposals. These sources are not pooled into a single sample size or validation score.
+
+### 1.1 Contributions
+
+• Operational definitions for recovery, regression, stable success, and stable failure, with explicit information, task, and resource boundaries.
+
+• A response-level development dataset separating content, format, and overall success, with native shared-anchor comparisons and a disclosed sample audit.
+
+• An incident-derived artifact study documenting explanatory inconsistencies, inaccurate completion claims, and visual defects missed by text and page-count checks.
+
+• A provisional observation bank and preserved historical audit record, with a prospective protocol that remains distinct from the completed evidence.
+
+## 2 Conceptual framework and measurement
+
+For a verifiable task i, let S₁(i) indicate whether the first attempt meets the acceptance criterion, and Sᵣ(i) indicate success after the declared retry. These are observable output judgments under unchanged task requirements. Eligibility and information boundaries are specified below.
+
+### Core quantities
+
+p₁ = (1/N) Σᵢ S₁(i);  pᵣ = (1/N) Σᵢ Sᵣ(i).
+
+G = pᵣ − p₁;  RBF indicator = 1{S₁(i) = 0 and Sᵣ(i) = 1}.
+
+The indicator counts an individual recovery. Its average is joint recovery incidence; the difference G also includes any regressions.
+
+### Additional measurable constructs
+
+• Batch-scaling degradation. The change in per-item first-pass success as batch size N varies.
+
+• Artifact-readiness failure. A deliverable exists but does not meet user-facing readiness criteria.
+
+• Boundary-contamination failure. Process commentary appears inside a deliverable that should be publication-ready.
+
+• Verification compliance. Proportion of items for which a stated verification step is performed when implied by the task.
+
+### Unit of analysis and eligibility
+
+An evaluation unit is an item i, model configuration m, independent anchor replicate r, and continuation condition c. A configuration includes the model identifier, system prompt, tools, environmental snapshot, decoding settings, and resource ceilings. A verifier V_i is defined before observing study outputs. It returns pass, fail, or unscorable with an explicit reason. For eligible, completed attempts let S_1,S_c ∈ {0, 1} denote first-pass and continuation success.
+
+An RBF under condition c is S_1=0,S_c=1 when (i) the initial task has an independently checkable acceptance criterion, (ii) the retry adds no answer-bearing facts, documents, task requirements, or evaluation relaxation, (iii) the model and tool affordances remain fixed, and (iv) the retry stays within the declared intervention budget. “No answer-bearing information” does not mean “no information”: procedural redirection is an intervention. Retrieval from a pre-existing corpus is allowed and logged as newly acquired evidence; the narrower text-only setting is analyzed separately.
+
+New user facts, newly granted access, corrected task specifications, changed success criteria, and preference-only rewriting are excluded from the primary RBF construct. A safe, policy-appropriate refusal is not a failure merely because a later response complies. Benchmark items must be benign and satisfiable under applicable constraints. Infrastructure interruption and transport failure are separate event types; they are not silently recoded as reasoning errors.
+
+### Directed transitions
+
+For N eligible complete pairs within a specified analysis stratum, define
+
+n_ab = Σᵢ 1{S₁(i) = a, S꜀(i) = b}, with a, b ∈ {0, 1}.
+
+Table 1. All four outcomes are necessary. Retrying only known failures cannot measure regression.
+
+|  | Continuation fail | Continuation pass |
+| --- | --- | --- |
+| First pass fail | n₀₀: stable failure | n₀₁: recovery |
+| First pass pass | n₁₀: regression | n₁₁: stable success |
+
+p₁ = (n₁₀ + n₁₁)/N;  p꜀ = (n₀₁ + n₁₁)/N.
+
+Joint recovery = n₀₁/N;  conditional recovery = n₀₁/(n₀₀ + n₀₁).
+
+Conditional regression D = n₁₀/(n₁₀ + n₁₁);  net lift G = (n₀₁ − n₁₀)/N.
+
+Interaction instability I = (n₀₁ + n₁₀)/N.
+
+Here D is conditional regression, G=p_c-p_1 is net retry lift, and I is interaction instability. A zero denominator produces “not estimable,” never zero. G is not the incidence of recoverable failure. For example, six recoveries and five regressions in one hundred pairs imply a six-percent joint recovery incidence and only one percentage point of net lift. Report denominators for every rate. Inferential uncertainty additionally requires a justified target and execution or sampling model; the development study below reports descriptive counts.
+
+### A formal verification trigger
+
+Define a frozen operational trigger
+
+Tᵢ(A) = 1{at least one prespecified observable acceptance check fails}.
+
+Examples are a violated arithmetic identity, an absent required field, a missing deliverable, or a citation without the required supporting span. A verifier must not flag harmless lexical variants or use hidden knowledge unavailable to a real deployment while being described as a deployable trigger. An evaluator-only gold answer can score a benchmark but does not automatically provide a practical user-side error detector.
+
+In the proposed fully controlled experiment all anchors receive every enabled continuation, regardless of T_i. This prevents selective retry from hiding regressions. A secondary policy analysis may select the already-observed retry only when T_i=1, otherwise retain the anchor. It reports detection coverage, false alarms, missed failures, final success, and expected added cost. This replay is a policy estimate under the frozen detector, not a completed field deployment. Semantic or layout checks without a validated automatic verifier remain human-reviewed, with trigger cost recorded.
+
+### What the controls identify
+
+Let B denote a fresh response to the original prompt, and E the verification continuation of the same anchor. The primary incremental-retry estimand is
+
+Δ^B(E−B, m) = (1/N) Σ_{i∈B} E[S(E, i, m) − S(B, i, m) | x_i, θ_m].
+
+Here B is the exact frozen bank of N items, x_i includes the fixed task and verifier, and θ_m is a frozen model/system configuration. Expectation is over repeated execution of the A/B/E protocol, including the sampled anchor, not over a population of new tasks or vendors. Each item has weight 1/N; families and templates consequently receive their bank shares. Conditional versions stratify by the shared anchor's correctness. We abbreviate this fixed-bank target as Δ(E−B). It compares observed policies under matched output and tool-call ceilings, not identical realized compute: E receives more context, and providers expose different reasoning controls. Both realized input/output usage and latency must therefore be reported. A separate prospective expanded-budget first-pass control is needed for a strict total-compute comparison. No causal claim of intrinsic capability separation follows from these controls alone.
+
+The notation pᵣ and G from the earlier framework is retained: pᵣ is retry success and G is the paired net change. G must not be interpreted as joint recovery incidence when regressions are possible. Study 1 uses unmatched product-default resource settings and reports descriptive observed contrasts; it does not fulfill the stricter matched-ceiling design described for prospective replication.
+
+## 3 Study 1 Verification and output requirements
+
+### Bank construction and scope
+
+The development bank contains nine families, each with one comparison task and one scenario task. The latter adds a hypothesized difficulty, such as stale material or distracting context. Table 2 summarizes the pairs. Every family has equal representation: two tasks per configuration, repetition, and condition. These are constructed analogues of reported workflow problems, not exact replays of the author's original private conversations. The labels name intended stressors, not established causes of failure.
+
+Table 2. Development task pairs. Each row supplies two tasks, with equal allocation.
+
+| Family | Comparison task | Scenario variation |
+| --- | --- | --- |
+| AUD | Write a simple notice | Rewrite a notice using required simple words |
+| BATCH | Calculate one order payment | Calculate six orders, retaining the focal order |
+| BOUND | Write a four-line public notice | Separate public facts from staff notes |
+| FIELD | Create a seven-field release card | Replace stale draft fields with current values |
+| HTML | Create a complete HTML page | Repair an incomplete HTML stub |
+| LOOK | Look up a title directly | Resolve a code through a crosswalk |
+| MATH | Calculate a short budget | Repair an incorrect budget draft |
+| SRC | Use a current policy document | Choose among current and superseded sources |
+| VIS | Read the designated chart | Read it among distracting chart panels |
+
+Inputs, including two visual attachments, were frozen before collection. Human review of the bank was not completed before execution, and this was not a preregistered confirmatory study. All development outcomes are retained. Historical workbooks and retrieval pilots used different protocols and are not pooled with this collection; Study 1 contains no Gemini condition.
+
+### Configurations and collection
+
+The four requested configurations were claude-haiku-4-5-20251001 and claude-sonnet-4-6 through Claude Code 2.1.133, and gpt-5.6-luna and gpt-5.6-terra through Codex CLI 0.153.4. Claude used its default reasoning configuration; the two GPT configurations used medium reasoning. These are recorded product configurations, not assertions about immutable underlying model weights. There was no common temperature, sampling seed, or strict output-token ceiling across vendors. Default product instructions also differed.
+
+Identifier precision is limited by the execution record. Only claude-haiku-4-5-20251001 carries a dated requested identifier. claude-sonnet-4-6, gpt-5.6-luna, and gpt-5.6-terra are the exact recorded requested labels; no immutable dated snapshot has been recovered for them. The collection date, CLI versions, reasoning settings, and alias limitation are reported so that a future rerun is not mistaken for identical underlying weights.
+
+Collection used subscription authentication on 7 September 2026. The subject working directory was empty. Claude tools, MCP servers, and slash commands were disabled; Codex user configuration, shell access, and web search were disabled, although its standard recommended-plugin list remained in the supplied context. The research conversation and keys were not sent to the subjects. Two vendor streams could run concurrently; calls within each stream were sequential. The saved schedule preserves actual condition order, with fresh calls arranged around the dependency that an anchor must precede its branches.
+
+Each of 18 tasks was run twice on each configuration in four conditions, yielding 576 scheduled responses and 144 task-configuration-repetition blocks. A and B started separate fresh sessions. C and E were native forks of the same A session, so E did not inherit C's answer. The two visual tasks used actual PNG inputs, with 32 image-bearing A/B sessions; the corresponding branches inherited their anchor context. Retries were collected for initially correct answers as well as failures.
+
+Table 3. Executed conditions. C and E branch independently from the same A.
+
+| Condition | Context and instruction |
+| --- | --- |
+| A: initial | Original task in a fresh session; no follow-up. |
+| B: fresh repeat | Identical original task in another fresh session. |
+| C: neutral retry | A context + “Answer the original task again. Return a complete final answer.” |
+| E: verification | A context + “Check the prior response against the original requirements, then return a corrected complete final answer.” |
+
+![Figure 1. Executed Study 1 branches and pooled A-to-E transitions. B is a fresh session; C and E independently continue the same A anchor with the instructions in Table 3. The four cells classify overall acceptance, not content alone. Counts pool 144 task-configuration-repetition blocks; they are not 144 independent task families.](figures/branches.png)
+
+All 576 slots completed, with 576 unique session identifiers and 288 native branches. Integrity checks matched 3,627 archived file hashes, 22 frozen-input hashes, and 576 scored-answer hashes. Recorded branch parents matched their A anchors, and collection logs contained no detected tool activity. Thirteen practice calls were excluded; an image-argument issue was repaired during practice before collection. Resource and practice deviations are retained in the collection record. No cross-vendor monetary-efficiency claim is made.
+
+Completion means that an output was collected, not that it was correct. Table 3 gives the four executed conditions; additional challenge prompts or alternative-method instructions were not tested in this study.
+
+### AI-assisted screening
+
+The complete response set was screened before human submissions. The coordinating AI inspected 93 unique family/text forms, authored a dataset-specific semantic codebook, and applied task-specific structural, lexical, and numeric checks to all 576 outputs. Identical forms inherited judgments only alongside the relevant task checks. The resulting label file was then frozen. This procedure is AI-assisted screening, not an independent judge-model evaluation, a prevalidated general grader, or independent human ground truth. The scoring implementation was developed after the outputs were available.
+
+Each response received content, format, and target-failure labels. Content and format permit pass, fail, or uncertain; the target flag permits yes, no, or uncertain. The target flag records whether the task-specific problem occurs, rather than whether any conceivable defect is present. All judgments require inspection against the stated rubric.
+
+Original output restrictions applied to the whole returned response. Added verification commentary therefore violates an explicit output-only or fixed-line instruction. For the audience task, prohibited words in a prefatory checklist were counted under the whole-output lexical rule, even when the final notice itself was correct. HTML screening checked preserved source structure and required elements; it did not establish full browser behavior. Twelve content/target judgments remained uncertain: eight boundary outputs with production commentary and four HTML outputs with prose before the document. All twelve had a definite format failure, so overall status was still determinate under the stated conjunction rule.
+
+### Human audit and its amendment
+
+To reduce workload, the original plan for two complete ratings of all outputs was replaced by a sample audit. The initial identical 36-output packets were further amended to 36 per rater with 12 shared outputs and 24 distinct outputs per rater, covering 60 unique outputs. The first rater's original sample was preserved; the shared subset and the second rater's additional items were selected by seeded, balanced procedures using schedule metadata rather than response correctness. This is an amended constrained sample, not a uniform simple random sample of 60 outputs.
+
+Each packet contained four outputs per family, nine per configuration, nine per condition, eighteen per arm, and eighteen per repetition. Model, condition, repetition, shared status, and AI labels were hidden, although response wording could reveal a retry. Both novice raters completed all 36 items. They were the author and an independent contact, according to the author's corrected account of the second rater's identity. The author reports that the contact had no prior exposure to the research discussion or findings. Both were novice annotators, not independent experts. The interface supplied the prompt, response, checking rules, and a reference example. Three labels and optional notes were collected per output. General rubric coaching was not identical across raters.
+
+One shared response received known item-specific AI help during the author's marking. We preserve that judgment but exclude the entire shared item from the primary human-human agreement calculation, leaving 11 pairs. We exclude only the assisted author's judgment from that rater's AI comparison, leaving 35; the second rater retains 36. The all-12 comparison is a sensitivity report. This exclusion was made after assistance was identified and is not a preregistered rule. Raw marks were not overwritten with an AI answer or consensus label.
+
+### Analysis
+
+Results are descriptive, with each family equally represented in the complete design. The unit of a paired comparison is a task-configuration-repetition block, not an independent question drawn from a population. The two repetitions reuse the same tasks, and the 18 tasks arise from nine templates. We therefore report counts and fixed-bank differences without treating 576 responses as independent observations for significance tests or confidence intervals. Configuration differences must not be interpreted as company-wide rankings.
+
+Human agreement is reported as exact agreement on the submitted three-category labels, with uncertain retained. Matching uncertainty is not evidence of correctness. Raw denominators are preferred to chance-corrected coefficients here because the shared sample is tiny and strongly imbalanced; in particular, a target-failure kappa would be undefined when both raters assign only no. The human audit is not used to extrapolate a population error rate or silently replace all AI labels.
+
+### Success and paired transitions
+
+Across the complete design, screening assigned 555 content passes, nine content failures, and twelve content uncertainties. Format passed in 547 outputs and failed in 29. Overall, 541 responses passed and 35 failed; none was overall-unscorable because every content uncertainty co-occurred with a definite format failure. These are response counts across all conditions, not 35 distinct initial errors.
+
+Table 4. Content, format, and overall labels by condition. Uncertain content is retained; each condition has 144 outputs.
+
+| Condition | Content pass | Content fail | Content uncertain | Format pass | Overall pass |
+| --- | --- | --- | --- | --- | --- |
+| A initial | 142 | 2 | 0 | 144 | 142 |
+| B fresh | 142 | 2 | 0 | 144 | 142 |
+| C neutral | 142 | 2 | 0 | 144 | 142 |
+| E verify | 129 | 3 | 12 | 115 | 115 |
+
+Table 5. Overall successes from frozen AI-assisted screening; 36 responses per cell.
+
+| Configuration | A | B | C | E | E - B (pp) |
+| --- | --- | --- | --- | --- | --- |
+| Claude Haiku 4.5 | 36/36 | 36/36 | 36/36 | 26/36 | -27.8 |
+| Claude Sonnet 4.6 | 34/36 | 34/36 | 34/36 | 17/36 | -47.2 |
+| GPT-5.6 Luna | 36/36 | 36/36 | 36/36 | 36/36 | 0.0 |
+| GPT-5.6 Terra | 36/36 | 36/36 | 36/36 | 36/36 | 0.0 |
+
+Initial A success was 142/144 (98.6%); verification E success was 115/144 (79.9%). Fresh repeat B and neutral retry C each had 142/144 successes. Relative to B, E changed success by -27.8 percentage points for Haiku, -47.2 points for Sonnet, and zero for each GPT configuration. The equally weighted pooled difference was -18.75 points. Pooling describes this four-configuration design only.
+
+Table 6. A to E overall transitions. F = failure; P = pass. Counts, not independent tasks.
+
+| Configuration | F to F | F to P | P to F | P to P |
+| --- | --- | --- | --- | --- |
+| Claude Haiku 4.5 | 0 | 0 | 10 | 26 |
+| Claude Sonnet 4.6 | 0 | 2 | 19 | 15 |
+| GPT-5.6 Luna | 0 | 0 | 0 | 36 |
+| GPT-5.6 Terra | 0 | 0 | 0 | 36 |
+| All configurations | 0 | 2 | 29 | 113 |
+
+Verification repaired both initial failures but regressed on 29 initially successful blocks. Joint recovery was 2/144 (1.4%), joint regression 29/144 (20.1%), and conditional regression 29/142 (20.4%). Conditional recovery was 2/2, but these two instances repeat a single task on one configuration. It is not evidence of broadly reliable recovery. Conditional recovery is not estimable for the other three configurations, which had no initial failures. Neutral retry C produced neither recovery nor regression relative to A. The observed verification pattern appeared in both repetitions: Haiku passed 13/18 E outputs in each; Sonnet passed 8/18 and 9/18.
+
+### What was repaired, and what regressed?
+
+Both initial failures occurred on Sonnet's single-order BATCH comparison task. Three items at $24 cost $72. A $9 coupon reduces the amount to $63; free delivery applies only when the post-coupon amount reaches $65, so $6 delivery must be added and the payable total is $69. In both repetitions, A, B, and C returned $63, while E returned $69 in the required form. These are two recoveries of the same arithmetic requirement, not two different failure mechanisms.
+
+Across the full BATCH family, the single-order task produced six content failures among 32 outputs; the six-order scenario produced none among 32. These counts cover four configurations, two repetitions, and four conditions, not independent task draws. Two verification outputs in the six-order scenario nevertheless violated the output-only requirement. Thus the observed arithmetic error was confined to the smaller prompt, and the bank did not establish the proposed batch-load degradation. The enriched audit packet is unsuitable for estimating that contrast because it deliberately overrepresents failures. No initial target failure was observed in the other eight families; these constructed tasks do not establish the prevalence of the original reported difficulties.
+
+Table 7. Verification format failures by family; 16 E outputs per family.
+
+| Family | E format failures | E outputs |
+| --- | --- | --- |
+| AUD | 6 | 16 |
+| BATCH | 2 | 16 |
+| BOUND | 8 | 16 |
+| FIELD | 3 | 16 |
+| HTML | 4 | 16 |
+| LOOK | 1 | 16 |
+| MATH | 4 | 16 |
+| SRC | 0 | 16 |
+| VIS | 1 | 16 |
+
+All 29 verification regressions had a format failure involving additional commentary. Of these outputs, 14 had passing content, three failed the whole-output vocabulary rule, and twelve had uncertain content. The last group must not be counted as confirmed content passes. For example, an otherwise correct seven-field release card could be preceded by a sentence explaining that the fields had been checked; the response then violated the requirement to return only those fields. Three audience outputs repeated prohibited words in commentary, accounting for the additional content failures beyond the six $63 responses in A/B/C.
+
+The directly observed result is an interaction between the executed verification instruction and output-contract compliance. It is not 29 factual mistakes, and it does not establish unchanged content accuracy: twelve E content judgments are unresolved. Treating all twelve as passing would give 141/144; treating all as failing would give 129/144. This 129–141 range is a missing-label sensitivity range, not a confidence interval or a regrading. A control that explicitly requires silent checking could test an actionable prompt modification, but a reduction in regressions would not by itself isolate an internal mechanism: silence instructions also reiterate the output constraint. The output constraints remained in the anchor context. Their violation is therefore a real failure to preserve an existing requirement, not evidence that the requirement was absent. Users can reasonably ask for a check without repeating every earlier constraint, which gives this condition practical relevance. The study does not apportion the result between checking-related commentary and the benefit of explicitly reminding the model of its output contract.
+
+### Sensitivity to contested families
+
+A post hoc sensitivity analysis excludes AUD, BOUND, and HTML, where whole-output lexical scope, production commentary, or browser behavior complicate interpretation. The remaining six families contribute 96 A/E pairs. Initial success is 94/96 and verification success is 85/96, comprising two recoveries and eleven regressions, for a net change of -9.4 percentage points. Haiku changes from 24/24 to 22/24; Sonnet from 22/24 to 15/24; both GPT configurations remain at 24/24.
+
+This restricted analysis still enforces the original fixed-field and output-only requirements. It shows that the overall direction is not solely attributable to the three excluded families. Because the exclusion was chosen after inspection, it is a sensitivity description, not independent confirmation. A relaxed evaluation that discards commentary would answer a different question and must be labeled as such rather than substituted for the frozen criteria.
+
+### Human marks, agreement, and unresolved issues
+
+The two submissions contain 72 completed item ratings covering 60 distinct outputs. Rater 1 submitted 29 content passes, three failures, and four uncertainties; the corresponding format counts were also 29, three, and four. Rater 2 submitted 35 content passes and one uncertainty, and 33 format passes, one failure, and two uncertainties. Target-failure counts were 31 no, one yes, and four uncertain for Rater 1, and 33 no, one yes, and two uncertain for Rater 2.
+
+Table 8. Exact agreement, retaining uncertain as a distinct category.
+
+| Comparison | Content | Format | Target flag |
+| --- | --- | --- | --- |
+| Rater 1 vs. Rater 2 (unassisted shared) | 10/11 | 10/11 | 11/11 |
+| Rater 1 vs. frozen screen (unassisted) | 29/35 | 28/35 | 31/35 |
+| Rater 2 vs. frozen screen | 35/36 | 33/36 | 33/36 |
+
+For the 11 shared items without known item-specific assistance, content and format agreement were each 10/11 (90.9%), and target agreement was 11/11. Including the assisted shared item gives 11/12, 11/12, and 12/12 respectively. Every shared target judgment was no. Across the 60 unique audited outputs, the screen labeled 59 overall passes and one failure. That failure was one of the 29 verification regressions, a BOUND scenario with uncertain content; none of the six arithmetic-error outputs or three prohibited-word regressions was sampled. Thus one regression was encountered, not zero, but the audit still does not establish sensitivity to the principal error types or independently validate the regression total.
+
+Several disagreements were interpretable from the saved notes. Three arithmetic outputs were marked as failed or uncertain partly because they included dollar signs; the frozen rubric explicitly permits optional dollar signs, and their numerical values were correct. Another uncertainty concerned incorrect numbers in a supplied draft that the task expressly asked the model to repair. These observations suggest rubric misunderstanding, but the original marks remain unchanged and no independent adjudication is claimed.
+
+HTML judgments expose a different limitation. One rater reported that clicking a fragment link in the scoring preview opened the scoring page; another expressed uncertainty about understanding HTML. A preview using an embedded document can behave differently from a standalone saved artifact. The available record does not establish whether that reported navigation was caused by the answer or the preview environment. Another HTML failure mark had no explanatory note. These cases remain unresolved; source-based screening passes are not presented as browser-verified artifact validity.
+
+The original sample audit adds evidence about instruction clarity, novice scoring, and uncertainty. It does not convert the response set into independently validated human ground truth. The separate enriched follow-up below addresses different cases and is not pooled with this sample.
+
+### Independent follow-up review
+
+A separate follow-up audit used an enriched packet of 75 Study 1 executions: 35 failed-or-uncertain outputs and 40 passing controls. It contains 15 questions and 55 distinct question-answer pairs. All 15 task variants also appeared in the original 60-output audit, with four exact executions overlapping. The same independent contact returned scores for 36 outputs; it is analyzed separately from the original sample and is not a prevalence sample.
+
+The contact returned content, format and target marks for 36 outputs; 39 packet entries were not scored. The contact reported no prior result exposure, recognized 14 outputs, did not recognize 21, and left one recognition response blank. Content judgments were 31 pass, three fail and two uncertain; format judgments were 33 pass and three uncertain; target judgments were 35 no and one yes. Exact agreement with frozen screening was 28/36 for content, 18/36 for format and 28/36 for target. These are descriptive human-versus-screen comparisons, not two-human reliability estimates. The 36 scored outputs represent 31 distinct question-answer pairs; two repeated pairs received inconsistent judgments. Fifteen explicit whole-response format failures were marked pass and one uncertain. A separate AI-assisted technical assessment retains those failures because prohibited prefatory text is present, while preserving every human mark and unresolved scope disagreement. This 36-output review does not independently confirm the full failure count or validate Study 2.
+
+### Rendered consequences of existing format failures
+
+A later AI review reproduced the 75-output packet’s 40 overall passes and 35 failures after a visual amendment, while differing from frozen screening on twelve content/target judgments. Appendix D records those scope ambiguities, the reviewer’s corrected verification history, and why the review is not independent human validation.
+
+A separate post-collection rerun rendered all nine sampled HTML responses both verbatim and from the doctype onward using headless Google Chrome 152.0.7977.76 on macOS at 800 × 600 pixels. Full saved-answer hashes, browser version, checks, and eighteen screenshots are archived. In AUDIT-009, AUDIT-029, AUDIT-038, and AUDIT-074, prefatory commentary appears above the event heading in the verbatim page and disappears from the extracted document. All nine retain the expected heading, date, room, and working fragment link in both modes. Those structural checks do not establish compliance with the no-commentary requirement (Figure 2).
+
+![Figure 2. AUDIT-038 saved verbatim as HTML in the documented later browser rerun. The full-width crop retains the checking commentary and event content and removes only unused space below them. Commentary reaches the delivered page: an artifact consequence of an already-counted format failure, not a new failed response. This rerun does not establish how earlier review checks were performed.](figures/html_verbatim_crop.png)
+
+These four cases demonstrate overlap between editorial contamination and artifact acceptance without validating a causal taxonomy. Unlike the unreadable PDF examples in Section 4.5, the HTML is readable but includes excluded material. The rerun is a bounded check of saved outputs in one recorded browser environment, not a new model experiment, cross-browser certification, or independent human adjudication.
+
+## 4 Study 2 Incident derived workflow reconstruction
+
+### 4.1 Research question and task fidelity
+
+Study 2 asks whether recognizable elements of reported incidents elicit related, inspectable workflow defects. It addresses a limitation of Study 1: short constructed tasks can pass while omitting the document, tool, or conversational circumstances in which the original problem arose. The unit is a scheduled task slot on a recorded product configuration, with the submitted context, inputs, terminal message, generated files, and execution status preserved together. The study was designed to examine failure-prone contexts, not to estimate performance on a representative user workload.
+
+The frozen bank contains 50 slots for GPT and the same 50 for Claude, equally allocated to five source-derived families. It contains 45 distinct input bundles per system: five mobile-width cases repeat exactly. Other variants also share templates. Thus neither 100 slots nor 110 attempts represent that many independent task structures. The schedule used seed 20260908. Inputs and acceptance checks were frozen before collection; unblinded visual review and additional exploratory annotations were subsequently recorded.
+
+Table 9. Study 2 task fidelity. All reconstructions are partial; preserved wording does not establish a numerical similarity score.
+
+| Family | Retained context | Reconstruction boundary |
+| --- | --- | --- |
+| COST | Quoted prior answer, user challenge, allowance versus average-use distinction | Price variants and explicit cost assumptions; a reconstructed continuation, not a fresh first answer |
+| SEARCH | Original request, 15 records, opaque identifiers | Constructed local corpus replaces live search; fit and resume subtasks omitted |
+| PDF | Original repair request and reported header overlap | Simple synthetic two-page document replaces the missing resume |
+| MOBILE | Original request and complete prior job list | HTML at mobile widths replaces native phone-chat rendering; no live search |
+| PUBLIC | Actual 34-page v1.23 manuscript | Reconstructed public-summary instruction chain with audience/style variants |
+
+The changes are substantive. SEARCH tests extraction and completeness from an available local corpus, not the decision to stop a live search prematurely. PDF tests a constrained header repair, not recovery of a missing original resume. MOBILE tests an author-controlled HTML renderer, not phone streaming or screen-lock behavior. PUBLIC retains a genuine complex source document, but reconstructs the instruction sequence. Passing a partial reconstruction cannot refute the historical report, and failure does not establish that the original incident had the same cause. A subsequent integrity audit matched all frozen input hashes and found each bank prompt unchanged inside its submitted prompt, followed by a common local-tool execution restriction. This verifies retained inputs, not equivalence to the historical environment.
+
+### 4.2 Configurations and collection stages
+
+Collection on 8 September 2026 UTC requested gpt-5.6-terra through Codex and claude-sonnet-4-6 through Claude Code, with medium reasoning or effort through the respective product settings. These settings, default instructions, and tool harnesses are not equivalent experimental controls. The GPT label is a requested alias, not an independently verified backend snapshot. Claude response labels identify Sonnet 4.6; Claude Code changed from 2.1.133 to 2.1.263 during collection. Subjects received their own task files and local file tools; gold criteria and other subject outputs remained outside their workspaces. External browsing and package installation were not available to subjects.
+
+Table 10. Study 2 collection accounting. Additional attempts complete interrupted slots; they do not replace original attempts.
+
+| Stage | GPT | Claude |
+| --- | --- | --- |
+| Original slots attempted | 50 | 50 |
+| Original terminal responses | 50 | 40 |
+| Original interruptions | 0 | 10 |
+| Additional fresh-workspace attempts | 0 | 10 |
+| Additional terminal responses | 0 | 10 |
+| Slots with a terminal response after either stage | 50/50 | 50/50 |
+
+The ten Claude interruptions comprised seven 300-second timeouts, one administrative interruption, one account-limit interruption, and one budget-guard interruption. A separate zero-token denial was archived as infrastructure history and is not counted as a substantive task response. All ten interrupted slots then received separately recorded fresh-workspace attempts with the identical frozen inputs, the same requested Sonnet configuration, and a 600-second timeout. All completed. Total substantive attempts were 110. Completed wrong answers were not rerun merely to improve their scores.
+
+These additional attempts establish completion under the amended execution allowance, not recovery after feedback on a delivered error. The subject did not receive the earlier artifact or a grader hint. Selection of interrupted slots, fresh workspaces, and the longer timeout prevent a like-for-like first-pass estimate or a causal retry-benefit claim. The original attempts and any partial artifacts remain available alongside the additional results.
+
+### 4.3 Acceptance checks and scoped outcomes
+
+Acceptance was evaluated separately by requirement. COST checked both requested safe whole-number allowances, followed by inspection of supporting claims. SEARCH compared all 15 identity, title, and application-status rows with the frozen fixture. PDF checked two pages, all 36 body items, preserved body positions within one point, retained borders, and header separation. MOBILE checked required links and table visibility without horizontal overflow. PUBLIC checked the two-page constraint, extractable substantive text, and text bounds, followed by rendered inspection for readability. These checks do not amount to exhaustive semantic validation of every summary.
+
+Table 11. Study 2 scoped results by collection stage. Fractions exclude interrupted original attempts and do not denote overall correctness.
+
+| Requirement | GPT original | Claude original | Claude additional |
+| --- | --- | --- | --- |
+| Both requested safe allowances correct | 10/10 | 10/10 | Not applicable |
+| All 15 local lookup rows match | 10/10 | 10/10 | Not applicable |
+| PDF repair preserves body and borders and separates header | 10/10 | 7/7 | 3/3 |
+| Required links visible and no horizontal table overflow | 10/10 | 10/10 | Not applicable |
+| Public summary has exactly two pages | 10/10 | 1/3 | 6/7 |
+
+All 99 saved PDF pages were inspected by the coordinating research assistant: 78 from original attempts, including interrupted artifacts, and 21 from additional completed attempts. The reviewer knew the configuration and task identity and had also constructed the bank. There are no independent human labels for Study 2. Mechanical results, visual annotations, concerns, and exploratory findings remain distinguishable in the ledger; related defects are not summed into a single global failure score.
+
+### 4.4 Correct final numbers with inconsistent explanations
+
+The cost cases illustrate why checking only the final recommendation can miss a consequential contradiction. Under the stated assumptions, net revenue equals 97% of subscription price and each search costs $0.08; a safe integer allowance cannot exceed the floor of net revenue divided by $0.08. Both requested final allowances were correct in all 20 cost responses. Three Claude explanations nevertheless contained distinct numerical inconsistencies.
+
+Table 12. Representative supporting-arithmetic defects in Claude responses. Final requested safe allowances remain correct.
+
+| Case | Saved claim | Check under the stated assumptions |
+| --- | --- | --- |
+| COST-02 | Loss of $19.61 | Computed loss is $19.6397, which rounds to $19.64 |
+| COST-06 | $15.76 loss wipes out five to six average users' profits | The same answer assigns $20-22 profit to each such user; its figures imply less than one user's profit |
+| COST-10 | 351 is the safe cap; 352 is later called correct break-even | The quotient is 351.50375; 352 searches exceed net revenue |
+
+COST-02 is a cents-level arithmetic discrepancy. COST-06 is an inconsistent comparison of economic scale. COST-10 gives incompatible descriptions of the boundary between a safe cap and a loss. Their severity differs, and none should be reported as a wrong final allowance. They provide response-level evidence of quantitative inconsistency across related price variants, without establishing a hidden reasoning mechanism or a population frequency.
+
+### 4.5 Completion claims and rendered artifact failures
+
+Two original Claude public-summary responses explicitly described their files as two pages, while PUBLIC-03 contained three pages and PUBLIC-07 four. The additional PUBLIC-06 attempt also produced three pages while claiming two. These are directly inspectable mismatches between the completion message and the delivered artifact. They are not evidence of deliberate deception: the record supports an inaccurate claim, not an inference about intent.
+
+Other files satisfied the page-count check yet remained difficult or impossible to read. GPT PUBLIC-08 overlaps the 80% and 100% figures and neighboring explanations. GPT PUBLIC-01 places a concluding paragraph in dark text on a navy background. Claude PUBLIC-08 draws table headings in the same navy color as their background; the headings remain extractable despite being invisible. Figures 3 and 4 show selected crops from the saved original outputs. Contrast concerns in GPT PUBLIC-09 and PUBLIC-10 are recorded separately, without retrospectively imposing a numeric contrast threshold.
+
+![Figure 3. GPT PUBLIC-08 original output, page 1. The 80% and 100% figures collide with each other and neighboring text. This crop reproduces the delivered defect; the PDF has two pages and retains extractable text.](figures/gpt_overlap.png)
+
+![Figure 4. Text extraction can retain visually unreadable content. Top: GPT PUBLIC-01 original output, page 2, dark text on a dark background. Bottom: Claude PUBLIC-08 original output, same-color table headings and background. Crops retain source colors; no contrast enhancement was applied.](figures/contrast_examples.png)
+
+Every one of the seven completed additional Claude public-summary attempts had an observed artifact defect. PUBLIC-01, PUBLIC-02, PUBLIC-04, and PUBLIC-10 had table collisions or overflow; PUBLIC-05 had missing mathematical glyphs; PUBLIC-06 exceeded two pages; and PUBLIC-09 had missing glyphs and off-page table text. Six nevertheless met the two-page count. These are selected previously interrupted slots, so this seven-case pattern must not be presented as a general vendor error rate. A terminal answer and a file that opens are insufficient acceptance criteria for a publication task.
+
+The original interrupted artifacts supply secondary evidence only: several already exceeded two pages or showed clipping and missing glyphs. The execution cutoff may have prevented repair. They remain useful for diagnosing workflow progression, but are not counted as completed-response failures. Likewise, the completed additional repairs demonstrate successful header correction on the synthetic inputs, not recovery of the historical resume.
+
+### 4.6 Exploratory context attribution and negative findings
+
+Five GPT cost replies (COST-03, COST-04, COST-05, COST-08, and COST-09) described a prior figure as a per-day assertion that should have been monthly. The quoted answer did not contain that per-day line: it gave $2-4/user in a monthly-plan discussion, without explicitly stating the period on that line. The user challenge introduced the per-day attribution. For example, COST-04 says the "$2-4 per day" line was wrong. The observable defect is acceptance of an inaccurate description of the quoted history. This annotation was identified after collection began and remains exploratory; it does not establish sycophancy as the cause.
+
+Claude MOBILE-06 supplies a smaller reporting mismatch: its completion message says 14 entries while the artifact contains all 15. This is not a missing-record failure. More generally, the negative findings matter: all final cost allowances and local lookup rows were correct, all completed PDF repairs met the scoped checks, and all mobile cases passed their scoped checks. All five exact mobile duplicate pairs passed in both systems. Their consistency does not validate unrelated historical claims about native phone rendering or live retrieval.
+
+Study 2 therefore supports a focused conclusion: task success, explanation consistency, visual usability, and completion-message accuracy must be checked separately. It shows recurring defects across related variants, but no exact-input repetition of a completed positive failure, no estimate of recovery after checking the delivered defects, and no independent human validation of the new annotations. The archived inputs, outputs, stage distinctions, and fidelity notes permit those claims to be examined directly.
+
+## 5 Related work
+
+### LLM benchmarks and evaluation
+
+HELM (Liang et al., 2022), BIG-Bench (Srivastava et al., 2023), and MMLU (Hendrycks et al., 2021) established broad coverage of LLM capabilities across reasoning, knowledge, and language tasks. Their primary measurement target is the correctness, calibration, or preference of a terminal output under a fixed prompt. These benchmarks are essential and continue to drive frontier progress. Their headline scores alone do not provide the paired transition accounting considered here; extensions can evaluate retries and interactive behavior. The present paper complements terminal-output evaluation by treating first-pass and post-retry performance as separately measurable quantities and by introducing artifact-level readiness checks alongside text-level correctness.
+
+Industrial evaluation also separates endpoints. GenRec reports approximately 1.6% offline MRR lift, 0.115% short-term engagement lift and 0.006% long-term core-metric lift (Li et al., 2026, Section 5.1). These improvements concern different metrics; their ratio is not a measure of lost performance or evidence of recoverable failure. The example motivates evaluating deployed outcomes separately from offline scores.
+
+### RLHF and preference learning
+
+Reinforcement learning from human feedback (Christiano et al., 2017; Bai et al., 2022) uses human preferences over candidate responses to guide training. Preference labels are informative about which of two final answers is preferred, but they do not by themselves encode the reason for the preference. If the dispreferred answer would have improved under a follow-up retry without new information, that recoverability is not captured in the preference signal. As a result, a model trained to optimize aggregate preference can remain susceptible to behavioral failures whose cost is paid in turns of supervision rather than in measured preference deltas.
+
+### Tool-use and agentic benchmarks
+
+SWE-bench (Jimenez et al., 2024) and WebArena (Zhou et al., 2024) evaluate complex multi-step tasks in software-engineering and web-navigation environments respectively. These agentic benchmarks measure end-to-end task completion under tool access. They do not always separate the intermediate decisions that constitute the agent's policy: when to retry a thin search, when to escalate to a different query construction, when to verify a numerical claim, when to ask for structural confirmation of a multimodal input, and when to declare an artifact complete. Recoverable behavioral failures are visible precisely at those intermediate decisions, which is why this paper introduces both retry-probe metrics and artifact-readiness checks.
+
+Tool-oriented systems such as WebGPT (Nakano et al., 2021), Gorilla (Patil et al., 2023), ToolLLM (Qin et al., 2023), and Voyager (Wang et al., 2023) illustrate different interfaces for retrieval, API use, and extended interaction. Their environments motivate recording tool affordances and acquired evidence explicitly; they do not supply validation for the observation bank here.
+
+### Truthfulness, sycophancy, and deception
+
+TruthfulQA (Lin et al., 2022) targets one class of behavioral failure: the assertion of false-but-popular claims. Work on sycophancy (Sharma et al., 2023) documents the tendency to align responses with stated user preferences even when those preferences diverge from the correct answer. Park et al. (2024) survey AI deception and adjacent confidently-wrong behavior. The present taxonomy intersects this literature but extends to a complementary surface pattern: the model may also decline, truncate, misread, or produce an incomplete artifact rather than confidently assert a false proposition. These behaviors can be equally costly in real workflows even when they do not look like classical hallucination.
+
+### Time-sensitive QA and knowledge staleness
+
+Time-sensitive question answering (Chen et al., 2021; Liska et al., 2022) documents that static model knowledge degrades as the world changes. The present paper extends this concern from factual decay to procedural decay. When a model confidently describes a third-party tool interface that has been restructured, the resulting mismatch may reflect stale procedural information or an unsupported instruction; distinguishing those causes requires dated source evidence. The proposed mitigation, confidence-decay framing, is the procedural analogue of well-known calibration strategies on factual outputs.
+
+### Long-horizon agent reliability and human-AI workflow reliability
+
+Multi-turn and agentic benchmarks such as MINT and tau-bench provide settings in which intermediate decisions, feedback, and repeated execution affect final success (Wang et al., 2024; Yao et al., 2024). In practical workflows, users may also spend time detecting premature stopping, reissuing requests, and auditing artifacts. The present evidence does not quantify that supervisory burden or establish a universal monotonic decline with task length. These remain distinct empirical questions requiring measured time, trace-level outcomes, and a defined sampling frame.
+
+The construct of recoverable behavioral failure offers a unified measurement language for these observations. Each subgoal in a long workflow is itself a candidate first-pass decision: the agent may search, verify, escalate, finalize, or audit, and may do so well or poorly. Workflow reliability depends on the sequence and dependence of those decisions; a simple product of marginal success rates would require additional assumptions. Reporting first-pass and retry-after-prompt rates separately, and augmenting with artifact-readiness and boundary-contamination checks, converts the informal supervisory-load observation from human-AI collaboration into a set of measurable rates that can be tracked over time and compared across models.
+
+### Case-study methodology
+
+The empirical structure of this paper follows the theory-building case-study logic in Yin (2018). Naturalistic cases are appropriate when the phenomenon is multi-turn, workflow-dependent, and not yet reducible to isolated benchmark questions. The role of the case study is not to replace controlled experimentation. It is to discover and characterize constructs that can then be measured through controlled replication. The retry-probe pilot in Appendix B illustrates that measurement step; the companion prospective protocol proposes a stronger, unexecuted extension.
+
+### Self-correction and repeated-trial reliability
+
+Self-correction and feedback. Self-Refine uses a model's feedback to iteratively improve its outputs (Madaan et al., 2023). Reflexion uses verbal feedback in agent learning (Shinn et al., 2023). These establish that improvement beyond an initial response is not a new phenomenon. Huang et al. document limitations and degradation in intrinsic reasoning self-correction (Huang et al., 2024); Kamoi et al. distinguish feedback sources and the conditions under which correction is supported (Kamoi et al., 2024). The Study 1 protocol uses fixed, non-answer-bearing follow-ups, does not provide correctness labels to the model, and measures harmful as well as beneficial changes.
+
+Interactive and repeated-trial evaluation. MINT evaluates multi-turn problem solving with tools and language feedback (Wang et al., 2024). The τ-bench framework evaluates tool-agent-user interactions and repeated-trial reliability (Yao et al., 2024). Certainty Robustness explicitly distinguishes justified corrections from unjustified answer changes under challenge prompts (Saadat and Nemzer, 2026). Thus neither two-turn evaluation nor the correction/regression distinction is claimed as novel here. Our proposed emphasis is their combination with heterogeneous workflow acceptance tests, a shared-anchor fresh-repeat comparison, and intervention cost reporting.
+
+Reasoning interventions also differ in what they add. Chain-of-thought prompting (Wei et al., 2022), ReAct (Yao et al., 2023a), and Tree of Thoughts (Yao et al., 2023b) change reasoning or action structure. Their results should not be treated as estimates of the fixed verification prompt studied here: a comparison must specify the actual intervention, feedback, and resources.
+
+Failure taxonomies and recovery. The multi-agent failure study of Cemri et al. derives a taxonomy with expert annotation and agreement measurement (Cemri et al., 2025). Our single-researcher observation bank does not yet meet that validation standard. ToolMisuseBench measures tool misuse and recovery in deterministic environments with explicit budgets (Sigdel and Baral, 2026); Expected Recovery Regret formalizes recovery-policy performance under execution noise (Vuddanti and Chittiprolu, 2026). Those settings overlap with recoverability, but operational faults and retry policies are not identical to a standardized conversational follow-up after a complete but unsuccessful deliverable.
+
+Table 13. Related work and the scope of the present workflow evaluation.
+
+| Work | Shared concern | Boundary of this proposal |
+| --- | --- | --- |
+| Self-Refine; Reflexion | Improvement after feedback | Fixed follow-ups; no answer or correctness feedback supplied |
+| Huang et al.; Kamoi et al. | Limits of intrinsic correction | Explicit fresh-repeat control and harm accounting |
+| MINT; τ-bench | Interactive success and reliability | Per-anchor directed transitions plus artifact acceptance |
+| Certainty Robustness | Corrected and unjustified changes | Workflow tasks and verifier-grounded operational cost |
+| MAST; tool-recovery work | Failure classes and recovery | Exploratory hierarchy; system faults separated from model outcomes |
+
+We do not claim priority for the acronym RBF or an exhaustive literature search. The contribution is a measurement specification and its application to distinct workflow acceptance problems, with the validation limits reported for each study.
+
+Instruction-following evaluation also requires tests of explicit constraints. IFEval (Zhou et al., 2023) operationalizes verifiable instructions; its existence does not validate the particular lexical or semantic checks used in this study. Artifact acceptance and content correctness are therefore scored separately.
+
+## 6 Evidence provenance and observation scope
+
+### Evidence tiers
+
+Observations are assigned to evidence tiers to prevent overstating individual claims:
+
+• Tier 1: Reported aggregate pilot outcomes; the historical transcript is not independently reproduced. Study 1 separately supplies archived response-level records.
+
+• Tier 2: Reported trace-backed observations; independent trace verification is not claimed here.
+
+• Tier 3: Abstracted cross-platform workflow summaries (artifact and editorial-boundary extensions).
+
+• Tier 4: Hypothesized mechanisms requiring controlled replication.
+
+### Coding procedure
+
+Each candidate event is coded with: (a) task context; (b) original output; (c) user retry; (d) post-correction outcome; (e) whether new substantive information was introduced; (f) failure mode; (g) trigger; (h) recovery type; (i) user-visible cost. Conservative coding rule: if recovery requires new information from the user, the event is excluded from RBFs.
+
+### Responsible data handling
+
+Historical private transcripts are not redistributed. The companion archive separates Study 1 constructed inputs and de-identified human labels from Study 2 task-specific context, reconstruction files, responses, and artifacts. Private account identifiers and full personal exports are excluded. Scientific provenance is retained through task IDs, stage labels, input/output hashes, and dated collection amendments.
+
+### Provenance and limitations of the case material
+
+The historical v1.23 case-study manuscript describes fourteen naturalistic sessions from one researcher, plus abstracted cross-platform professional workflows. It reports workflow types rather than a complete sampling frame or event census. Raw transcripts were not publicly released, per-message model identity was not consistently recorded, and attribution relied partly on recall. Study 2 uses selected exported context, the source paper, and explicitly reconstructed inputs; this source inspection is not an independent revalidation of the entire historical event bank.
+
+Evidence provenance and interpretation are recorded separately: aggregate pilot outcome, trace-backed event available for audit, abstracted summary, or mechanism hypothesis. “Transcript-verifiable” in an earlier account does not mean independently transcript-verified. The bank is useful for generating testable tasks; it cannot estimate frequency across users or vendors. Per-mode independent-event counts, overlap rates, and inter-annotator agreement are not available.
+
+### Hierarchy and coding rule
+
+All sixteen original labels are retained for continuity, but not as sixteen mutually exclusive model defects. Five workflow families organize potentially eligible observations: retrieval termination/escalation (PTS, SMI), batch allocation (BDTF), verification omission by modality (QI, SVD, VMC), artifact finalization (PPG, AFF), and boundary/audience control (EBC, ACM). Separate layers contain system/product events (MRT, MSI, UCT, FPG), knowledge-update conditions (STK), and the evaluation blind spot (RFI).
+
+The coding unit is one task attempt and its bounded continuation, not an entire conversation. Annotators first score success and eligibility, then assign the earliest directly evidenced failed requirement as the primary workflow family. They may attach secondary labels; causal locus is “unknown” without trace or telemetry support. Adjacent labels may later be merged or split using held-out evidence and reliability, not solely intuition. Appendix A supplies definitions and exclusion boundaries.
+
+Four additional author-reported observations appear in Appendix C. They are hypothesis-generating reports, not a seventeenth validated mode or independent recurrence count. A user pointing out a contradiction supplies diagnostic feedback even without providing the final answer; that intervention differs from a fixed generic retry.
+
+## 7 Discussion and limitations
+
+### 7.1 What the two studies jointly establish
+
+The studies expose different gaps between a superficially successful response and a completed workflow. Study 1 shows that a verification instruction can add commentary that violates the original output contract. Study 2 shows that a correct final number or a file with the required page count can coexist with contradictory explanations or unreadable content. These findings support separating acceptance dimensions and retaining the delivered artifacts, rather than treating a completion message as the outcome.
+
+The designs answer different questions. Study 1 branches neutral and verification continuations from common anchors and includes a fresh-repeat comparison. Its two recoveries concern repeated instances of one arithmetic task, while all 29 overall regressions involve format violations. Study 2 better retains selected incident context and actual artifact production, but its additional attempts complete interrupted slots under an amended timeout. They do not measure correction after a delivered error. Combining either the response counts or the failure labels would obscure these differences.
+
+The sixteen-label bank remains provisional. Quantitative inconsistency and artifact finalization have concrete related examples in Study 2; this does not validate all labels or prove that these new failures are recoverable. Negative findings also constrain interpretation: Study 1 did not establish batch-induced arithmetic degradation, and the local retrieval and mobile tasks in Study 2 passed under environments that omitted important historical conditions. A useful case-study contribution can identify these boundaries without claiming a comprehensive theory of model failure.
+
+### 7.2 Threats to interpretation
+
+Task selection and dependence limit external validity. Both banks were constructed to examine particular patterns; neither samples ordinary user requests. Study 1 has nine paired templates and two repetitions. Study 2 has related price, audience, and layout variants, including five exact duplicate input pairs. Neither a large response count nor equal family allocation makes those instances independent or representative. There is no preregistration claim or independence-based population interval for either development study. Nine families create dependence, but neither nine nor 576 is automatically an effective sample size. Family-level counts expose concentration without supplying a population design effect; a variance or design-effect estimate would require an explicit sampling and dependence model and adequate replication.
+
+GenRec reports p = 3.1 × 10⁻¹⁰ for its 0.115% engagement lift (Li et al., 2026). Statistical significance alone does not establish practical importance; a small relative effect may matter at scale. Here, task dependence and selection preclude comparable population inference.
+
+Execution differs across product configurations. Requested model aliases do not establish immutable weights. Reasoning controls, default instructions, tools, and resource settings were not matched across vendors. Study 2 also includes a CLI update and selected completion retries with longer timeouts. These are configuration-specific observations, not vendor rankings. Historical mobile, live-search, memory, and interruption conditions require separate instrumentation and cannot be inferred from local-file analogues.
+
+Scoring and inspection were not independent of task construction. Study 1 uses a codebook developed after output inspection; twelve content labels remain uncertain. Study 2 uses unblinded assistant inspection and post-collection exploratory annotations, without independent human scoring or exhaustive semantic validation of summaries. Reproducing a label file verifies accounting, not the label's truth. A displayed contradiction or overlap is inspectable evidence, but decisions about severity, task eligibility, and completeness still require a declared rubric.
+
+The two human raters in Study 1 were the author and a novice independent contact, according to the author's corrected account. The reported absence of prior research discussion or result exposure was not separately authenticated. The author's own ratings were not independent of the research. Their original sample audit encountered only one of the 29 verification regressions and none of the six arithmetic-error outputs; one shared item received item-specific AI assistance. The preserved marks are useful evidence about agreement and rubric interpretation, but do not independently confirm the full error set. Artifact-preview uncertainties and disagreements remain visible. Independent adjudication should not silently overwrite those original marks. The subsequent 36-output review has broader failure coverage but substantial disagreement with frozen screening (Section 3); it does not remove these limitations.
+
+Historical claims have additional provenance limits. Some older raw results or request traces are unavailable, and several historical lexical tests did not measure task success. Appendix B summarizes the resulting interpretation changes. Public-summary tasks used the older v1.23 source: faithfully repeating a flaw in that source is distinct from introducing an unsupported claim. Neither external literature nor the newer studies retroactively validates missing historical execution evidence. PUBLIC uses the author’s own v1.23 manuscript as source material. It tests transformation and delivery for that document, not independent corroboration of its scientific claims or generalization to unrelated documents. The author’s session memos likewise supply cases rather than external replication.
+
+### 7.3 Implications for evaluation and practice
+
+An evaluation should record at least four objects: the original task, the returned answer or artifact, the assistant's completion claim, and any subsequent bounded continuation. Content, format, artifact readability, and source support should have separate acceptance rules. Numerical checks should cover dependent explanatory claims as well as the final answer; document checks should inspect the rendered file. These are measurement recommendations, not measured guarantees that a particular pre-delivery check will prevent every defect.
+
+Potential mitigations depend on the workflow layer: retrieval escalation for unresolved sources, explicit budget allocation for batches, syntax-aware placeholder checks, source-span verification, and artifact rendering before release. Client buffering and resume-state preservation address product or transport failures rather than reasoning. User-controlled memory must be evaluated against an explicit persistence contract. The bank describes these proposals without claiming tested causal benefits or universal applicability.
+
+GenRec’s catalog-aware head excludes out-of-catalog recommendations by construction (Li et al., 2026). Such restrictions enforce a specific validity condition; they do not guarantee relevance or overall workflow success.
+
+## 8 Further validation and prospective protocol
+
+### 8.1 Scope of subsequent verification
+
+A previously exposed AI reviewer assessed the enriched 75-output packet. Its original manuscript-check scope and two claims about newly introduced material were subsequently corrected; Appendix D preserves the chronology, amended labels, and rubric ambiguities. A separately documented browser rerun checks saved HTML outputs but cannot establish how earlier review procedures were performed. Original screening labels and human submissions remain unchanged.
+
+### 8.2 Independent adjudication and prospective collection
+
+The 36-output follow-up review in Section 3 leaves substantial disagreements and does not independently adjudicate the full error set. Additional human work should prioritize distinct artifacts and explicit unresolved rules, with exact duplicates removed from the workload and their execution multiplicities retained in analysis. Study 2 still has no independent artifact review.
+
+Before further collection, each proposed incident replay should document its original request, relevant preceding turns, attachment provenance, output surface, available tools, reported defect and acceptance test. Missing context or a substituted renderer can remove the failure condition even when wording is preserved. Small, distinct calibration cases should establish that the relevant condition survives reconstruction before a larger bank is collected.
+
+A prospective factorial follow-up should vary checking and format restatement separately. All conditions can share "Return a complete final answer to the original task." The checking factor adds "Check the prior response against the original requirements before answering." The restatement factor adds "Preserve the originally required output format; add no explanation outside that format." The reminder permits explanations when the original task requests them. Comparing checking versus no checking within each reminder level estimates effects of these particular instructions; interaction describes whether the reminder changes the checking effect. It does not identify a unique internal mechanism.
+
+The existing neutral and verification conditions are informative historical comparisons, but adding only two new arms later would confound reminder level with collection period and possible model or harness changes. A stronger follow-up runs all four instruction cells contemporaneously in randomized order as separate branches from common anchors, with recorded configurations and prespecified scoring. Adding "silently" only to a checking arm would introduce another instruction difference. Independent adjudication of existing failures and masked controls should precede new collection. This factorial follow-up has not been executed; the later HTML work rerendered saved responses and was not a new model experiment.
+
+For incident replication, retain original attachments and client or search conditions wherever permission and access allow, document each unavoidable substitution, and separate calibration from held-out tasks. Deliberately include easy controls and retry initially correct responses as well as errors. Evaluate live-search termination with search traces, phone-rendering defects in the relevant client, and batch effects through balanced load variation. Record newly retrieved evidence and diagnostic user information rather than describing all retries as information-free. A recovery-focused bank should be calibrated on separate tasks or executions to provide enough initial failures, then frozen before evaluation. A second bank sampled from a defined workflow population would address ordinary-use outcomes. The present constructed banks serve neither as representative deployment samples nor as well-calibrated recovery benchmarks; an intentionally difficult bank cannot supply ordinary-use error rates.
+
+The prospective protocol targets the fixed-bank difference between verification and fresh-repeat policies under frozen task weights. Precision calculations require a justified execution-dependence model. Hoeffding (1963) gives a conservative bounded-difference reference; empirical-Bernstein bounds additionally depend on observed variance and stated assumptions (Maurer and Pontil, 2009). Neither addresses biased labels or an unrepresentative task bank. The historical starter-bank inventory, alternative precision scenarios, schemas, and stopping rules are preserved in the companion prospective protocol. That larger study remains unexecuted and is not the design retrospectively assigned to either completed study.
+
+The companion prospective design specifies seven linked components: additional independent task families, a separately calibrated recovery bank, contemporaneous checking-by-restatement arms, repeated executions with available seed controls recorded, independent masked raters, a prespecified family-dependence analysis, and a separately sampled ordinary-use bank. Planning calculations illustrate sensitivity to effect size and dependence; they are not an achieved power guarantee. This is an unregistered protocol draft. Registration, calibrated assumptions, sample size, exclusions, and analysis choices must be fixed before confirmatory collection.
+
+## 9 Conclusion
+
+Observed recovery and workflow reliability require evidence beyond a terminal answer. Study 1 documents two recoveries of one repeated arithmetic task and 29 verification regressions involving output-format violations under the executed follow-up. Study 2 documents explanatory inconsistencies, inaccurate completion claims, and rendered artifact defects, including failures hidden by successful text and page-count checks. It also records successful scoped performance and the limits of partial reconstruction. The two studies are complementary and remain separately analyzed.
+
+The contribution is an operational framework, a provisional observation bank, and inspectable evidence for evaluating answers, artifacts, and their continuations. It is not a model ranking, a population failure-rate estimate, or proof that all observed errors share a recoverable internal cause. Preserving negative findings, uncertain labels, interrupted attempts, and historical corrections makes those boundaries testable. Independent adjudication and faithful controlled replication are the next steps toward stronger claims.
+
+## Data code and AI assistance
+
+The accompanying research archive contains separate Study 1 and Study 2 directories. Study 1 includes 18 prompts, two visual inputs, 576 responses, condition and branch metadata, frozen screening labels, de-identified human ratings, and aggregation code. Study 2 includes frozen inputs, a 100-slot ledger, original and additional attempts, generated artifacts, requirement checks, fidelity notes, and collection amendments. File hashes and count-reproduction scripts permit integrity checks without new model calls. The manuscript's figures reproduce saved outputs, documented rendering evidence, and the executed branching design, with source paths and hashes recorded in the archive.
+
+Historical manuscripts, detailed pilot audits, and the unexecuted prospective protocol are preserved separately from current results. This archive accompanies the manuscript; no persistent identifier for the new combined data release is asserted here. Earlier paper deposition does not by itself archive the new dataset. Full personal chat exports, credentials, billing records, and private account/session identifiers are excluded from the distribution.
+
+Generative AI assisted with task construction, collection, screening, analysis, artifact inspection, and writing. It was not an independent human validator. The author is responsible for the final claims and data release. Rater relationships, the author-reported identity correction, and known assistance on one author rating are disclosed in Sections 3 and 7. The correction changes attribution, not the submitted marks; original submissions and a provenance amendment are preserved in the research record; public review data are de-identified. Any future recruitment or longitudinal user study requires consent, data minimization, and an appropriate ethics determination; no institutional approval is claimed for this work. The subsequent 75-output AI rubric review, its visual amendment, and the supplied rendering records, verification-scope corrections, and documented later browser rerun are archived with their prior-exposure disclosure. The subsequent independent-contact submission is a 36-output follow-up review with prior item exposure and substantial scoring disagreement; complete independent adjudication and Study 2 human validation remain absent.
+
+## References
+
+Bai, Y., Jones, A., Ndousse, K., Askell, A., Chen, A., DasSarma, N., Drain, D., Fort, S., Ganguli, D., Henighan, T., Joseph, N., Kadavath, S., Kernion, J., Conerly, T., El-Showk, S., Elhage, N., Hatfield-Dodds, Z., Hernandez, D., Hume, T., Johnston, S., Kravec, S., Lovitt, L., Nanda, N., Olsson, C., Amodei, D., Brown, T., Clark, J., McCandlish, S., Olah, C., Mann, B., & Kaplan, J. (2022). Training a helpful and harmless assistant with reinforcement learning from human feedback. arXiv preprint arXiv:2204.05862. https://arxiv.org/abs/2204.05862
+
+Cemri, M., et al. (2025). Why do multi-agent LLM systems fail? arXiv preprint arXiv:2503.13657; URL https://arxiv.org/abs/2503.13657.
+
+Chen, W., Wang, X., & Wang, W. Y. (2021). A dataset for answering time-sensitive questions. arXiv preprint arXiv:2108.06314. https://arxiv.org/abs/2108.06314
+
+Christiano, P. F., Leike, J., Brown, T., Martic, M., Legg, S., & Amodei, D. (2017). Deep reinforcement learning from human preferences. In Advances in Neural Information Processing Systems (NeurIPS) 30.
+
+Hendrycks, D., Burns, C., Basart, S., Zou, A., Mazeika, M., Song, D., & Steinhardt, J. (2021). Measuring massive multitask language understanding. In International Conference on Learning Representations (ICLR) 2021.
+
+Hoeffding, W. (1963). Probability inequalities for sums of bounded random variables. Journal of the American Statistical Association, 58 (301): 13-30, 1963. 10.1080/01621459.1963.10500830. URL https://doi.org/10.1080/01621459.1963.10500830.
+
+Huang, J., Chen, X., Mishra, S., Zheng, H. S., Yu, A. W., Song, X., & Zhou, D. (2024). Large language models cannot self-correct reasoning yet. In International Conference on Learning Representations; URL https://arxiv.org/abs/2310.01798.
+
+Jimenez, C. E., Yang, J., Wettig, A., Yao, S., Pei, K., Press, O., & Narasimhan, K. (2024). SWE-bench: Can language models resolve real-world GitHub issues? In International Conference on Learning Representations (ICLR) 2024.
+
+Kamoi, R., Zhang, Y., Zhang, N., Han, J., & Zhang, R. (2024). When can LLMs actually correct their own mistakes? a critical survey of self-correction of LLMs. Transactions of the Association for Computational Linguistics, 12: 1417-1440, 2024. 10.1162/tacl_a_00713. URL https://aclanthology.org/2024.tacl-1.78/.
+
+Liang, P., Bommasani, R., Lee, T., Tsipras, D., Soylu, D., Yasunaga, M., Zhang, Y., Narayanan, D., Wu, Y., Kumar, A., Newman, B., Yuan, B., Yan, B., Zhang, C., Cosgrove, C., Manning, C. D., Ré, C., Acosta-Navas, D., Hudson, D. A., Zelikman, E., Durmus, E., Ladhak, F., Rong, F., Ren, H., Yao, H., Wang, J., Santhanam, K., Orr, L., Zheng, L., Yuksekgonul, M., Suzgun, M., Kim, N., Guha, N., Chatterji, N., Khattab, O., Henderson, P., Huang, Q., Chi, R., Xie, S. M., Santurkar, S., Ganguli, S., Hashimoto, T., Icard, T., Zhang, T., Chaudhary, V., Wang, W., Li, X., Mai, Y., Zhang, Y., & Koreeda, Y. (2022). Holistic evaluation of language models. arXiv preprint arXiv:2211.09110. https://arxiv.org/abs/2211.09110
+
+Li, Y., Sehgal, S., Rao, A., Houthooft, R., Hu, Y., Zhu, Y., Medapati, S., Li, Y., Baltrunas, L., Huang, G., Rastogi, A., & Aryafar, K. (2026). GenRec: An LLM-Backed Recommendation Ranker at Netflix. arXiv:2608.10257v2. https://arxiv.org/abs/2608.10257v2.
+
+Lin, S., Hilton, J., & Evans, O. (2022). TruthfulQA: Measuring how models mimic human falsehoods. In Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (ACL) 2022.
+
+Liska, A., Kocisky, T., Gribovskaya, E., Terzi, T., Sezener, E., Agrawal, D., de Masson d'Autume, C., Scholtes, T., Zaheer, M., Young, S., Gilsenan-McMahon, E., Austin, S., Blunsom, P., & Lazaridou, A. (2022). StreamingQA: A benchmark for adaptation to new knowledge over time in question answering models. In Proceedings of the 39th International Conference on Machine Learning (ICML) 2022.
+
+Madaan, A., et al. (2023). Self-refine: Iterative refinement with self-feedback. In Advances in Neural Information Processing Systems; URL https://arxiv.org/abs/2303.17651.
+
+Maurer, A., & Pontil, M. (2009). Empirical Bernstein bounds and sample variance penalization. arXiv preprint arXiv:0907.3740; URL https://arxiv.org/abs/0907.3740.
+
+Nakano, R., Hilton, J., Balaji, S., Wu, J., Ouyang, L., Kim, C., Hesse, C., Jain, S., Kosaraju, V., Saunders, W., Jiang, X., Cobbe, K., Eloundou, T., Krueger, G., Button, K., Knight, M., Chess, B., & Schulman, J. (2021). WebGPT: Browser-assisted question-answering with human feedback. arXiv preprint arXiv:2112.09332. https://arxiv.org/abs/2112.09332
+
+Park, P. S., Goldstein, S., O'Gara, A., Chen, M., & Hendrycks, D. (2024). AI deception: A survey of examples, risks, and potential solutions. Patterns, 5(5), 100988.
+
+Patil, S. G., Zhang, T., Wang, X., & Gonzalez, J. E. (2023). Gorilla: Large language model connected with massive APIs. arXiv preprint arXiv:2305.15334. https://arxiv.org/abs/2305.15334
+
+Qin, Y., Liang, S., Ye, Y., Zhu, K., Yan, L., Lu, Y., Lin, Y., Cong, X., Tang, X., Qian, B., Zhao, S., Hong, L., Tian, R., Xie, R., Zhou, J., Gerstein, M., Li, D., Liu, Z., & Sun, M. (2023). ToolLLM: Facilitating large language models to master 16000+ real-world APIs. arXiv preprint arXiv:2307.16789. https://arxiv.org/abs/2307.16789
+
+Saadat, M., & Nemzer, S. (2026). Certainty robustness: Evaluating LLM stability under self-challenging prompts. arXiv preprint arXiv:2603.03330; URL https://arxiv.org/abs/2603.03330.
+
+Sharma, M., Tong, M., Korbak, T., Duvenaud, D., Askell, A., Bowman, S. R., Cheng, N., Durmus, E., Hatfield-Dodds, Z., Johnston, S. R., Kravec, S., Maxwell, T., McCandlish, S., Ndousse, K., Rausch, O., Schiefer, N., Yan, D., Zhang, M., & Perez, E. (2023). Towards understanding sycophancy in language models. arXiv preprint arXiv:2310.13548. https://arxiv.org/abs/2310.13548
+
+Shinn, N., Cassano, F., Berman, E., Gopinath, A., Narasimhan, K., & Yao, S. (2023). Reflexion: Language agents with verbal reinforcement learning. In Advances in Neural Information Processing Systems; URL https://arxiv.org/abs/2303.11366.
+
+Sigdel, A., & Baral, R. (2026). ToolMisuseBench: An offline deterministic benchmark for tool misuse and recovery in agentic systems. arXiv preprint arXiv:2604.01508; URL https://arxiv.org/abs/2604.01508.
+
+Srivastava, A., Rastogi, A., Rao, A., Shoeb, A. A. M., Abid, A., Fisch, A., et al. (BIG-bench authors). (2023). Beyond the imitation game: Quantifying and extrapolating the capabilities of language models. Transactions on Machine Learning Research (TMLR).
+
+Vuddanti, S. V., & Chittiprolu, S. K. (2026). Recoverability has a law: The ERR measure for tool-augmented agents. arXiv preprint arXiv:2601.22352; URL https://arxiv.org/abs/2601.22352.
+
+Wang, G., Xie, Y., Jiang, Y., Mandlekar, A., Xiao, C., Zhu, Y., Fan, L., & Anandkumar, A. (2023). Voyager: An open-ended embodied agent with large language models. arXiv preprint arXiv:2305.16291. https://arxiv.org/abs/2305.16291
+
+Wang, X., Wang, Z., Liu, J., Chen, Y., Yuan, L., Peng, H., & Ji, H. (2024). MINT: Evaluating LLMs in multi-turn interaction with tools and language feedback. In International Conference on Learning Representations; URL https://arxiv.org/abs/2309.10691.
+
+Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q. V., & Zhou, D. (2022). Chain-of-thought prompting elicits reasoning in large language models. In Advances in Neural Information Processing Systems (NeurIPS) 35.
+
+Yao, S., Shinn, N., Razavi, P., & Narasimhan, K. (2024). τ-bench: A benchmark for tool-agent-user interaction in real-world domains. arXiv preprint arXiv:2406.12045; URL https://arxiv.org/abs/2406.12045.
+
+Yao, S., Yu, D., Zhao, J., Shafran, I., Griffiths, T. L., Cao, Y., & Narasimhan, K. (2023b). Tree of Thoughts: Deliberate problem solving with large language models. In Advances in Neural Information Processing Systems (NeurIPS) 36.
+
+Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023a). ReAct: Synergizing reasoning and acting in language models. In International Conference on Learning Representations (ICLR) 2023.
+
+Yin, R. K. (2018). Case Study Research and Applications: Design and Methods (6th ed.). Thousand Oaks, CA: SAGE Publications.
+
+Zhou, J., Lu, T., Mishra, S., Brahma, S., Basu, S., Luan, Y., Zhou, D., & Hou, L. (2023). Instruction-Following Evaluation for Large Language Models. arXiv:2311.07911. https://arxiv.org/abs/2311.07911
+
+Zhou, S., Xu, F. F., Zhu, H., Zhou, X., Lo, R., Sridhar, A., Cheng, X., Ou, T., Bisk, Y., Fried, D., Alon, U., & Neubig, G. (2024). WebArena: A realistic web environment for building autonomous agents. In International Conference on Learning Representations (ICLR) 2024.
+
+## Appendix A Observation bank and operational boundaries
+
+The sixteen labels below organize earlier author-reported patterns. They are not sixteen experimentally validated or mutually exclusive model defects. The unit is one task attempt and bounded continuation. Code the failed requirement first; assign a candidate workflow label only when its operational boundary is supported. System/client conditions and evaluation omissions remain separate layers. Possible internal causes and mitigation benefits require further evidence.
+
+Table 14. Provisional observation labels, organizing layers, and possible user costs; causal attribution requires evidence.
+
+| Code | Name | Candidate locus / layer | User-visible cost |
+| --- | --- | --- | --- |
+| PTS | Premature Termination of Search | Model / retrieval policy | False unresolved answers |
+| BDTF | Breadth-Depth Tradeoff Failure | Model policy under batch load | Shallow per-item analysis |
+| SMI | Search Methodology Inconsistency | Retrieval strategy | Inconsistent escalation |
+| MRT | Mid-Response Truncation | Generation / transport; unresolved cause | Lost progress |
+| MSI | Mobile Streaming Interruption | Client / transport | Dropped responses |
+| FPG | Feedback Persistence Gap | Product / training pipeline | Corrections not preserved |
+| RFI | Retry-Failure Invisibility | Evaluation pipeline | Missing transition evidence |
+| STK | Stale Third-Party Tool/UI Knowledge | Model knowledge / tool guidance | Confident wrong UI paths |
+| QI | Quantitative Inconsistency | Reasoning / self-audit | Contradictory numbers |
+| PPG | Phantom Placeholder Persistence | Artifact / code generation | Placeholders as commands |
+| UCT | Usage-Cap Termination | System / rate limit | Degraded resume state |
+| VMC | Visual Misreading Cascade | Multimodal interpretation | Cascading misreadings |
+| AFF | Artifact Finalization Failure | Artifact generation | File exists but unusable |
+| SVD | Source Verification Drift | Citation / retrieval practice | Weakly supported claims |
+| EBC | Editorial Boundary Contamination | Artifact boundary management | Process notes leak in |
+| ACM | Audience / Context Miscalibration | Communication / register | Off-register content |
+
+Adjacent labels distinguish the unit and evidence needed: PTS concerns resolution after retrieval escalation, whereas SMI compares strategy across comparable subtasks; MRT has an unresolved interruption source, MSI requires client evidence, and UCT identifies a quota event. AFF concerns artifact readiness, PPG a missing concrete value, and EBC prohibited editorial content. These distinctions may be merged or revised after independent annotation. They are not justified by assuming an unobserved causal layer.
+
+### Premature Termination of Search (PTS)
+
+Definition. An item is declared unresolved, then verified as resolved after an eligible retry using an alternative retrieval strategy. Search traces can establish the observed query change; they do not prove that the initial attempt had exhausted or deliberately withheld available strategies.
+
+Observed pattern. In the historical retrieval pilot, generic queries left three opaque-identifier URLs unresolved; a standardized retry used site-targeted queries and resolved them (Appendix B). Additional search effort, evidence, and inference computation remain alternative explanations.
+
+Operational boundary. Unresolved item followed by verified resolution after a fixed retry; inspect search trace. A possible untried strategy alone does not establish recovery.
+
+Evaluation and proposed mitigation. Record queries, retrieved evidence, and verified outcomes before and after a bounded alternative strategy. Test escalation policies prospectively.
+
+### Breadth-Depth Tradeoff Failure (BDTF)
+
+Definition. Under increased batch load, per-item verification may weaken while apparent coverage remains complete; an internal optimization policy is a hypothesis, not directly observed. The result is a superficially complete response with weak per-item grounding: every item appears addressed, but per-item depth degrades as the batch size grows.
+
+Observed pattern. Multi-item evaluations give similarly brief, confident dispositions to items of unequal difficulty, sometimes without required secondary lookup. Uniform output length can conceal unequal verification depth.
+
+Operational boundary. Per-item verification weakens under batch load. Test balanced batch-size conditions; do not infer causation from long output alone.
+
+Evaluation and proposed mitigation. Use balanced batch sizes on the same tasks and record per-item verification and correctness. Report shallow or unverified items explicitly. Study 1 did not establish the hypothesized batch-induced error.
+
+### Search Methodology Inconsistency (SMI)
+
+Definition. The model uses stronger retrieval tactics for some items and weaker tactics for similar items within the same session, with no explicit reason for the difference. Query construction varies between generic keyword search, site-targeted search, and identifier-anchored search without a stated escalation rule.
+
+Observed pattern. Comparable retrieval subtasks receive different escalation strategies: a tactic succeeds on one item but is not attempted on another. PTS and SMI may overlap in such a sequence.
+
+Operational boundary. Different escalation across comparable subtasks; requires query logs and comparability. Strategy variation can be appropriate.
+
+Evaluation and proposed mitigation. Compare query construction and escalation across genuinely comparable subtasks. A documented escalation policy is a proposal, not evidence that uniform tactics are always optimal.
+
+### Mid-Response Truncation (MRT)
+
+Definition. The model begins generating a response, makes partial progress, and the stream terminates before completion, often after partial tool use or partial drafting. The termination is signaled by a generic error rather than a graceful wind-down.
+
+Observed pattern. A long, heterogeneous response terminates with a generic recovery message. Partial work is not preserved or replayable, and a fresh prompt lacks the intermediate state, adding recovery work as task complexity grows.
+
+Operational boundary. Incomplete generation/stream; distinguish token-limit stop, transport fault, and voluntary stop through telemetry. Not automatically model-core behavior.
+
+Evaluation and proposed mitigation. Retain stop reasons, token/tool use, transport logs, and checkpoints. Distinguish resource enforcement and transport failure from voluntary stopping before attributing a cause.
+
+### Mobile Streaming Interruption (MSI)
+
+Definition. Mobile or client-side interruptions can drop an in-progress streaming response, with no recovery of the partial output when the user returns to the session. Screen-lock, backgrounding, and connection drops on mobile clients are common triggers.
+
+Observed pattern. After screen-lock interrupts mobile streaming, the session reopens without surfacing the partial response. The user cannot determine whether generation stopped or completed output was lost in transit.
+
+Operational boundary. Output unavailable after client interruption. Requires client/server evidence; do not infer cause from an empty screen.
+
+Evaluation and proposed mitigation. Correlate lifecycle, network, client, and server traces. Persistent buffering and client reattachment are candidate remedies; a local HTML test cannot establish their effect.
+
+### Feedback Persistence Gap (FPG)
+
+Definition. Within-session corrections, scope clarifications, and explicit user preferences do not persist beyond the session unless an explicit memory surface or product mechanism captures them. The same user encounters the same correctable issue in subsequent sessions.
+
+Observed pattern. A user corrects a stylistic or factual error in one session; the same error recurs in subsequent sessions without the correction being applied. Whether corrective feedback is stored or used in later training depends on product policy, consent, and implementation; recurrence alone does not establish the training path.
+
+Operational boundary. Prior correction does not persist across sessions. Only a defect relative to an explicit persistence contract; privacy-preserving non-memory may be intended.
+
+Evaluation and proposed mitigation. Test the stated persistence contract with user consent and visible controls; distinguish memory behavior from later training use.
+
+### Retry-Failure Invisibility (RFI)
+
+Definition. An evaluation records the first outcome but omits a collected retry outcome, or reports only a final answer without the first-to-retry transition. This can conceal observed recoveries and regressions. It does not distinguish latent capability from behavior.
+
+Observed pattern. A transcript audit labels an unresolved item as a terminal capability failure while omitting an observed successful follow-up without new user-supplied information. Missing transitions can conceal recovery across several workflow labels.
+
+Operational boundary. Evaluation omits first/second-turn transitions. A measurement blind spot, not a task-level model defect or demonstrated counterfactual.
+
+Evaluation and proposed mitigation. Retain both outcomes and all four transition types. Do not assign a hypothetical successful retry to an untested case.
+
+### Stale Third-Party Tool/UI Knowledge (STK)
+
+Definition. Instructions for a third-party interface conflict with its current documented state and match an older version. A mismatch alone is a guidance error; calling it staleness additionally requires dated evidence. The model’s actual training exposure is generally unknown.
+
+Observed pattern. The model corrects interface guidance only after the user describes a mismatch in detail. The user bears the cost of recognizing the mismatch and navigating the misdescribed interface.
+
+Operational boundary. Guidance conflicts with current interface. Updated documentation can introduce new task evidence; classify separately from intrinsic text-only correction.
+
+Evaluation and proposed mitigation. Verify procedural claims against dated official sources and the actual interface. A changed interface, unsupported guess, and model knowledge cutoff are different explanations.
+
+### Quantitative Inconsistency (QI)
+
+Definition. Within a single response, the model emits two or more numerical claims that contradict each other under the response's own stated assumptions. The contradiction is internally checkable but remains unresolved in the delivered response.
+
+Observed pattern. Breakeven and average-cost figures cannot both hold under the stated unit cost. A later acknowledgment does not establish whether an internal self-audit occurred; the observable error is the unresolved contradiction.
+
+Operational boundary. Numerical claims conflict under explicit shared assumptions. Check units and identities; under-specified tasks are ambiguous, not model failures.
+
+Evaluation and proposed mitigation. Check all linked calculations under common assumptions, including narrative comparisons and boundary cases. A correct final number does not validate its explanation; Study 2 supplies concrete examples.
+
+### Phantom Placeholder Persistence (PPG)
+
+Definition. The model issues a command, file path, citation field, configuration value, or code snippet containing an unresolved template placeholder even when the surrounding context implies a concrete value is needed. The placeholder substring is emitted as if it were a final value.
+
+Observed pattern. A command retains a placeholder, a citation retains a template author/year, or code retains a generic path despite available concrete values. Substitution is left to the user and may first be discovered through an execution error.
+
+Operational boundary. Required concrete value remains an unresolved placeholder despite being provided in task context. Do not reject valid angle brackets or shell redirection.
+
+Evaluation and proposed mitigation. Use syntax-aware checks only where the task supplies a required concrete value. Valid angle brackets, shell redirection, and explicitly requested templates are not unresolved placeholders.
+
+### Usage-Cap Termination (UCT)
+
+Definition. A rate limit or usage cap terminates the conversation mid-task. The system surfaces a user-facing message but recovery often degrades to a malformed completion rather than graceful state preservation. The continuation turn following the cap event does not reliably resume the task.
+
+Observed pattern. After a usage-cap notice, continuation produces a short completion message without resuming the task. Repeated events within one session compound the disruption.
+
+Operational boundary. Quota or rate-limit interruption. Recovery after access restoration changes system conditions and is outside primary RBF comparisons.
+
+Evaluation and proposed mitigation. Record the limit event and subsequent resume state. Restoration of access changes system conditions; it is not a primary answer-free recovery contrast.
+
+### Visual Misreading Cascade (VMC)
+
+Definition. Given a structured visual input (chart, table, dashboard, form, schematic, or culturally conventional diagram), the model produces a confident interpretation. When the user corrects a specific structural element, the model produces a new interpretation that is itself incorrect in a different way. The cascade can repeat across multiple correction cycles.
+
+Observed pattern. User corrections trigger successive confident misreadings of the same visual structure until the user restates it explicitly, without an intervening request to confirm that structure.
+
+Operational boundary. Incorrect structural extraction propagates into interpretation. User-provided structural corrections are informative feedback, not primary answer-free retries.
+
+Evaluation and proposed mitigation. Compare extracted structure with the actual image before evaluating downstream interpretation. User corrections to chart structure add information and belong in a separate feedback condition.
+
+### Artifact Finalization Failure (AFF)
+
+Definition. In artifact-producing workflows, the model generates a deliverable (PDF, DOCX, slide deck, spreadsheet, code file) that nominally exists but does not satisfy user-facing readiness criteria. Terminal text quality is acceptable; artifact-level readiness is not.
+
+Observed pattern. A document opens with misaligned headings, broken links, missing sections, or unusable layout; a running code artifact still requires specified formatting repairs. Inspection of the actual file reveals the defect.
+
+Operational boundary. Deliverable violates explicit openability, completeness, structural, or layout checks. Judge the artifact, not the assistant's completion claim.
+
+Evaluation and proposed mitigation. Open and render the deliverable, then check explicit structural and visual requirements. Study 2 shows that page count and extractable text can pass despite an unreadable artifact.
+
+### Source Verification Drift (SVD)
+
+Definition. A workflow begins with a requirement to verify sources, claims, citations, or factual assertions, but progressively drifts into plausible synthesis without sufficient source grounding. The drift can be subtle: citations may support adjacent points but not the exact claim, or a source may be stale for a time-sensitive assertion.
+
+Observed pattern. Citations increasingly support adjacent points or stale assertions instead of the exact claims, while their continued presence gives an appearance of grounding.
+
+Operational boundary. A claimed source does not support the associated statement. Check source spans and dates; citation presence is insufficient.
+
+Evaluation and proposed mitigation. Match claims to dated source spans and check whether support changes across the workflow. A citation can be real yet fail to entail its associated claim.
+
+### Editorial Boundary Contamination (EBC)
+
+Definition. Process commentary, advisory metadata, or other chat-level material appears inside a deliverable where the original specification excludes it. Required methods, limitations, provenance, and ethical disclosures remain legitimate manuscript content. The artifact-level boundary between conversation and final output fails.
+
+Observed pattern. A draft includes venue advice, a public summary repeats a private chat instruction, or a submitted artifact contains an excluded revision note. Substantive correctness does not prevent this contamination.
+
+Operational boundary. Process/advisory content appears inside a deliverable where prohibited. Legitimate methods, limitations, and disclosures are not contamination.
+
+Evaluation and proposed mitigation. Inspect for prohibited process notes or private chat context. Required scientific methods, limitations, provenance, and AI-assistance disclosures are legitimate manuscript content.
+
+### Audience / Context Miscalibration (ACM)
+
+Definition. The model produces technically correct content that is poorly calibrated for the intended audience, register, or distribution channel. The substantive content is acceptable; the communicative fitness for the audience or channel is not.
+
+Observed pattern. A public-communication artifact contains identifying or personal context that should not appear publicly. A summary written for a general audience uses technical terminology better suited to a specialist audience. A short executive update is delivered as a long, citation-heavy academic paragraph.
+
+Operational boundary. Output violates stated audience/channel requirements. Unstated user preferences do not define a failed original task.
+
+Evaluation and proposed mitigation. Evaluate against the stated audience and channel. Unstated preferences do not retroactively define failure; explicit requirements can guide a pre-delivery audience check.
+
+## Appendix B Historical pilots and interpretation
+
+### B1 Retrieval pilot
+
+### Setup
+
+A fifteen-item heterogeneous retrieval task. Items belong to three structural classes: (1) direct URLs with human-readable paths (n=9); (2) URLs containing opaque numeric identifiers (n=3); (3) title-only references requiring search (n=3).
+
+The historical report records twelve initial resolutions and fifteen resolved items after "try a different approach" in a selected fifteen-item task. The three reported recoveries involved opaque numeric URL identifiers; nine human-readable URLs and three title-only items were initially resolved. The private transcript has not been independently reproduced. The initially successful items may have been carried forward rather than independently re-answered, so the recorded workflow state cannot establish absence of regression under a fully branched retry design.
+
+Table 15. Historical aggregate outcomes. Intervals describe binomial calculations, not a justified population sampling model for this selected single-batch task.
+
+| Quantity | Count | Estimate | Wilson 95% interval |
+| --- | --- | --- | --- |
+| Initial resolution | 12/15 | 80.0% | 54.8-93.0% |
+| Resolved after workflow retry | 15/15 | 100.0% | 79.6-100.0% |
+| Joint recovery incidence | 3/15 | 20.0% | 7.0-45.2% |
+| Recovery among initial failures | 3/3 | 100.0% | 43.9-100.0% |
+
+### Paired and exploratory calculations
+
+Conditional on treating the fifteen recorded before/after states as matched binary pairs, the exact two-sided McNemar calculation uses three discordances in one direction and zero in the other:
+
+p = 2 Pr{Binomial(3, 1/2) = 0} = 0.25.
+
+The twenty-percentage-point change is descriptive and does not reach the conventional five-percent threshold. The calculation is not a remedy for within-batch dependence, selective item inclusion, or incomplete retesting. We report a Wilson interval for the joint recovery proportion, not as a general confidence interval for a paired net difference with unknown regression probability.
+
+The post-hoc opaque/non-opaque association table is [[0, 3], [12, 0]] (success, failure columns). Its two-sided Fisher value is 0.002198. This is the minimum attainable value under those observed margins. Recoding one opaque item as initially successful gives p=0.028571; recoding two gives p=0.20. These are descriptive sensitivity calculations for that table. They do not establish a general trigger effect, protect against event-selection bias, or demonstrate robustness to arbitrary coding errors. The association is omitted from the abstract's evidential lead.
+
+### Supported conclusion
+
+The report documents three recoveries in one selected workflow, with no independently reproduced transcript audit. It motivates controlled measurement of retrieval escalation. It does not establish the prevalence of PTS, vendor differences, an opaque-identifier law, or a mechanism distinct from additional search effort and inference computation.
+
+### B2 Historical model and retry pilots
+
+The v1.23 manuscript reported a ten-task, three-model pilot and a five-task, four-condition pilot using named Anthropic configurations. Under the historical lexical rubric, each reported model passed both QI, PPG, EBC, and ACM items and failed both RETRY_PROXY items. In the four-condition aggregates, scores sometimes fell after retry: for example, Sonnet moved from 4/5 initially to 2/5 after "Please continue," and Haiku from 3/5 initially to 2/5 after verification. These are outputs of historical rubrics, not independently validated model-performance estimates. Full cell tables, figures, and calculations are preserved in the historical supplement.
+
+### Audit of historical execution and scoring
+
+The inspected public snapshot, commit 5ae5f6a3dd6f (https://github.com/vjgits/Research-Papers/commit/5ae5f6a3dd6f7485dbbb479f56c4fdf7d1814ee6), contains historical raw/scored material for the latter but not the raw results claimed for the former. The released v0.2 runner was a mock scaffold, did not implement the described provider execution and shared-anchor branching, and included syntax errors. These are reproducibility limitations, not evidence that the historical calls did not occur.
+
+More importantly, several acceptance tests did not measure task success. The quantitative task confused a stated cost with revenue. The placeholder scorer rejected shell redirection syntax. The abstract task omitted the topic and findings yet could pass on an isolated word. Audience and retrieval checks substituted vocabulary for semantic compliance; retrieval lacked an actual retrieval environment. “Please continue” invited an incremental answer but was scored as a standalone replacement.
+
+Accordingly, historical pass-rate changes are retained only in Appendix B as outputs of those rubrics. No ranking or substantive model regression claim is made. Neither an LLM judge nor semantic similarity is presumed to fix the problem without validation. A corrected scorer cannot reconstruct missing raw responses or missing request provenance. The successor materials provide new acceptance tests and explicit branching; they do not retroactively validate the old experiments.
+
+The reported counts remain part of the historical record. They are not pooled with either development study, and a corrected scorer cannot reconstruct missing request provenance or absent raw answers. Their scientific role is to document why execution traceability and task-valid acceptance criteria are necessary before interpreting a pass-rate change.
+
+## Appendix C Additional reported observations
+
+Four additional author-reported workflow observations are summarized below. They are hypothesis-generating cases; their inclusion does not establish independent replication or recovery under a fixed, non-answer-bearing retry. The dated source memo is identified in the companion provenance record.
+
+Table 16. Additional author-reported observations and their evidential treatment.
+
+| Memo ID | Reported pattern | Evidential treatment |
+| --- | --- | --- |
+| RBF-2609-01 | Table/link output did not fit a viewport; plain lines after a reminder | Candidate AFF/ACM; rendering success depends on client state and needs direct verification. Constraint reminder is procedural feedback. |
+| RBF-2609-02 | References supplied without fetch checks; later link audit | Candidate SVD; memo reports five problematic links, but a redirect alone is not necessarily a dead source. Fetching adds evidence from existing tools. |
+| RBF-2609-03 | Broad inability claim narrowed after a contradiction was pointed out | Candidate capability-description error. Model self-report does not establish cause; diagnostic user feedback makes it distinct from fixed generic retry. |
+| RBF-2609-04 | PDF editing initially described as impossible; later reframed as reconstruction risk | Same candidate family within the same session. Inspection can establish feasible reconstruction, not identical source recovery or error-free editing. |
+
+These reports do not add quantitative events to either study. Repeated observations in one session are not independent cross-session replication. Diagnostic feedback, changed access, and newly supplied information must remain distinguishable from a fixed procedural retry.
+
+## Appendix D Review provenance and amendments
+
+A subsequent AI reviewer scored an enriched 75-output packet containing all 35 failed-or-uncertain outputs and 40 masked passing controls. It had prior exposure to manuscript findings and principal error counts. Although packet model and condition identifiers were withheld, this was not independent blinded validation; wording could reveal verification. Its self-reported model identifier was not authenticated. No new subject responses were collected.
+
+The review record distinguishes claimed scope from performed checks. The reviewer later disclosed that its original v1.29 manuscript reading covered pages 15–32, not pages 1–14. The original arithmetic review is therefore scoped to Appendix B; the separately executed packet arithmetic is also retained. Broader Study 1 and Study 2 reconciliations were reported only after the scope correction. The reviewer also withdrew claims that Section 2 formalization and configuration disclosure were new in v1.30: both were already present in v1.29. Later confirmation does not retrospectively validate an earlier verification claim. These corrections limit the weight of the AI review and do not alter the frozen experimental scores.
+
+The initial submission assigned 38 overall passes, 35 failures, and two uncertainties. Three visual responses had uncertain content because the reviewer could not access the comparison image. The image was present in the original ZIP and matched its recorded checksum; direct resupply resolved the access problem. A separate amendment changed those three content judgments to pass: two overall uncertainties became passes, while one response still failed format. The combined review therefore assigns 40 overall passes and 35 failures, 66 content passes and nine content failures, 46 format passes and 29 format failures, and 66 target-negative versus nine target-positive judgments. Original review, amendment, frozen screening, and human marks remain separate.
+
+Equal overall totals conceal twelve content/target differences from frozen screening. The reviewer changed eight BOUND uncertainties to pass/no by evaluating the final notice separately from prefatory process commentary; it changed four HTML uncertainties to pass/no using document inspection. The BOUND rule refers to production material entering the notice, leaving the boundary between the final notice and the complete response insufficiently explicit. AUD instead has an explicit prohibited-word rule applied to the whole response. These task-specific scopes require a clear definition, not silent harmonization after scoring. Future adjudication should record whole-response format, final-deliverable content, and commentary contamination separately. Alternate scope readings belong in a labeled sensitivity analysis; they do not replace frozen uncertainties.
+
+The visual amendment also raised a possible panel mismatch. The three affected cases correctly use the single-panel comparison input; the scenario input separately contains Planned, Actual, and Previous week panels. This distinction intentionally varies the selection burden. No attachment substitution or frozen task correction is warranted. Reviewer comments also identify possible self-endorsement cues: some answers announce their correctness before presenting the deliverable. Audit instructions should direct raters to task evidence and preserve full responses rather than allowing those assertions to substitute for checking.
+
+The same chronology applies to artifact checking. The reviewer initially hand-transcribed four distinct HTML documents, stripping commentary from four saved responses, but described its coverage too broadly. Its correction supplied programmatic verbatim and extracted-document renders for nine cases, with a log and one screenshot; the original browser version and hand-transcribed files were not supplied. Logged answer-hash prefixes matched the archived responses. The subsequent author-coordinated rerun in Section 3 records its own browser version, full hashes, and all eighteen screenshots. It establishes a new reproducible check, not the execution history of either earlier procedure.

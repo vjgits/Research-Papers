@@ -22,12 +22,13 @@ This work defines **Emergent Deception (ED)** as a subset of LLM self-narration 
 ### 2. Observed Recoverable Behavioral Failures in LLM Workflows
 
 **A Multi-Session Cross-Platform Case Study, Retry-Probe Pilot, and Multi-Model Evaluation Protocol**  
-Current repository version: **v1.9 · May 2026**
+Current repository version: **v1.33 · September 2026** (Zenodo update pending)
 
 This paper studies **recoverable behavioral failures (RBFs)**: cases where a model fails to exercise an apparently available capability on the first pass, then succeeds after a brief retry that supplies no new substantive information. The repository contains the taxonomy, paper versions, experiment pack, raw/scored pilot outputs, and comparison tooling.
 
 - **Project folder:** [Observed-Recoverable-Behavioral-Failures-in-LLM-Workflows](./Observed-Recoverable-Behavioral-Failures-in-LLM-Workflows/)
-- **Zenodo paper:** [doi:10.5281/zenodo.20271844](https://doi.org/10.5281/zenodo.20271844)
+- **Current PDF v1.33:** [Download manuscript](./Observed-Recoverable-Behavioral-Failures-in-LLM-Workflows/paper/v1.33/Observed%20Recoverable%20Behavioral%20Failures%20in%20LLM%20Workflows.pdf)
+- **Earlier Zenodo v1.23:** [doi:10.5281/zenodo.20271844](https://doi.org/10.5281/zenodo.20271844)
 
 ### 3. Managing the AI Transition: Overshoot, Non-Replacement, and Adaptive Policy
 

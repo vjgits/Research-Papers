@@ -1,0 +1,21 @@
+{
+  "RBF_v1_33_Manuscript.md": "c547657b6d7e5b22e05e43af5c6f82e751bb22fc007235fea72efdc67117dd6e",
+  "RBF_v1_33_Research_Archive.zip": "71745fa89c7f995402f6d9f012d015123e5814d0d4595e98082fa89c46d1679b",
+  "Observed Recoverable Behavioral Failures in LLM Workflows.docx": "f35de6ce4604523e616344449cd8954abf2ed52ee7849ce1e58562d8edf9fae4",
+  "Observed Recoverable Behavioral Failures in LLM Workflows.pdf": "639b9271ea1271257e448f2c6ff5ef4962f8543be170707b69494516148dcd5d",
+  "source/final_blocks.json": "bf179b73794337c58e67156e52039023e46dd8ef3b59cf2f8234eff2262de8d8",
+  "source/toc_pages.json": "d8fe7fe0337be44dcdaa65d3a5dd47c8a5cf55b1cd56a8ccaf51aaed79d1fae2",
+  "source/build_manuscript.py": "00c403788cbb4401a19ec25f12068b33feaa6d2db29aaafc47b6f6d2c265a90f",
+  "figures/branches.svg": "8bb9d98cf6b3d6fe62836d0adc587231d0ed3aadbdad20eba34c1993ddb4b2c8",
+  "figures/html_verbatim_crop.png": "3517c6ef6ccb64ceb3cdf8b3a3bec85ab77f3582c0c8b7d198d3796cf134009a",
+  "figures/branches.png": "b0bb73d730d1aa2a41dabd0b912f62c09e2eef98c27a43e01ab3095e51d1d344",
+  "figures/gpt_overlap.png": "36f27d762f172d9ef9f3c54a3fb68b102fe583a5768a223f0239751ddc3add0e",
+  "figures/contrast_examples.png": "7de0e875689280d845ed457a86e4324bac3948dc46de3930f04e1714b3719406",
+  "figures/html_verbatim.png": "4b9a31cce23267d219ed11510f0b8ecf7377b52c7bee312bab659a4e491db045",
+  "source/working_source/figures/branches.svg": "8bb9d98cf6b3d6fe62836d0adc587231d0ed3aadbdad20eba34c1993ddb4b2c8",
+  "source/working_source/figures/html_verbatim_crop.png": "3517c6ef6ccb64ceb3cdf8b3a3bec85ab77f3582c0c8b7d198d3796cf134009a",
+  "source/working_source/figures/branches.png": "b0bb73d730d1aa2a41dabd0b912f62c09e2eef98c27a43e01ab3095e51d1d344",
+  "source/working_source/figures/gpt_overlap.png": "36f27d762f172d9ef9f3c54a3fb68b102fe583a5768a223f0239751ddc3add0e",
+  "source/working_source/figures/contrast_examples.png": "7de0e875689280d845ed457a86e4324bac3948dc46de3930f04e1714b3719406",
+  "source/working_source/figures/html_verbatim.png": "4b9a31cce23267d219ed11510f0b8ecf7377b52c7bee312bab659a4e491db045"
+}
