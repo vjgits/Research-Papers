@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Boundary Contamination in LLM Workflows"
+version: "1.46"
+date-released: 2026-09-13
+type: article
+authors:
+  - family-names: Suresh
+    given-names: Vijay
+    affiliation: "Independent Researcher"
+    orcid: "https://orcid.org/0009-0004-1471-0561"
+doi: 10.5281/zenodo.22735762
+url: "https://doi.org/10.5281/zenodo.22735762"
+repository-code: "https://github.com/vjgits/Research-Papers/tree/main/Boundary-Contamination-in-LLM-Workflows"
+license: CC-BY-4.0
+abstract: >-
+  Asking a model to check its work can improve the answer and still make the
+  returned response unusable. This paper defines boundary contamination as any
+  non-whitespace text outside the required deliverable, scores it separately
+  from deliverable correctness across three experiments, and audits the
+  measuring instrument that produced the results.
+keywords:
+  - boundary contamination
+  - LLM evaluation
+  - output-contract compliance
+  - measurement validity
+  - instrument audit
+  - inter-rater reliability
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.20271843
+    description: "Concept DOI, resolves to the latest version"
+  - type: doi
+    value: 10.5281/zenodo.22738017
+    description: "Supplementary research evidence archive"

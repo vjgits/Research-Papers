@@ -1,0 +1,16 @@
+1. Abstract: replaced 2 paragraph(s) with 4 new paragraphs. Keywords line untouched.
+2. Moved §3.9 'Secondary sensitivity retained for continuity' (3 blocks) to Appendix D as D3.
+3. Added one signpost sentence in §3 where that subsection was: "A secondary sensitivity analysis that predates the dual-scope rescore is retained in Appendix D."
+4. Renumbered §3.10 -> §3.9 (3.9 Human marks, agreement, and unresolved issues)
+5. Renumbered §3.11 -> §3.10 (3.10 Independent follow-up review)
+6. Renumbered §3.12 -> §3.11 (3.11 Rendered consequences of boundary contamination)
+7. Moved §10 'Evidence provenance and observation scope' (18 blocks) to the end of the paper as Appendix F. Nothing was removed.
+8. Renumbered '11 Discussion and limitations' -> '10 Discussion and limitations'
+9. Renumbered '12 Conclusion' -> '11 Conclusion'
+10. Renumbered §11.1 -> §10.1
+11. Renumbered §11.2 -> §10.2
+12. Renumbered §11.3 -> §10.3
+13. Renumbered §11.4 -> §10.4
+14. Renumbered §11.5 -> §10.5
+15. Updated the §1 roadmap sentence so its cross-references match the new numbering.
+16. Updated the version line on the title page: 1.45 -> 1.46.

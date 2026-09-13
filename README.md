@@ -19,16 +19,19 @@ This work defines **Emergent Deception (ED)** as a subset of LLM self-narration 
 - **Pre-registration Protocol v1.3:** [doi:10.5281/zenodo.22245523](https://doi.org/10.5281/zenodo.22245523)
 - **arXiv:** planned / pending submission
 
-### 2. Observed Recoverable Behavioral Failures in LLM Workflows
+### 2. Boundary Contamination in LLM Workflows
 
-**A Multi-Session Cross-Platform Case Study, Retry-Probe Pilot, and Multi-Model Evaluation Protocol**  
-Current repository version: **v1.33 · September 2026** (Zenodo update pending)
+**Paired experiments and audits of response and artifact acceptance**  
+Current version: **v1.46 · September 2026** (previously titled *Observed Recoverable Behavioral Failures in LLM Workflows*)
 
-This paper studies **recoverable behavioral failures (RBFs)**: cases where a model fails to exercise an apparently available capability on the first pass, then succeeds after a brief retry that supplies no new substantive information. The repository contains the taxonomy, paper versions, experiment pack, raw/scored pilot outputs, and comparison tooling.
+Asking a model to check its work can improve the answer and still make the returned response unusable: the model corrects the figure, then wraps the corrected answer in commentary the task forbade. This paper defines **boundary contamination** as any non-whitespace text outside the required deliverable and scores it separately from whether the deliverable is correct. Across three experiments, checking-only instructions produced contamination in 14 of 30 held-out responses for one model and 0 of 30 for another under an identical prompt; one clause restating the output format suppressed it in 14 of 14 paired cases. The paper also audits its own measuring instrument, finding that 22 of 34 recorded failures were defects in the checker rather than in the responses.
 
-- **Project folder:** [Observed-Recoverable-Behavioral-Failures-in-LLM-Workflows](./Observed-Recoverable-Behavioral-Failures-in-LLM-Workflows/)
-- **Current PDF v1.33:** [Download manuscript](./Observed-Recoverable-Behavioral-Failures-in-LLM-Workflows/paper/v1.33/Observed%20Recoverable%20Behavioral%20Failures%20in%20LLM%20Workflows.pdf)
-- **Earlier Zenodo v1.23:** [doi:10.5281/zenodo.20271844](https://doi.org/10.5281/zenodo.20271844)
+- **Project folder:** [Boundary-Contamination-in-LLM-Workflows](./Boundary-Contamination-in-LLM-Workflows/)
+- **Current PDF v1.46:** [Download manuscript](./Boundary-Contamination-in-LLM-Workflows/paper/v1.46/Boundary_Contamination_v1_46.pdf)
+- **Paper:** [doi:10.5281/zenodo.22735762](https://doi.org/10.5281/zenodo.22735762)
+- **Evidence archive:** [doi:10.5281/zenodo.22738017](https://doi.org/10.5281/zenodo.22738017)
+- **All versions (concept DOI):** [doi:10.5281/zenodo.20271843](https://doi.org/10.5281/zenodo.20271843)
+- **Earlier lineage (v1.23, v1.33) archived at:** [archive/Observed-Recoverable-Behavioral-Failures-in-LLM-Workflows](./archive/Observed-Recoverable-Behavioral-Failures-in-LLM-Workflows/)
 
 ### 3. Managing the AI Transition: Overshoot, Non-Replacement, and Adaptive Policy
 
