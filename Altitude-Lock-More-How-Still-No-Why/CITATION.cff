@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the paper below rather than the repository."
+title: "Altitude Lock: More How, Still No Why"
+type: article
+authors:
+  - family-names: Suresh
+    given-names: Vijay
+    orcid: "https://orcid.org/0009-0004-1471-0561"
+    affiliation: "Independent Researcher"
+abstract: >-
+  Measures how often AI assistants surface the hidden framing choice in a work
+  request while still completing the requested task. Across 2,496 generated
+  responses and 4,992 judgements on 60 items spanning six framing dimensions,
+  unprompted surfacing rose from 5.2% to 23.3% between two model generations
+  three months apart, though the frontier panel ranged from 12.5% to 43.3% and
+  the leave-one-out rate is 16.7%. An arm that explicitly invited critique
+  reached an asserting level in 52.7% of responses and completed the task in 0%,
+  showing that framing engagement and task completion are separable and that an
+  evaluation scoring critique alone can reverse intervention rankings.
+version: "2.5"
+date-released: "2026-09-19"
+doi: "10.5281/zenodo.22847056"
+url: "https://doi.org/10.5281/zenodo.22847056"
+license: CC-BY-4.0
+keywords:
+  - large language models
+  - evaluation
+  - benchmark
+  - problem framing
+  - premise critique
+  - LLM-as-a-judge
+  - construct validity
+  - reproducibility
+references:
+  - type: data
+    title: "Altitude Lock: More How, Still No Why - reproduction package (data, code and figures)"
+    authors:
+      - family-names: Suresh
+        given-names: Vijay
+        orcid: "https://orcid.org/0009-0004-1471-0561"
+    doi: "10.5281/zenodo.22847075"
+    year: 2026
