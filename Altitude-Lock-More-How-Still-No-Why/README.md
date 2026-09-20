@@ -15,6 +15,26 @@ model generations three months apart on identical items.
 - **Data, code and figures (concept DOI):** [doi:10.5281/zenodo.22847075](https://doi.org/10.5281/zenodo.22847075)
 - **arXiv:** pending endorsement
 
+
+## Cite this work
+
+Canonical citation DOI: **10.5281/zenodo.22847056**
+
+```bibtex
+@article{suresh2026altitudelock,
+  title   = {Altitude Lock: More How, Still No Why},
+  author  = {Suresh, Vijay},
+  year    = {2026},
+  version = {2.5},
+  doi     = {10.5281/zenodo.22847056},
+  url     = {https://doi.org/10.5281/zenodo.22847056}
+}
+```
+
+**Keywords:** large language models; LLM evaluation; model behavior; problem framing;
+premise critique; proactive assistance; LLM-as-a-judge; construct validity;
+benchmarking; reproducible research.
+
 ## What it measures
 
 Six framing dimensions — scope, horizon, unit of optimisation, metric, task
