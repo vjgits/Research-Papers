@@ -4,6 +4,8 @@ Open research artifacts by **Vijay Suresh** (Independent Researcher) on large la
 
 **ORCID:** [0009-0004-1471-0561](https://orcid.org/0009-0004-1471-0561)
 
+**Research areas:** LLM evaluation, model behavior, AI safety, LLM-as-a-judge, premise critique, problem framing, reproducible benchmarks, responsible AI, and AI governance.
+
 ## Papers
 
 ### 1. Altitude Lock: More How, Still No Why
