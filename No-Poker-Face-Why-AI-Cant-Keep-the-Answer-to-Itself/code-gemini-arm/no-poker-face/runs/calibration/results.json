@@ -1,0 +1,1052 @@
+{
+ "mock": false,
+ "results": {
+  "n_items": 640,
+  "judge_agreement": {
+   "deciding_fact_in_stem": {
+    "agreement": 0.855,
+    "kappa": 0.708,
+    "n": 640
+   },
+   "stem_key_overlap": {
+    "agreement": 0.714,
+    "kappa": 0.437,
+    "n": 640
+   },
+   "rule_echo": {
+    "agreement": 0.844,
+    "kappa": 0.644,
+    "n": 640
+   },
+   "explains_in_stem": {
+    "agreement": 0.697,
+    "kappa": 0.394,
+    "n": 640
+   },
+   "keyed_best_practice_register": {
+    "agreement": 0.777,
+    "kappa": 0.299,
+    "n": 640
+   },
+   "dominant_heuristic": {
+    "agreement": 0.917,
+    "kappa": 0.642,
+    "n": 640
+   },
+   "multiple_defensible": {
+    "agreement": 0.97,
+    "kappa": 0.227,
+    "n": 640
+   },
+   "key_ok": {
+    "agreement": 0.997,
+    "kappa": -0.002,
+    "n": 640
+   }
+  },
+  "by_condition": [
+   {
+    "domain": "all",
+    "cond": "N",
+    "n": 80,
+    "options-only acc": 0.819,
+    "mismatched-stem acc": 0.556,
+    "full acc": 0.881,
+    "with-reference acc (key check)": 1.0,
+    "keyed longest": 0.713,
+    "near-duplicate options": 0.087,
+    "stem\u2192key-only overlap (words)": 1.125,
+    "notes bigram overlap": 0.287,
+    "deciding fact in stem (both judges)": 0.475,
+    "deciding fact in stem (either)": 0.613,
+    "rule echo (either)": 0.362,
+    "explains in stem (either)": 0.575,
+    "dominant heuristic (both)": 0.087,
+    "best-practice register (both)": 0.125,
+    "distractors false on own (of 3)": 1.488,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.037
+   },
+   {
+    "domain": "all",
+    "cond": "G",
+    "n": 80,
+    "options-only acc": 0.812,
+    "mismatched-stem acc": 0.55,
+    "full acc": 0.894,
+    "with-reference acc (key check)": 1.0,
+    "keyed longest": 0.613,
+    "near-duplicate options": 0.05,
+    "stem\u2192key-only overlap (words)": 1.012,
+    "notes bigram overlap": 0.237,
+    "deciding fact in stem (both judges)": 0.45,
+    "deciding fact in stem (either)": 0.625,
+    "rule echo (either)": 0.412,
+    "explains in stem (either)": 0.537,
+    "dominant heuristic (both)": 0.1,
+    "best-practice register (both)": 0.062,
+    "distractors false on own (of 3)": 1.613,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.025
+   },
+   {
+    "domain": "all",
+    "cond": "W",
+    "n": 80,
+    "options-only acc": 0.806,
+    "mismatched-stem acc": 0.625,
+    "full acc": 0.931,
+    "with-reference acc (key check)": 1.0,
+    "keyed longest": 0.6,
+    "near-duplicate options": 0.062,
+    "stem\u2192key-only overlap (words)": 1.262,
+    "notes bigram overlap": 0.275,
+    "deciding fact in stem (both judges)": 0.5,
+    "deciding fact in stem (either)": 0.65,
+    "rule echo (either)": 0.438,
+    "explains in stem (either)": 0.537,
+    "dominant heuristic (both)": 0.062,
+    "best-practice register (both)": 0.075,
+    "distractors false on own (of 3)": 1.562,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.0
+   },
+   {
+    "domain": "all",
+    "cond": "WH",
+    "n": 80,
+    "options-only acc": 0.738,
+    "mismatched-stem acc": 0.55,
+    "full acc": 0.838,
+    "with-reference acc (key check)": 0.975,
+    "keyed longest": 0.55,
+    "near-duplicate options": 0.075,
+    "stem\u2192key-only overlap (words)": 1.113,
+    "notes bigram overlap": 0.237,
+    "deciding fact in stem (both judges)": 0.463,
+    "deciding fact in stem (either)": 0.588,
+    "rule echo (either)": 0.425,
+    "explains in stem (either)": 0.537,
+    "dominant heuristic (both)": 0.1,
+    "best-practice register (both)": 0.1,
+    "distractors false on own (of 3)": 1.456,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.037
+   },
+   {
+    "domain": "all",
+    "cond": "WE",
+    "n": 80,
+    "options-only acc": 0.85,
+    "mismatched-stem acc": 0.562,
+    "full acc": 0.887,
+    "with-reference acc (key check)": 1.0,
+    "keyed longest": 0.662,
+    "near-duplicate options": 0.062,
+    "stem\u2192key-only overlap (words)": 1.075,
+    "notes bigram overlap": 0.225,
+    "deciding fact in stem (both judges)": 0.463,
+    "deciding fact in stem (either)": 0.575,
+    "rule echo (either)": 0.375,
+    "explains in stem (either)": 0.5,
+    "dominant heuristic (both)": 0.1,
+    "best-practice register (both)": 0.075,
+    "distractors false on own (of 3)": 1.569,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.037
+   },
+   {
+    "domain": "all",
+    "cond": "R",
+    "n": 80,
+    "options-only acc": 0.781,
+    "mismatched-stem acc": 0.65,
+    "full acc": 0.881,
+    "with-reference acc (key check)": 1.0,
+    "keyed longest": 0.588,
+    "near-duplicate options": 0.062,
+    "stem\u2192key-only overlap (words)": 0.963,
+    "notes bigram overlap": 0.575,
+    "deciding fact in stem (both judges)": 0.487,
+    "deciding fact in stem (either)": 0.613,
+    "rule echo (either)": 0.512,
+    "explains in stem (either)": 0.525,
+    "dominant heuristic (both)": 0.138,
+    "best-practice register (both)": 0.113,
+    "distractors false on own (of 3)": 1.512,
+    "key correct (both judges)": 0.975,
+    "multiple defensible (either)": 0.037
+   },
+   {
+    "domain": "all",
+    "cond": "NG",
+    "n": 80,
+    "options-only acc": 0.688,
+    "mismatched-stem acc": 0.425,
+    "full acc": 0.863,
+    "with-reference acc (key check)": 0.975,
+    "keyed longest": 0.212,
+    "near-duplicate options": 0.1,
+    "stem\u2192key-only overlap (words)": 0.537,
+    "notes bigram overlap": 0.25,
+    "deciding fact in stem (both judges)": 0.425,
+    "deciding fact in stem (either)": 0.637,
+    "rule echo (either)": 0.362,
+    "explains in stem (either)": 0.463,
+    "dominant heuristic (both)": 0.062,
+    "best-practice register (both)": 0.05,
+    "distractors false on own (of 3)": 0.894,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.037
+   },
+   {
+    "domain": "all",
+    "cond": "WG",
+    "n": 80,
+    "options-only acc": 0.625,
+    "mismatched-stem acc": 0.425,
+    "full acc": 0.8,
+    "with-reference acc (key check)": 1.0,
+    "keyed longest": 0.212,
+    "near-duplicate options": 0.125,
+    "stem\u2192key-only overlap (words)": 0.55,
+    "notes bigram overlap": 0.25,
+    "deciding fact in stem (both judges)": 0.487,
+    "deciding fact in stem (either)": 0.613,
+    "rule echo (either)": 0.338,
+    "explains in stem (either)": 0.5,
+    "dominant heuristic (both)": 0.075,
+    "best-practice register (both)": 0.062,
+    "distractors false on own (of 3)": 0.988,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.062
+   },
+   {
+    "domain": "fictional",
+    "cond": "N",
+    "n": 40,
+    "options-only acc": 0.675,
+    "mismatched-stem acc": 0.463,
+    "full acc": 0.787,
+    "with-reference acc (key check)": 1.0,
+    "keyed longest": 0.6,
+    "near-duplicate options": 0.1,
+    "stem\u2192key-only overlap (words)": 0.975,
+    "notes bigram overlap": 0.5,
+    "deciding fact in stem (both judges)": 0.1,
+    "deciding fact in stem (either)": 0.3,
+    "rule echo (either)": 0.475,
+    "explains in stem (either)": 0.225,
+    "dominant heuristic (both)": 0.0,
+    "best-practice register (both)": 0.15,
+    "distractors false on own (of 3)": 1.663,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.0
+   },
+   {
+    "domain": "fictional",
+    "cond": "G",
+    "n": 40,
+    "options-only acc": 0.662,
+    "mismatched-stem acc": 0.475,
+    "full acc": 0.8,
+    "with-reference acc (key check)": 1.0,
+    "keyed longest": 0.525,
+    "near-duplicate options": 0.075,
+    "stem\u2192key-only overlap (words)": 0.75,
+    "notes bigram overlap": 0.4,
+    "deciding fact in stem (both judges)": 0.075,
+    "deciding fact in stem (either)": 0.325,
+    "rule echo (either)": 0.525,
+    "explains in stem (either)": 0.175,
+    "dominant heuristic (both)": 0.025,
+    "best-practice register (both)": 0.075,
+    "distractors false on own (of 3)": 1.913,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.025
+   },
+   {
+    "domain": "fictional",
+    "cond": "W",
+    "n": 40,
+    "options-only acc": 0.662,
+    "mismatched-stem acc": 0.512,
+    "full acc": 0.887,
+    "with-reference acc (key check)": 1.0,
+    "keyed longest": 0.55,
+    "near-duplicate options": 0.05,
+    "stem\u2192key-only overlap (words)": 1.325,
+    "notes bigram overlap": 0.475,
+    "deciding fact in stem (both judges)": 0.125,
+    "deciding fact in stem (either)": 0.35,
+    "rule echo (either)": 0.575,
+    "explains in stem (either)": 0.25,
+    "dominant heuristic (both)": 0.0,
+    "best-practice register (both)": 0.05,
+    "distractors false on own (of 3)": 1.913,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.0
+   },
+   {
+    "domain": "fictional",
+    "cond": "WH",
+    "n": 40,
+    "options-only acc": 0.562,
+    "mismatched-stem acc": 0.4,
+    "full acc": 0.688,
+    "with-reference acc (key check)": 0.975,
+    "keyed longest": 0.425,
+    "near-duplicate options": 0.05,
+    "stem\u2192key-only overlap (words)": 0.65,
+    "notes bigram overlap": 0.45,
+    "deciding fact in stem (both judges)": 0.1,
+    "deciding fact in stem (either)": 0.2,
+    "rule echo (either)": 0.475,
+    "explains in stem (either)": 0.2,
+    "dominant heuristic (both)": 0.0,
+    "best-practice register (both)": 0.125,
+    "distractors false on own (of 3)": 1.775,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.025
+   },
+   {
+    "domain": "fictional",
+    "cond": "WE",
+    "n": 40,
+    "options-only acc": 0.713,
+    "mismatched-stem acc": 0.412,
+    "full acc": 0.8,
+    "with-reference acc (key check)": 1.0,
+    "keyed longest": 0.475,
+    "near-duplicate options": 0.125,
+    "stem\u2192key-only overlap (words)": 0.9,
+    "notes bigram overlap": 0.4,
+    "deciding fact in stem (both judges)": 0.1,
+    "deciding fact in stem (either)": 0.225,
+    "rule echo (either)": 0.45,
+    "explains in stem (either)": 0.25,
+    "dominant heuristic (both)": 0.0,
+    "best-practice register (both)": 0.125,
+    "distractors false on own (of 3)": 1.837,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.025
+   },
+   {
+    "domain": "fictional",
+    "cond": "R",
+    "n": 40,
+    "options-only acc": 0.65,
+    "mismatched-stem acc": 0.55,
+    "full acc": 0.8,
+    "with-reference acc (key check)": 1.0,
+    "keyed longest": 0.475,
+    "near-duplicate options": 0.075,
+    "stem\u2192key-only overlap (words)": 1.0,
+    "notes bigram overlap": 0.525,
+    "deciding fact in stem (both judges)": 0.125,
+    "deciding fact in stem (either)": 0.275,
+    "rule echo (either)": 0.525,
+    "explains in stem (either)": 0.225,
+    "dominant heuristic (both)": 0.025,
+    "best-practice register (both)": 0.1,
+    "distractors false on own (of 3)": 1.75,
+    "key correct (both judges)": 0.975,
+    "multiple defensible (either)": 0.025
+   },
+   {
+    "domain": "fictional",
+    "cond": "NG",
+    "n": 40,
+    "options-only acc": 0.537,
+    "mismatched-stem acc": 0.362,
+    "full acc": 0.75,
+    "with-reference acc (key check)": 0.975,
+    "keyed longest": 0.175,
+    "near-duplicate options": 0.125,
+    "stem\u2192key-only overlap (words)": 0.425,
+    "notes bigram overlap": 0.425,
+    "deciding fact in stem (both judges)": 0.05,
+    "deciding fact in stem (either)": 0.325,
+    "rule echo (either)": 0.45,
+    "explains in stem (either)": 0.15,
+    "dominant heuristic (both)": 0.0,
+    "best-practice register (both)": 0.05,
+    "distractors false on own (of 3)": 1.275,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.0
+   },
+   {
+    "domain": "fictional",
+    "cond": "WG",
+    "n": 40,
+    "options-only acc": 0.463,
+    "mismatched-stem acc": 0.362,
+    "full acc": 0.65,
+    "with-reference acc (key check)": 1.0,
+    "keyed longest": 0.2,
+    "near-duplicate options": 0.2,
+    "stem\u2192key-only overlap (words)": 0.375,
+    "notes bigram overlap": 0.4,
+    "deciding fact in stem (both judges)": 0.175,
+    "deciding fact in stem (either)": 0.325,
+    "rule echo (either)": 0.425,
+    "explains in stem (either)": 0.175,
+    "dominant heuristic (both)": 0.0,
+    "best-practice register (both)": 0.05,
+    "distractors false on own (of 3)": 1.288,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.0
+   },
+   {
+    "domain": "real",
+    "cond": "N",
+    "n": 40,
+    "options-only acc": 0.963,
+    "mismatched-stem acc": 0.65,
+    "full acc": 0.975,
+    "with-reference acc (key check)": NaN,
+    "keyed longest": 0.825,
+    "near-duplicate options": 0.075,
+    "stem\u2192key-only overlap (words)": 1.275,
+    "notes bigram overlap": 0.075,
+    "deciding fact in stem (both judges)": 0.85,
+    "deciding fact in stem (either)": 0.925,
+    "rule echo (either)": 0.25,
+    "explains in stem (either)": 0.925,
+    "dominant heuristic (both)": 0.175,
+    "best-practice register (both)": 0.1,
+    "distractors false on own (of 3)": 1.312,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.075
+   },
+   {
+    "domain": "real",
+    "cond": "G",
+    "n": 40,
+    "options-only acc": 0.963,
+    "mismatched-stem acc": 0.625,
+    "full acc": 0.988,
+    "with-reference acc (key check)": NaN,
+    "keyed longest": 0.7,
+    "near-duplicate options": 0.025,
+    "stem\u2192key-only overlap (words)": 1.275,
+    "notes bigram overlap": 0.075,
+    "deciding fact in stem (both judges)": 0.825,
+    "deciding fact in stem (either)": 0.925,
+    "rule echo (either)": 0.3,
+    "explains in stem (either)": 0.9,
+    "dominant heuristic (both)": 0.175,
+    "best-practice register (both)": 0.05,
+    "distractors false on own (of 3)": 1.312,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.025
+   },
+   {
+    "domain": "real",
+    "cond": "W",
+    "n": 40,
+    "options-only acc": 0.95,
+    "mismatched-stem acc": 0.738,
+    "full acc": 0.975,
+    "with-reference acc (key check)": NaN,
+    "keyed longest": 0.65,
+    "near-duplicate options": 0.075,
+    "stem\u2192key-only overlap (words)": 1.2,
+    "notes bigram overlap": 0.075,
+    "deciding fact in stem (both judges)": 0.875,
+    "deciding fact in stem (either)": 0.95,
+    "rule echo (either)": 0.3,
+    "explains in stem (either)": 0.825,
+    "dominant heuristic (both)": 0.125,
+    "best-practice register (both)": 0.1,
+    "distractors false on own (of 3)": 1.212,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.0
+   },
+   {
+    "domain": "real",
+    "cond": "WH",
+    "n": 40,
+    "options-only acc": 0.912,
+    "mismatched-stem acc": 0.7,
+    "full acc": 0.988,
+    "with-reference acc (key check)": NaN,
+    "keyed longest": 0.675,
+    "near-duplicate options": 0.1,
+    "stem\u2192key-only overlap (words)": 1.575,
+    "notes bigram overlap": 0.025,
+    "deciding fact in stem (both judges)": 0.825,
+    "deciding fact in stem (either)": 0.975,
+    "rule echo (either)": 0.375,
+    "explains in stem (either)": 0.875,
+    "dominant heuristic (both)": 0.2,
+    "best-practice register (both)": 0.075,
+    "distractors false on own (of 3)": 1.137,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.05
+   },
+   {
+    "domain": "real",
+    "cond": "WE",
+    "n": 40,
+    "options-only acc": 0.988,
+    "mismatched-stem acc": 0.713,
+    "full acc": 0.975,
+    "with-reference acc (key check)": NaN,
+    "keyed longest": 0.85,
+    "near-duplicate options": 0.0,
+    "stem\u2192key-only overlap (words)": 1.25,
+    "notes bigram overlap": 0.05,
+    "deciding fact in stem (both judges)": 0.825,
+    "deciding fact in stem (either)": 0.925,
+    "rule echo (either)": 0.3,
+    "explains in stem (either)": 0.75,
+    "dominant heuristic (both)": 0.2,
+    "best-practice register (both)": 0.025,
+    "distractors false on own (of 3)": 1.3,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.05
+   },
+   {
+    "domain": "real",
+    "cond": "R",
+    "n": 40,
+    "options-only acc": 0.912,
+    "mismatched-stem acc": 0.75,
+    "full acc": 0.963,
+    "with-reference acc (key check)": NaN,
+    "keyed longest": 0.7,
+    "near-duplicate options": 0.05,
+    "stem\u2192key-only overlap (words)": 0.925,
+    "notes bigram overlap": 0.625,
+    "deciding fact in stem (both judges)": 0.85,
+    "deciding fact in stem (either)": 0.95,
+    "rule echo (either)": 0.5,
+    "explains in stem (either)": 0.825,
+    "dominant heuristic (both)": 0.25,
+    "best-practice register (both)": 0.125,
+    "distractors false on own (of 3)": 1.275,
+    "key correct (both judges)": 0.975,
+    "multiple defensible (either)": 0.05
+   },
+   {
+    "domain": "real",
+    "cond": "NG",
+    "n": 40,
+    "options-only acc": 0.838,
+    "mismatched-stem acc": 0.487,
+    "full acc": 0.975,
+    "with-reference acc (key check)": NaN,
+    "keyed longest": 0.25,
+    "near-duplicate options": 0.075,
+    "stem\u2192key-only overlap (words)": 0.65,
+    "notes bigram overlap": 0.075,
+    "deciding fact in stem (both judges)": 0.8,
+    "deciding fact in stem (either)": 0.95,
+    "rule echo (either)": 0.275,
+    "explains in stem (either)": 0.775,
+    "dominant heuristic (both)": 0.125,
+    "best-practice register (both)": 0.05,
+    "distractors false on own (of 3)": 0.512,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.075
+   },
+   {
+    "domain": "real",
+    "cond": "WG",
+    "n": 40,
+    "options-only acc": 0.787,
+    "mismatched-stem acc": 0.487,
+    "full acc": 0.95,
+    "with-reference acc (key check)": NaN,
+    "keyed longest": 0.225,
+    "near-duplicate options": 0.05,
+    "stem\u2192key-only overlap (words)": 0.725,
+    "notes bigram overlap": 0.1,
+    "deciding fact in stem (both judges)": 0.8,
+    "deciding fact in stem (either)": 0.9,
+    "rule echo (either)": 0.25,
+    "explains in stem (either)": 0.825,
+    "dominant heuristic (both)": 0.15,
+    "best-practice register (both)": 0.075,
+    "distractors false on own (of 3)": 0.688,
+    "key correct (both judges)": 1.0,
+    "multiple defensible (either)": 0.125
+   }
+  ],
+  "contrasts": {
+   "G vs N": {
+    "all": {
+     "diff_options_only": -0.006,
+     "ci95": [
+      -0.081,
+      0.062
+     ],
+     "n_slots": 40,
+     "diff_stem_cue_rate": 0.037,
+     "stem_cue_ci95": [
+      0.0,
+      0.087
+     ]
+    },
+    "fictional": {
+     "diff_options_only": -0.013,
+     "ci95": [
+      -0.15,
+      0.138
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": 0.05,
+     "stem_cue_ci95": [
+      0.0,
+      0.125
+     ]
+    },
+    "real": {
+     "diff_options_only": 0.0,
+     "ci95": [
+      -0.05,
+      0.05
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": 0.025,
+     "stem_cue_ci95": [
+      0.0,
+      0.075
+     ]
+    },
+    "gee_options_only": {
+     "log_odds": -0.055,
+     "odds_ratio": 0.947,
+     "ci95": [
+      0.522,
+      1.718
+     ],
+     "p": 0.8568748271510926,
+     "n_obs": 319,
+     "n_clusters": 40
+    }
+   },
+   "W vs N": {
+    "all": {
+     "diff_options_only": -0.013,
+     "ci95": [
+      -0.062,
+      0.037
+     ],
+     "n_slots": 40,
+     "diff_stem_cue_rate": 0.087,
+     "stem_cue_ci95": [
+      0.037,
+      0.15
+     ]
+    },
+    "fictional": {
+     "diff_options_only": -0.013,
+     "ci95": [
+      -0.113,
+      0.075
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": 0.15,
+     "stem_cue_ci95": [
+      0.05,
+      0.25
+     ]
+    },
+    "real": {
+     "diff_options_only": -0.013,
+     "ci95": [
+      -0.05,
+      0.025
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": 0.025,
+     "stem_cue_ci95": [
+      0.0,
+      0.075
+     ]
+    },
+    "gee_options_only": {
+     "log_odds": -0.096,
+     "odds_ratio": 0.909,
+     "ci95": [
+      0.616,
+      1.341
+     ],
+     "p": 0.629000127799886,
+     "n_obs": 320,
+     "n_clusters": 40
+    }
+   },
+   "WH vs N": {
+    "all": {
+     "diff_options_only": -0.081,
+     "ci95": [
+      -0.181,
+      0.013
+     ],
+     "n_slots": 40,
+     "diff_stem_cue_rate": 0.013,
+     "stem_cue_ci95": [
+      -0.05,
+      0.075
+     ]
+    },
+    "fictional": {
+     "diff_options_only": -0.113,
+     "ci95": [
+      -0.287,
+      0.062
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": 0.0,
+     "stem_cue_ci95": [
+      -0.125,
+      0.125
+     ]
+    },
+    "real": {
+     "diff_options_only": -0.05,
+     "ci95": [
+      -0.138,
+      0.025
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": 0.025,
+     "stem_cue_ci95": [
+      0.0,
+      0.075
+     ]
+    },
+    "gee_options_only": {
+     "log_odds": -0.561,
+     "odds_ratio": 0.57,
+     "ci95": [
+      0.302,
+      1.076
+     ],
+     "p": 0.08305292207304191,
+     "n_obs": 320,
+     "n_clusters": 40
+    }
+   },
+   "WE vs N": {
+    "all": {
+     "diff_options_only": 0.031,
+     "ci95": [
+      -0.05,
+      0.1
+     ],
+     "n_slots": 40,
+     "diff_stem_cue_rate": -0.013,
+     "stem_cue_ci95": [
+      -0.087,
+      0.05
+     ]
+    },
+    "fictional": {
+     "diff_options_only": 0.037,
+     "ci95": [
+      -0.125,
+      0.175
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": -0.05,
+     "stem_cue_ci95": [
+      -0.2,
+      0.075
+     ]
+    },
+    "real": {
+     "diff_options_only": 0.025,
+     "ci95": [
+      0.0,
+      0.062
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": 0.025,
+     "stem_cue_ci95": [
+      0.0,
+      0.075
+     ]
+    },
+    "gee_options_only": {
+     "log_odds": 0.268,
+     "odds_ratio": 1.307,
+     "ci95": [
+      0.68,
+      2.511
+     ],
+     "p": 0.42145130020073285,
+     "n_obs": 320,
+     "n_clusters": 40
+    }
+   },
+   "R vs N": {
+    "all": {
+     "diff_options_only": -0.037,
+     "ci95": [
+      -0.125,
+      0.044
+     ],
+     "n_slots": 40,
+     "diff_stem_cue_rate": 0.075,
+     "stem_cue_ci95": [
+      0.025,
+      0.15
+     ]
+    },
+    "fictional": {
+     "diff_options_only": -0.025,
+     "ci95": [
+      -0.163,
+      0.1
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": 0.15,
+     "stem_cue_ci95": [
+      0.05,
+      0.275
+     ]
+    },
+    "real": {
+     "diff_options_only": -0.05,
+     "ci95": [
+      -0.175,
+      0.037
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": 0.0,
+     "stem_cue_ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "gee_options_only": {
+     "log_odds": -0.27,
+     "odds_ratio": 0.763,
+     "ci95": [
+      0.427,
+      1.366
+     ],
+     "p": 0.3633446923256419,
+     "n_obs": 319,
+     "n_clusters": 40
+    }
+   },
+   "NG vs N": {
+    "all": {
+     "diff_options_only": -0.131,
+     "ci95": [
+      -0.231,
+      -0.031
+     ],
+     "n_slots": 40,
+     "diff_stem_cue_rate": -0.062,
+     "stem_cue_ci95": [
+      -0.125,
+      0.0
+     ]
+    },
+    "fictional": {
+     "diff_options_only": -0.138,
+     "ci95": [
+      -0.312,
+      0.05
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": -0.1,
+     "stem_cue_ci95": [
+      -0.225,
+      0.0
+     ]
+    },
+    "real": {
+     "diff_options_only": -0.125,
+     "ci95": [
+      -0.212,
+      -0.05
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": -0.025,
+     "stem_cue_ci95": [
+      -0.075,
+      0.0
+     ]
+    },
+    "gee_options_only": {
+     "log_odds": -0.833,
+     "odds_ratio": 0.435,
+     "ci95": [
+      0.229,
+      0.824
+     ],
+     "p": 0.01067144653965994,
+     "n_obs": 320,
+     "n_clusters": 40
+    }
+   },
+   "WG vs NG": {
+    "all": {
+     "diff_options_only": -0.062,
+     "ci95": [
+      -0.163,
+      0.037
+     ],
+     "n_slots": 40,
+     "diff_stem_cue_rate": 0.0,
+     "stem_cue_ci95": [
+      -0.1,
+      0.087
+     ]
+    },
+    "fictional": {
+     "diff_options_only": -0.075,
+     "ci95": [
+      -0.237,
+      0.1
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": 0.0,
+     "stem_cue_ci95": [
+      -0.175,
+      0.175
+     ]
+    },
+    "real": {
+     "diff_options_only": -0.05,
+     "ci95": [
+      -0.15,
+      0.062
+     ],
+     "n_slots": 20,
+     "diff_stem_cue_rate": 0.0,
+     "stem_cue_ci95": [
+      -0.075,
+      0.075
+     ]
+    },
+    "gee_options_only": {
+     "log_odds": -0.323,
+     "odds_ratio": 0.724,
+     "ci95": [
+      0.428,
+      1.226
+     ],
+     "p": 0.22947696006947949,
+     "n_obs": 320,
+     "n_clusters": 40
+    }
+   }
+  },
+  "primary_by_slot_type": {
+   "weak_slots": {
+    "diff": 0.016,
+    "ci95": [
+     -0.031,
+     0.062
+    ],
+    "n": 16
+   },
+   "other_slots": {
+    "diff": -0.031,
+    "ci95": [
+     -0.115,
+     0.042
+    ],
+    "n": 24
+   }
+  },
+  "H2_notes_overlap_R_minus_W": {
+   "diff": 0.3,
+   "ci95": [
+    0.1,
+    0.562
+   ],
+   "n": 40
+  },
+  "solver_parse_rate": 1.0
+ },
+ "power": {
+  "mode": "options_only",
+  "domain": "all",
+  "baseline_options_only_N": 0.819,
+  "sd_slot_logit": 2.204,
+  "solves_per_item": 2,
+  "grid": [
+   {
+    "slots": 40,
+    "samples_per_cell": 1,
+    "effect_pts": 5,
+    "power": 0.2
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 1,
+    "effect_pts": 8,
+    "power": 0.47
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 1,
+    "effect_pts": 10,
+    "power": 0.71
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 3,
+    "effect_pts": 5,
+    "power": 0.45
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 3,
+    "effect_pts": 8,
+    "power": 0.9
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 3,
+    "effect_pts": 10,
+    "power": 1.0
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 5,
+    "effect_pts": 5,
+    "power": 0.59
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 5,
+    "effect_pts": 8,
+    "power": 0.97
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 5,
+    "effect_pts": 10,
+    "power": 1.0
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 8,
+    "effect_pts": 5,
+    "power": 0.81
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 8,
+    "effect_pts": 8,
+    "power": 1.0
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 8,
+    "effect_pts": 10,
+    "power": 1.0
+   }
+  ]
+ }
+}

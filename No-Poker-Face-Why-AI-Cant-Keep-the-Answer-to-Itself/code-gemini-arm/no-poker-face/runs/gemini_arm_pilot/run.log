@@ -1,0 +1,52 @@
+[wave 1/1] 4 sessions, 280 questions  spent $4.10
+[solve] spent $5.37
+[code] 81 items judged  spent $6.56
+{
+ "MOCK_NOT_DATA": false,
+ "n_sessions": 4,
+ "loop_valid": 1.0,
+ "B1_failure_easing": {
+  "invented_subjects": {
+   "bootstrap": null,
+   "ols": null
+  },
+  "all_subjects_sensitivity": {
+   "bootstrap": null,
+   "ols": null
+  },
+  "PD_all_members": null,
+  "knowledge_free_leakage": null
+ },
+ "B2_claimed_mastery": {
+  "ready_CLAIM": "0/1",
+  "ready_FAIL_HI": "0/1",
+  "risk_diff_pts": 0.0,
+  "fisher_p": 1.0
+ },
+ "holm": {
+  "B2": {
+   "p": 1.0,
+   "alpha": 0.05,
+   "reject": false
+  }
+ },
+ "part_A_trigger": {
+  "estimate": {
+   "diff": -10.8,
+   "ci80": [
+    -10.8,
+    -10.8
+   ],
+   "n": [
+    1,
+    1
+   ]
+  },
+  "rule": {
+   "min_pts": 3.0,
+   "ci": 80
+  },
+  "run_part_A": false
+ }
+}
+Total spent this phase: $6.56  (ledger: /home/claude/src/no-poker-face/runs/gemini_arm_pilot/ledger.jsonl)

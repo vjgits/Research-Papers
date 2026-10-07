@@ -1,0 +1,276 @@
+{
+ "MOCK_NOT_DATA": false,
+ "n_sessions": 4,
+ "n_questions": 280,
+ "loop_valid": 1.0,
+ "readiness_by_type": {
+  "C": {
+   "UNSURE": 1
+  },
+  "FT": {
+   "NOT READY": 1
+  },
+  "CLAIM": {
+   "NOT READY": 1
+  },
+  "FAIL-HI": {
+   "NOT READY": 1
+  }
+ },
+ "B1_failure_easing": {
+  "invented_subjects": {
+   "bootstrap": null,
+   "ols": null
+  },
+  "all_subjects_sensitivity": {
+   "bootstrap": null,
+   "ols": null
+  },
+  "PD_all_members": null,
+  "knowledge_free_leakage": null
+ },
+ "B2_claimed_mastery": {
+  "ready_CLAIM": "0/1",
+  "ready_FAIL_HI": "0/1",
+  "risk_diff_pts": 0.0,
+  "fisher_p": 1.0
+ },
+ "holm": {
+  "B2": {
+   "p": 1.0,
+   "alpha": 0.05,
+   "reject": false
+  }
+ },
+ "PD_by_level": {
+  "easy": {
+   "mean": 65.0,
+   "ci95": [
+    51.2,
+    76.2
+   ],
+   "n": 4
+  },
+  "medium": {
+   "mean": 71.2,
+   "ci95": [
+    63.7,
+    77.5
+   ],
+   "n": 4
+  },
+  "hard": {
+   "mean": 63.7,
+   "ci95": [
+    56.2,
+    75.0
+   ],
+   "n": 4
+  },
+  "trickier": {
+   "mean": 71.2,
+   "ci95": [
+    67.5,
+    75.0
+   ],
+   "n": 4
+  },
+  "harder": {
+   "mean": 66.2,
+   "ci95": [
+    61.9,
+    70.6
+   ],
+   "n": 4
+  }
+ },
+ "KF_by_level": {
+  "easy": {
+   "mean": 48.8,
+   "ci95": [
+    40.0,
+    57.5
+   ],
+   "n": 4
+  },
+  "medium": {
+   "mean": 52.5,
+   "ci95": [
+    42.5,
+    62.5
+   ],
+   "n": 4
+  },
+  "hard": {
+   "mean": 46.2,
+   "ci95": [
+    26.2,
+    62.5
+   ],
+   "n": 4
+  },
+  "trickier": {
+   "mean": 47.5,
+   "ci95": [
+    37.5,
+    62.5
+   ],
+   "n": 4
+  },
+  "harder": {
+   "mean": 45.6,
+   "ci95": [
+    40.0,
+    51.9
+   ],
+   "n": 4
+  }
+ },
+ "length_by_level": {
+  "easy": {
+   "stem_words": 18.9,
+   "option_words": 5.3
+  },
+  "hard": {
+   "stem_words": 44.2,
+   "option_words": 10.9
+  },
+  "harder": {
+   "stem_words": 41.0,
+   "option_words": 11.2
+  },
+  "medium": {
+   "stem_words": 31.2,
+   "option_words": 8.9
+  },
+  "trickier": {
+   "stem_words": 41.3,
+   "option_words": 11.0
+  }
+ },
+ "harder_than_last_PD_change": {
+  "mean": -1.9,
+  "ci95": [
+   -11.9,
+   9.4
+  ],
+  "n": 8
+ },
+ "hard_minus_easy_PD": {
+  "mean": -1.2,
+  "ci95": [
+   -12.5,
+   10.0
+  ],
+  "n": 4
+ },
+ "claims_needed_before_agreement": {
+  "distribution": {
+   "5": 1
+  },
+  "note": "1-4 = claim level at first agreement by both judges; 5 = never"
+ },
+ "notes_rates_rounds4_7_and_ready": {
+  "C": {
+   "agree": 0.0,
+   "proof": 0.0,
+   "ready": 0.0,
+   "eased": 0.0
+  },
+  "CLAIM": {
+   "agree": 0.0,
+   "proof": 0.0,
+   "ready": 0.0,
+   "eased": 0.0
+  },
+  "FAIL-HI": {
+   "agree": 0.0,
+   "proof": 0.0,
+   "ready": 0.0,
+   "eased": 0.0
+  },
+  "FT": {
+   "agree": 0.0,
+   "proof": 0.0,
+   "ready": 0.0,
+   "eased": 0.0
+  }
+ },
+ "judge_kappa_nonempty": {
+  "declares_ready": 1.0,
+  "agrees_with_mastery_claim": 0.66,
+  "asks_for_proof": 0.0,
+  "difficulty_stated": 0.8,
+  "mentions_weak_topics": 0.93,
+  "cites_evidence": 1.0
+ },
+ "n_nonempty_replies": 32,
+ "note_nonempty_share_by_type": {
+  "C": 100.0,
+  "CLAIM": 100.0,
+  "FAIL-HI": 100.0,
+  "FT": 100.0
+ },
+ "IMP_manipulation_learner_acc_r4_7": null,
+ "IMP_writer_response_PD_r5_7": null,
+ "weak_topic_retention_by_type": {
+  "C": {
+   "weak_retention": 30.0,
+   "weak_retention_area": 58.3
+  },
+  "CLAIM": {
+   "weak_retention": 81.7,
+   "weak_retention_area": 90.0
+  },
+  "FAIL-HI": {
+   "weak_retention": 85.0,
+   "weak_retention_area": 85.0
+  },
+  "FT": {
+   "weak_retention": 73.3,
+   "weak_retention_area": 78.3
+  }
+ },
+ "weak_topic_retention_HI_minus_LO": null,
+ "part_A_trigger": {
+  "estimate": {
+   "diff": -10.8,
+   "ci80": [
+    -10.8,
+    -10.8
+   ],
+   "n": [
+    1,
+    1
+   ]
+  },
+  "rule": {
+   "min_pts": 3.0,
+   "ci": 80
+  },
+  "run_part_A": false
+ },
+ "pilot_measures": {
+  "key_check": 0.975,
+  "tells_adv_r5_7": {
+   "pts": 43.3,
+   "ci95": [
+    37.5,
+    50.0
+   ],
+   "n_sessions": 4
+  },
+  "style_only_adv_r5_7": null,
+  "near_repeat_share": 0.113,
+  "tricks_hint_pct": {
+   "drop_absolutes": -3.9,
+   "like_earlier_answers": 22.1,
+   "longest": 15.6,
+   "stem_overlap": 12.1,
+   "teaching_overlap": 29.3
+  },
+  "teach_echo_share": 0.84,
+  "teach_echo_control_F": null,
+  "nohist_hint_pct": 30.3
+ }
+}

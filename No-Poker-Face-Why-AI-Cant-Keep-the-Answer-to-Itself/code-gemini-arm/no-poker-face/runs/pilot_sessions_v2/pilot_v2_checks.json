@@ -1,0 +1,39 @@
+{
+ "valid_share": 1.0,
+ "key_check_invented": 0.9544642857142858,
+ "key_check_by_solver": {
+  "claude-sonnet-5-5": 0.996,
+  "gemini-3.6-flash": 0.938,
+  "gpt-5.6-terra": 0.946
+ },
+ "key_check_llmapi": 1.0,
+ "panel_parsed": 1.0,
+ "learner_parsed": 1.0,
+ "readiness_parsed": 1.0,
+ "reply_judge_parsed": 1.0,
+ "scripted_feedback_exact": true,
+ "claims_placed_exactly": true,
+ "IMP_check_pts_by_writer": {
+  "claude-opus-5-5": 19.2,
+  "gpt-5.6-sol": 30.8
+ },
+ "IMP_check_pts": 25.0,
+ "spend_study_calls": 18.95,
+ "spend_smoke": 0.056,
+ "cost_per_session": 1.184,
+ "cost_vs_estimate": 1.14,
+ "passes": {
+  "valid>=95%": true,
+  "key_check_invented>=95%": true,
+  "panel+learner parsed>=95%": true,
+  "readiness parsed>=90%": true,
+  "reply judge parsed>=95%": true,
+  "scripted feedback exact": true,
+  "claims placed exactly": true,
+  "IMP check >= +10 pts": true,
+  "cost within +25%": true
+ },
+ "proceed": true,
+ "panel_session_sd_note": "about 4.7 pts (writer- and type-adjusted, Tarnball only, 8 sessions, 3 residual df: a rough check that agrees with the 4-5 pt assumption)",
+ "ready_seen": "READY verdicts: CLAIM 0/4, FAIL-HI 0/4, FAIL-LO 0/4, IMP 1/4; on Tarnball (2 vs 2 sessions) FAIL-HI sets scored 10.8 pts LOWER on PD than FAIL-LO, i.e. harder, not easier."
+}

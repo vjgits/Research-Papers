@@ -1,0 +1,11 @@
+arm,domain,n,options_only,full,mismatched,key_longest,deciding_fact_both,max_sim_to_W
+W_original,fictional,20,0.65,0.875,0.525,0.55,0.1,1.0
+W_original,real,20,0.975,1.0,0.85,0.95,0.8,1.0
+audit,fictional,20,0.5,0.575,0.3,0.2,0.05,0.754
+audit,real,20,0.9,1.0,0.625,0.15,0.75,0.608
+flawed,fictional,20,0.7,0.85,0.525,0.7,0.05,0.666
+flawed,real,20,0.975,1.0,0.8,0.9,0.75,0.773
+flawed_pressure,fictional,20,0.575,0.775,0.45,0.6,0.05,0.678
+flawed_pressure,real,20,0.95,1.0,0.825,0.75,0.85,0.63
+novelty,fictional,20,0.55,0.75,0.45,0.45,0.15,0.309
+novelty,real,20,0.975,1.0,0.625,0.9,0.85,0.155

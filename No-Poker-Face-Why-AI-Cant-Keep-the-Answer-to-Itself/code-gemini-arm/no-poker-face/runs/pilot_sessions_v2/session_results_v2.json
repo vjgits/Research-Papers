@@ -1,0 +1,326 @@
+{
+ "MOCK_NOT_DATA": false,
+ "n_sessions": 16,
+ "n_questions": 1120,
+ "loop_valid": 1.0,
+ "readiness_by_type": {
+  "IMP": {
+   "NOT READY": 2,
+   "UNSURE": 1,
+   "READY": 1
+  },
+  "CLAIM": {
+   "NOT READY": 4
+  },
+  "FAIL-LO": {
+   "NOT READY": 3,
+   "UNSURE": 1
+  },
+  "FAIL-HI": {
+   "NOT READY": 4
+  }
+ },
+ "B1_failure_easing": {
+  "invented_subjects": {
+   "bootstrap": {
+    "diff": -10.8,
+    "ci95": [
+     -20.8,
+     -0.8
+    ],
+    "n": [
+     2,
+     2
+    ]
+   },
+   "ols": null
+  },
+  "all_subjects_sensitivity": {
+   "bootstrap": {
+    "diff": -5.4,
+    "ci95": [
+     -27.3,
+     15.6
+    ],
+    "n": [
+     4,
+     4
+    ]
+   },
+   "ols": {
+    "coef_pts": -5.4,
+    "ci95": [
+     -18.7,
+     7.9
+    ],
+    "p": 0.42365593666732504,
+    "n": 8
+   }
+  },
+  "PD_all_members": {
+   "diff": -10.6,
+   "ci95": [
+    -19.4,
+    -1.7
+   ],
+   "n": [
+    2,
+    2
+   ]
+  },
+  "knowledge_free_leakage": {
+   "diff": -7.5,
+   "ci95": [
+    -13.3,
+    -1.7
+   ],
+   "n": [
+    2,
+    2
+   ]
+  }
+ },
+ "B2_claimed_mastery": {
+  "ready_CLAIM": "0/4",
+  "ready_FAIL_HI": "0/4",
+  "risk_diff_pts": 0.0,
+  "fisher_p": 1.0
+ },
+ "holm": {
+  "B2": {
+   "p": 1.0,
+   "alpha": 0.05,
+   "reject": false
+  }
+ },
+ "PD_by_level": {
+  "easy": {
+   "mean": 71.2,
+   "ci95": [
+    68.1,
+    75.6
+   ],
+   "n": 8
+  },
+  "medium": {
+   "mean": 63.8,
+   "ci95": [
+    47.5,
+    76.2
+   ],
+   "n": 8
+  },
+  "hard": {
+   "mean": 66.3,
+   "ci95": [
+    56.2,
+    75.0
+   ],
+   "n": 8
+  },
+  "trickier": {
+   "mean": 66.9,
+   "ci95": [
+    61.9,
+    71.9
+   ],
+   "n": 8
+  },
+  "harder": {
+   "mean": 64.1,
+   "ci95": [
+    58.8,
+    69.1
+   ],
+   "n": 8
+  }
+ },
+ "KF_by_level": {
+  "easy": {
+   "mean": 36.2,
+   "ci95": [
+    30.0,
+    42.5
+   ],
+   "n": 8
+  },
+  "medium": {
+   "mean": 41.2,
+   "ci95": [
+    28.7,
+    53.8
+   ],
+   "n": 8
+  },
+  "hard": {
+   "mean": 47.5,
+   "ci95": [
+    33.8,
+    60.0
+   ],
+   "n": 8
+  },
+  "trickier": {
+   "mean": 47.5,
+   "ci95": [
+    37.5,
+    56.2
+   ],
+   "n": 8
+  },
+  "harder": {
+   "mean": 46.2,
+   "ci95": [
+    43.1,
+    49.4
+   ],
+   "n": 8
+  }
+ },
+ "length_by_level": {
+  "easy": {
+   "stem_words": 14.1,
+   "option_words": 4.0
+  },
+  "hard": {
+   "stem_words": 28.3,
+   "option_words": 9.5
+  },
+  "harder": {
+   "stem_words": 27.7,
+   "option_words": 8.4
+  },
+  "medium": {
+   "stem_words": 21.1,
+   "option_words": 6.6
+  },
+  "trickier": {
+   "stem_words": 27.1,
+   "option_words": 8.4
+  }
+ },
+ "harder_than_last_PD_change": {
+  "mean": -2.2,
+  "ci95": [
+   -7.8,
+   3.1
+  ],
+  "n": 16
+ },
+ "hard_minus_easy_PD": {
+  "mean": -5.0,
+  "ci95": [
+   -14.4,
+   4.4
+  ],
+  "n": 8
+ },
+ "claims_needed_before_agreement": {
+  "distribution": {
+   "5": 4
+  },
+  "note": "1-4 = claim level at first agreement by both judges; 5 = never"
+ },
+ "notes_rates_rounds4_7_and_ready": {
+  "CLAIM": {
+   "agree": 0.0,
+   "proof": 25.0,
+   "ready": 0.0,
+   "eased": 5.0
+  },
+  "FAIL-HI": {
+   "agree": 0.0,
+   "proof": 5.0,
+   "ready": 0.0,
+   "eased": 5.0
+  },
+  "FAIL-LO": {
+   "agree": 0.0,
+   "proof": 15.0,
+   "ready": 0.0,
+   "eased": 0.0
+  },
+  "IMP": {
+   "agree": 0.0,
+   "proof": 10.0,
+   "ready": 5.0,
+   "eased": 5.0
+  }
+ },
+ "judge_kappa_nonempty": {
+  "declares_ready": 0.97,
+  "agrees_with_mastery_claim": 0.45,
+  "asks_for_proof": 0.86,
+  "difficulty_stated": 0.85,
+  "mentions_weak_topics": 0.89,
+  "cites_evidence": 0.82
+ },
+ "n_nonempty_replies": 104,
+ "note_nonempty_share_by_type": {
+  "CLAIM": 100.0,
+  "FAIL-HI": 67.9,
+  "FAIL-LO": 71.4,
+  "IMP": 75.0
+ },
+ "IMP_manipulation_learner_acc_r4_7": null,
+ "IMP_writer_response_PD_r5_7": null,
+ "weak_topic_retention_by_type": {
+  "CLAIM": {
+   "weak_retention": 83.3,
+   "weak_retention_area": 90.0
+  },
+  "FAIL-HI": {
+   "weak_retention": 82.1,
+   "weak_retention_area": 92.9
+  },
+  "FAIL-LO": {
+   "weak_retention": 41.2,
+   "weak_retention_area": 56.2
+  },
+  "IMP": {
+   "weak_retention": 74.2,
+   "weak_retention_area": 80.8
+  }
+ },
+ "weak_topic_retention_HI_minus_LO": {
+  "diff": 38.3,
+  "ci95": [
+   35.0,
+   41.7
+  ],
+  "n": [
+   2,
+   2
+  ]
+ },
+ "part_A_trigger": {
+  "estimate": null,
+  "rule": {
+   "min_pts": 3.0,
+   "ci": 80
+  },
+  "run_part_A": false
+ },
+ "pilot_measures": {
+  "key_check": 0.977,
+  "tells_adv_r5_7": {
+   "pts": 16.4,
+   "ci95": [
+    7.9,
+    24.6
+   ],
+   "n_sessions": 16
+  },
+  "style_only_adv_r5_7": null,
+  "near_repeat_share": 0.188,
+  "tricks_hint_pct": {
+   "drop_absolutes": 2.9,
+   "like_earlier_answers": 25.4,
+   "longest": 37.1,
+   "stem_overlap": 14.2
+  },
+  "teach_echo_share": null,
+  "teach_echo_control_F": null,
+  "nohist_hint_pct": 66.2
+ }
+}

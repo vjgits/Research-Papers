@@ -1,0 +1,380 @@
+{
+ "full_fictional": {
+  "mode": "full",
+  "domain": "fictional",
+  "baseline_options_only_N": 0.787,
+  "sd_slot_logit": 2.035,
+  "solves_per_item": 2,
+  "grid": [
+   {
+    "slots": 20,
+    "samples_per_cell": 1,
+    "effect_pts": 6,
+    "power": 0.15
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 1,
+    "effect_pts": 8,
+    "power": 0.22
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 1,
+    "effect_pts": 10,
+    "power": 0.34
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 3,
+    "effect_pts": 6,
+    "power": 0.29
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 3,
+    "effect_pts": 8,
+    "power": 0.5
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 3,
+    "effect_pts": 10,
+    "power": 0.71
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 5,
+    "effect_pts": 6,
+    "power": 0.42
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 5,
+    "effect_pts": 8,
+    "power": 0.66
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 5,
+    "effect_pts": 10,
+    "power": 0.91
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 8,
+    "effect_pts": 6,
+    "power": 0.55
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 8,
+    "effect_pts": 8,
+    "power": 0.84
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 8,
+    "effect_pts": 10,
+    "power": 0.97
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 12,
+    "effect_pts": 6,
+    "power": 0.7
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 12,
+    "effect_pts": 8,
+    "power": 0.93
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 12,
+    "effect_pts": 10,
+    "power": 0.99
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 1,
+    "effect_pts": 6,
+    "power": 0.22
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 1,
+    "effect_pts": 8,
+    "power": 0.37
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 1,
+    "effect_pts": 10,
+    "power": 0.59
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 3,
+    "effect_pts": 6,
+    "power": 0.5
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 3,
+    "effect_pts": 8,
+    "power": 0.79
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 3,
+    "effect_pts": 10,
+    "power": 0.96
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 5,
+    "effect_pts": 6,
+    "power": 0.7
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 5,
+    "effect_pts": 8,
+    "power": 0.94
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 5,
+    "effect_pts": 10,
+    "power": 1.0
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 8,
+    "effect_pts": 6,
+    "power": 0.87
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 8,
+    "effect_pts": 8,
+    "power": 0.98
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 8,
+    "effect_pts": 10,
+    "power": 1.0
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 12,
+    "effect_pts": 6,
+    "power": 0.95
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 12,
+    "effect_pts": 8,
+    "power": 1.0
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 12,
+    "effect_pts": 10,
+    "power": 1.0
+   }
+  ]
+ },
+ "options_only_fictional": {
+  "mode": "options_only",
+  "domain": "fictional",
+  "baseline_options_only_N": 0.675,
+  "sd_slot_logit": 2.487,
+  "solves_per_item": 2,
+  "grid": [
+   {
+    "slots": 20,
+    "samples_per_cell": 1,
+    "effect_pts": 6,
+    "power": 0.1
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 1,
+    "effect_pts": 8,
+    "power": 0.13
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 1,
+    "effect_pts": 10,
+    "power": 0.18
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 3,
+    "effect_pts": 6,
+    "power": 0.18
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 3,
+    "effect_pts": 8,
+    "power": 0.3
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 3,
+    "effect_pts": 10,
+    "power": 0.41
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 5,
+    "effect_pts": 6,
+    "power": 0.24
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 5,
+    "effect_pts": 8,
+    "power": 0.42
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 5,
+    "effect_pts": 10,
+    "power": 0.62
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 8,
+    "effect_pts": 6,
+    "power": 0.35
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 8,
+    "effect_pts": 8,
+    "power": 0.54
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 8,
+    "effect_pts": 10,
+    "power": 0.74
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 12,
+    "effect_pts": 6,
+    "power": 0.41
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 12,
+    "effect_pts": 8,
+    "power": 0.68
+   },
+   {
+    "slots": 20,
+    "samples_per_cell": 12,
+    "effect_pts": 10,
+    "power": 0.86
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 1,
+    "effect_pts": 6,
+    "power": 0.14
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 1,
+    "effect_pts": 8,
+    "power": 0.21
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 1,
+    "effect_pts": 10,
+    "power": 0.33
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 3,
+    "effect_pts": 6,
+    "power": 0.29
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 3,
+    "effect_pts": 8,
+    "power": 0.47
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 3,
+    "effect_pts": 10,
+    "power": 0.74
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 5,
+    "effect_pts": 6,
+    "power": 0.4
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 5,
+    "effect_pts": 8,
+    "power": 0.69
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 5,
+    "effect_pts": 10,
+    "power": 0.89
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 8,
+    "effect_pts": 6,
+    "power": 0.57
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 8,
+    "effect_pts": 8,
+    "power": 0.84
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 8,
+    "effect_pts": 10,
+    "power": 0.97
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 12,
+    "effect_pts": 6,
+    "power": 0.74
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 12,
+    "effect_pts": 8,
+    "power": 0.94
+   },
+   {
+    "slots": 40,
+    "samples_per_cell": 12,
+    "effect_pts": 10,
+    "power": 0.99
+   }
+  ]
+ }
+}
