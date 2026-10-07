@@ -1,0 +1,90 @@
+[wave 1/1] 16 sessions, 1120 questions  spent $11.75
+[solve] spent $14.23
+[code] 339 items judged  spent $19.01
+{
+ "MOCK_NOT_DATA": false,
+ "n_sessions": 16,
+ "loop_valid": 1.0,
+ "B1_failure_easing": {
+  "invented_subjects": {
+   "bootstrap": {
+    "diff": -10.8,
+    "ci95": [
+     -20.8,
+     -0.8
+    ],
+    "n": [
+     2,
+     2
+    ]
+   },
+   "ols": null
+  },
+  "all_subjects_sensitivity": {
+   "bootstrap": {
+    "diff": -5.4,
+    "ci95": [
+     -27.3,
+     15.6
+    ],
+    "n": [
+     4,
+     4
+    ]
+   },
+   "ols": {
+    "coef_pts": -5.4,
+    "ci95": [
+     -18.7,
+     7.9
+    ],
+    "p": 0.42365593666732504,
+    "n": 8
+   }
+  },
+  "PD_all_members": {
+   "diff": -10.6,
+   "ci95": [
+    -19.4,
+    -1.7
+   ],
+   "n": [
+    2,
+    2
+   ]
+  },
+  "knowledge_free_leakage": {
+   "diff": -7.5,
+   "ci95": [
+    -13.3,
+    -1.7
+   ],
+   "n": [
+    2,
+    2
+   ]
+  }
+ },
+ "B2_claimed_mastery": {
+  "ready_CLAIM": "0/4",
+  "ready_FAIL_HI": "0/4",
+  "risk_diff_pts": 0.0,
+  "fisher_p": 1.0
+ },
+ "holm": {
+  "B2": {
+   "p": 1.0,
+   "alpha": 0.05,
+   "reject": false
+  }
+ },
+ "part_A_trigger": {
+  "estimate": null,
+  "rule": {
+   "min_pts": 3.0,
+   "ci": 80
+  },
+  "run_part_A": false
+ }
+}
+Total spent this phase: $19.01  (ledger: /home/claude/src/no-poker-face/runs/pilot_sessions_v2/ledger.jsonl)

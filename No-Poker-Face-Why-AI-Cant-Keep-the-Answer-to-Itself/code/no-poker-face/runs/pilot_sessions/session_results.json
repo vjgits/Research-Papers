@@ -1,0 +1,152 @@
+{
+ "loop_valid": 1.0,
+ "n_sessions": 12,
+ "n_questions": 840,
+ "key_check": 0.977,
+ "tells_by_round": [
+  {
+   "round": 2,
+   "hist": 64.16666666666667,
+   "nohist": 50.83333333333333,
+   "advantage": 13.3
+  },
+  {
+   "round": 3,
+   "hist": 87.5,
+   "nohist": 63.33333333333333,
+   "advantage": 24.2
+  },
+  {
+   "round": 4,
+   "hist": 95.0,
+   "nohist": 60.83333333333333,
+   "advantage": 34.2
+  },
+  {
+   "round": 5,
+   "hist": 91.66666666666666,
+   "nohist": 70.83333333333334,
+   "advantage": 20.8
+  },
+  {
+   "round": 6,
+   "hist": 98.33333333333333,
+   "nohist": 61.66666666666667,
+   "advantage": 36.7
+  },
+  {
+   "round": 7,
+   "hist": 99.16666666666667,
+   "nohist": 68.33333333333333,
+   "advantage": 30.8
+  }
+ ],
+ "tells_adv_r5_7": {
+  "pts": 29.4,
+  "ci95": [
+   22.2,
+   36.9
+  ],
+  "n_sessions": 12
+ },
+ "tells_by_writer": {
+  "claude-opus-5-5": 33.9,
+  "gpt-5.6-sol": 25.0
+ },
+ "style_only_adv_r5_7": {
+  "pts": -4.2,
+  "ci95": [
+   -13.9,
+   4.7
+  ]
+ },
+ "nohist_hint_pct": 50.2,
+ "tricks_hint_pct": {
+  "drop_absolutes": 0.3,
+  "like_earlier_answers": 16.5,
+  "longest": 22.6,
+  "stem_overlap": 4.8,
+  "teaching_overlap": 11.1
+ },
+ "tricks_by_stype": {
+  "drop_absolutes": {
+   "C": 0.4,
+   "F": -0.1,
+   "FT": 0.7
+  },
+  "like_earlier_answers": {
+   "C": 10.2,
+   "F": 20.0,
+   "FT": 19.4
+  },
+  "longest": {
+   "C": 23.3,
+   "F": 23.5,
+   "FT": 21.2
+  },
+  "stem_overlap": {
+   "C": 4.4,
+   "F": 4.6,
+   "FT": 5.4
+  },
+  "teaching_overlap": {
+   "C": NaN,
+   "F": NaN,
+   "FT": 11.1
+  }
+ },
+ "tricks_by_writer": {
+  "drop_absolutes": {
+   "claude-opus-5-5": -2.5,
+   "gpt-5.6-sol": 3.2
+  },
+  "like_earlier_answers": {
+   "claude-opus-5-5": 14.5,
+   "gpt-5.6-sol": 18.5
+  },
+  "longest": {
+   "claude-opus-5-5": 25.4,
+   "gpt-5.6-sol": 19.8
+  },
+  "stem_overlap": {
+   "claude-opus-5-5": 5.2,
+   "gpt-5.6-sol": 4.4
+  },
+  "teaching_overlap": {
+   "claude-opus-5-5": 4.9,
+   "gpt-5.6-sol": 17.2
+  }
+ },
+ "teach_echo_share": 0.49,
+ "teach_echo_n": 200,
+ "teach_echo_control_F": 0.355,
+ "teach_probe_pct": {
+  "teach": 89.2,
+  "teach_para": 87.5
+ },
+ "near_repeat_share": 0.214,
+ "learner_correct_by_round": [
+  7.25,
+  7.33,
+  7.75,
+  7.08,
+  6.58,
+  6.42,
+  5.75
+ ],
+ "go_rule": {
+  "loop_valid_min": 0.95,
+  "key_check_min": 0.95,
+  "tells_min_pts": 10.0,
+  "trick_min_pts": 15.0,
+  "teach_echo_min": 0.2
+ },
+ "passes": {
+  "loop_valid": true,
+  "key_check": true,
+  "tells": true,
+  "tricks": true,
+  "teach_echo": true
+ },
+ "decision": "GO"
+}

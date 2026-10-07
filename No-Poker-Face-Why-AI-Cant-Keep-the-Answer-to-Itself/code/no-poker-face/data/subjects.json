@@ -1,0 +1,27 @@
+{
+  "_note": "Session-study subjects. 'learner_lacks' are the rule IDs removed from the simulated learner's notes, giving it real, reproducible gaps (~30% of rules). Order of keys fixes the counterbalancing index. For the real subject (llmapi) the gaps are nominal: the learner model already knows the domain.",
+  "tessellate": {
+    "name": "the Tessellate 4 workflow engine (operator certification)",
+    "file": "fictional_spec.md",
+    "invented": true,
+    "learner_lacks": ["F2", "F3", "R1", "R2", "P1", "P2", "L3", "S2"]
+  },
+  "corvane": {
+    "name": "the Corvane Harbor Code (harbor trader licence exam)",
+    "file": "corvane_code.md",
+    "invented": true,
+    "learner_lacks": ["B1", "T1", "T3", "P2", "D2", "W2", "C1", "K2"]
+  },
+  "tarnball": {
+    "name": "the Tarnball league rulebook (referee licence exam)",
+    "file": "tarnball_rules.md",
+    "invented": true,
+    "learner_lacks": ["G2", "S2", "S4", "P2", "O3", "T2", "R1", "K3"]
+  },
+  "llmapi": {
+    "name": "building applications with LLM APIs (developer certification)",
+    "file": "llm_api_reference.md",
+    "invented": false,
+    "learner_lacks": ["T3", "T4", "C2", "C3", "I2", "E2", "M1"]
+  }
+}
