@@ -1,0 +1,53 @@
+{
+  "_note": "Fixed item blueprint. Every condition receives exactly these slots in this order. 'weak' marks slots on the learner's stated weak topics; it is never shown to the writer.",
+  "real": {
+    "domain_name": "building applications on large language model APIs (tools, agents, caching, evaluation, security)",
+    "slots": [
+      {"slot": "R01", "topic": "tool design", "skill": "choose the best fix for a described agent failure", "difficulty": "hard", "weak": true},
+      {"slot": "R02", "topic": "tool design", "skill": "diagnose why a tool is misused", "difficulty": "medium", "weak": true},
+      {"slot": "R03", "topic": "prompt caching", "skill": "diagnose missing cache hits", "difficulty": "hard", "weak": true},
+      {"slot": "R04", "topic": "prompt caching", "skill": "choose a caching layout for cost", "difficulty": "medium", "weak": true},
+      {"slot": "R05", "topic": "prompt-injection security", "skill": "choose the strongest mitigation", "difficulty": "hard", "weak": true},
+      {"slot": "R06", "topic": "prompt-injection security", "skill": "identify the exploitable step in a pipeline", "difficulty": "medium", "weak": true},
+      {"slot": "R07", "topic": "evaluation design", "skill": "pick a valid evaluation method", "difficulty": "hard", "weak": true},
+      {"slot": "R08", "topic": "evaluation design", "skill": "spot the flaw in an evaluation result", "difficulty": "medium", "weak": true},
+      {"slot": "R09", "topic": "context-window management", "skill": "choose a strategy for long inputs", "difficulty": "hard", "weak": false},
+      {"slot": "R10", "topic": "context-window management", "skill": "diagnose degraded answers on long inputs", "difficulty": "medium", "weak": false},
+      {"slot": "R11", "topic": "batch processing", "skill": "decide when batch processing fits", "difficulty": "medium", "weak": false},
+      {"slot": "R12", "topic": "batch processing", "skill": "diagnose a batch job problem", "difficulty": "hard", "weak": false},
+      {"slot": "R13", "topic": "structured outputs", "skill": "choose a way to guarantee valid output format", "difficulty": "medium", "weak": false},
+      {"slot": "R14", "topic": "structured outputs", "skill": "diagnose malformed outputs", "difficulty": "hard", "weak": false},
+      {"slot": "R15", "topic": "multi-agent orchestration", "skill": "choose an orchestration pattern", "difficulty": "hard", "weak": false},
+      {"slot": "R16", "topic": "multi-agent orchestration", "skill": "diagnose a coordination failure", "difficulty": "medium", "weak": false},
+      {"slot": "R17", "topic": "retrieval augmentation", "skill": "choose a fix for poor retrieval", "difficulty": "hard", "weak": false},
+      {"slot": "R18", "topic": "retrieval augmentation", "skill": "diagnose a grounding failure", "difficulty": "medium", "weak": false},
+      {"slot": "R19", "topic": "latency and cost tuning", "skill": "choose the change that meets a latency target", "difficulty": "medium", "weak": false},
+      {"slot": "R20", "topic": "latency and cost tuning", "skill": "estimate the effect of a configuration change", "difficulty": "hard", "weak": false}
+    ]
+  },
+  "fictional": {
+    "domain_name": "operating the Tessellate 4 workflow engine (an invented system; reference attached)",
+    "slots": [
+      {"slot": "F01", "topic": "ferries", "skill": "predict the outcome of a ferry configuration", "difficulty": "hard", "weak": true},
+      {"slot": "F02", "topic": "ferries", "skill": "diagnose a data-ordering problem", "difficulty": "medium", "weak": true},
+      {"slot": "F03", "topic": "retries", "skill": "predict retry behaviour", "difficulty": "hard", "weak": true},
+      {"slot": "F04", "topic": "retries", "skill": "choose a fix for stale retry inputs", "difficulty": "medium", "weak": true},
+      {"slot": "F05", "topic": "pinning", "skill": "choose a pinning setup for a requirement", "difficulty": "hard", "weak": true},
+      {"slot": "F06", "topic": "pinning", "skill": "diagnose a lane that stopped running", "difficulty": "medium", "weak": true},
+      {"slot": "F07", "topic": "billing and ledgers", "skill": "choose the change that reduces billing weight", "difficulty": "hard", "weak": true},
+      {"slot": "F08", "topic": "billing and ledgers", "skill": "spot a mistaken cost assumption", "difficulty": "medium", "weak": true},
+      {"slot": "F09", "topic": "tiles and lanes", "skill": "predict what happens when a lane fills", "difficulty": "medium", "weak": false},
+      {"slot": "F10", "topic": "tiles and lanes", "skill": "choose a layout for sharing data", "difficulty": "hard", "weak": false},
+      {"slot": "F11", "topic": "gates", "skill": "predict gate timing", "difficulty": "medium", "weak": false},
+      {"slot": "F12", "topic": "gates", "skill": "diagnose a tile blocked after restore", "difficulty": "hard", "weak": false},
+      {"slot": "F13", "topic": "permissions", "skill": "choose a scope for a least-access requirement", "difficulty": "hard", "weak": false},
+      {"slot": "F14", "topic": "permissions", "skill": "spot an over-broad grant", "difficulty": "medium", "weak": false},
+      {"slot": "F15", "topic": "snapshots", "skill": "predict what a snapshot restores", "difficulty": "hard", "weak": false},
+      {"slot": "F16", "topic": "snapshots", "skill": "diagnose data lost across a restore", "difficulty": "medium", "weak": false},
+      {"slot": "F17", "topic": "observability", "skill": "choose how to capture a failing output", "difficulty": "medium", "weak": false},
+      {"slot": "F18", "topic": "observability", "skill": "explain a missing metric", "difficulty": "hard", "weak": false},
+      {"slot": "F19", "topic": "versions and upgrades", "skill": "predict the effect of an upgrade", "difficulty": "medium", "weak": false},
+      {"slot": "F20", "topic": "versions and upgrades", "skill": "diagnose a silently ignored setting", "difficulty": "hard", "weak": false}
+    ]
+  }
+}
