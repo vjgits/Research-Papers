@@ -10,7 +10,7 @@ New in this folder: two new invented subjects (`data/ostrel_rules.md`, `data/vel
 ```
 python run_followup.py estimate            # cost from the main run's measured per-call costs (paths to those ledgers are local)
 python run_followup.py run --mock          # offline test; synthetic outputs, never data
-python run_followup.py run --budget 110    # real run; hard stop at the cap
+python run_followup.py run --budget 90    # real run; hard stop at the cap
 python run_followup.py analyze
 ```
 

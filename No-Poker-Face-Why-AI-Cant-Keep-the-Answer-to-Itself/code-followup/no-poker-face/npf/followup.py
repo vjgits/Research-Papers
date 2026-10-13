@@ -4,7 +4,7 @@ distractor-matching instruction reduce it?  Fresh data only: two NEW invented su
 Design (confirmatory writers: claude-opus-5-5, gpt-5.6-sol):
   C     no-feedback session, exactly as the main run's C sessions (7 rounds x 10 questions, orders A/B)  18 reps/subject
   CFIX  the same, plus FIX_TEXT in every request                                                     10 reps/subject
-Exploratory: gemini-3.1-pro-preview, C and CFIX, 4 reps/subject each (evaluated only by Anthropic/OpenAI models).
+Gemini writer arm: dropped before registration (author decision 2026-10-12, option B); REPS for it are 0.
 
 Per session: writer rounds + learner + 3-member panel (as main run), readiness turn, then two probes per round by each of
 the two cross-family strong solvers: 'nohist' (no material: knowledge-free accuracy, KF) and 'spec' (with material: key
@@ -22,7 +22,7 @@ from .sessions_v2 import order_for, probe_solvers, run_session
 SUBJECTS_FU = ["ostrel", "velloran"]
 CONFIRM_WRITERS = ["claude-opus-5-5", "gpt-5.6-sol"]
 GEMINI_WRITER = "gemini-3.1-pro-preview"
-REPS = {("confirm", "C"): 18, ("confirm", "CFIX"): 10, ("gemini", "C"): 4, ("gemini", "CFIX"): 4}
+REPS = {("confirm", "C"): 18, ("confirm", "CFIX"): 10, ("gemini", "C"): 0, ("gemini", "CFIX"): 0}   # author decision 2026-10-12: option B, no Gemini arm
 N_WAVES = max(REPS.values())
 
 
