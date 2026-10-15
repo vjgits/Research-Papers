@@ -26,7 +26,7 @@ Do AI models write practice questions that give away their own answers, and does
 
 **Contents:**
 
-- `paper/`: the paper (PDF and its Markdown source, figures)
+- `paper/v1.1/`: the paper (PDF and its Markdown source); `paper/fig/`: figures
 - `results/`: analysis outputs for the main run, the Gemini arm, the follow-up, and the labelled exploratory
   additions
 - `preregistration/`: the registered documents (v0.2 = osf.io/uya5q; Addenda 1 and 2)

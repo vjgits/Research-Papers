@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the paper."
+title: "No Poker Face: Why AI Can't Keep the Answer to Itself"
+type: article
+version: "1.1"
+date-released: 2026-10-15
+doi: 10.5281/zenodo.23398343
+license: CC-BY-4.0
+url: "https://doi.org/10.5281/zenodo.23398343"
+repository-code: "https://github.com/vjgits/research-papers/tree/main/No-Poker-Face-Why-AI-Cant-Keep-the-Answer-to-Itself"
+authors:
+  - family-names: Suresh
+    given-names: Vijay
+    affiliation: Independent Researcher
+    orcid: "https://orcid.org/0009-0004-1471-0561"
+keywords:
+  - clue leakage
+  - LLM evaluation
+  - multiple-choice questions
+  - AI tutoring
+  - sycophancy
+  - pre-registration

@@ -57,6 +57,19 @@ This paper reframes AI-driven labor disruption as a **dynamic transition-control
 - **Project folder:** [Managing-the-AI-Transition-Overshoot-Non-Replacement-and-Adaptive-Policy](./Managing-the-AI-Transition-Overshoot-Non-Replacement-and-Adaptive-Policy/)
 - **Zenodo paper:** [doi:10.5281/zenodo.20078381](https://doi.org/10.5281/zenodo.20078381)
 
+### 5. No Poker Face: Why AI Can't Keep the Answer to Itself
+
+**A pre-registered study of clue leakage and difficulty in AI-written practice questions**  
+Current version: **v1.1 · October 2026**
+
+Learners increasingly ask AI models to write practice questions, but a question is only useful if answering it requires the knowledge it tests. Using invented subjects that no model can know, this paper measures **clue leakage**: how often a solver with no study material can still pick the right answer. In a pre-registered study of 168 study sessions, writers did not ease off after reported failure or call a learner ready on a claimed mastery, but about half of all questions were answerable without the material (chance 25%). A pre-registered follow-up on new subjects confirmed that asking for "harder" questions makes them more guessable (+5.9 points, p = 0.002), and showed that removing the "longest option is correct" cue does not remove the leak.
+
+- **Project folder:** [No-Poker-Face-Why-AI-Cant-Keep-the-Answer-to-Itself](./No-Poker-Face-Why-AI-Cant-Keep-the-Answer-to-Itself/)
+- **Current PDF v1.1:** [Download manuscript](./No-Poker-Face-Why-AI-Cant-Keep-the-Answer-to-Itself/paper/v1.1/No-Poker-Face-v1.1.pdf)
+- **Paper, data and code (v1.1):** [doi:10.5281/zenodo.23398343](https://doi.org/10.5281/zenodo.23398343)
+- **Pre-registrations (OSF):** [osf.io/uya5q](https://osf.io/uya5q) · [osf.io/93vpn](https://osf.io/93vpn) · [osf.io/3z64e](https://osf.io/3z64e)
+- **arXiv:** pending endorsement
+
 ## Canonical Zenodo index
 
 | Research object | DOI |
@@ -68,6 +81,7 @@ This paper reframes AI-driven labor disruption as a **dynamic transition-control
 | Emergent Deception Pre-registration Protocol v1.3 | [10.5281/zenodo.22245523](https://doi.org/10.5281/zenodo.22245523) |
 | Observed Recoverable Behavioral Failures in LLM Workflows | [10.5281/zenodo.20271844](https://doi.org/10.5281/zenodo.20271844) |
 | Managing the AI Transition: Overshoot, Non-Replacement, and Adaptive Policy | [10.5281/zenodo.20078381](https://doi.org/10.5281/zenodo.20078381) |
+| No Poker Face: Why AI Can't Keep the Answer to Itself — v1.1 (paper, data and code) | [10.5281/zenodo.23398343](https://doi.org/10.5281/zenodo.23398343) |
 
 ## Repository organization
 
@@ -79,6 +93,7 @@ Research-Papers/
 ├── Emergent-Deception-in-Large-Language-Models/
 ├── Boundary-Contamination-in-LLM-Workflows/
 ├── Managing-the-AI-Transition-Overshoot-Non-Replacement-and-Adaptive-Policy/
+├── No-Poker-Face-Why-AI-Cant-Keep-the-Answer-to-Itself/
 └── archive/
 ```
 
