@@ -298,7 +298,7 @@ Within the same session, hard minus easy was −4.4 points [−7.3, −1.5]: a r
 than doubled question length. "Harder than the last set" changed panel accuracy by −1.9 points [−4.0, +0.1] relative to
 the previous set.
 
-![Panel accuracy (left) and no-material accuracy (right) by requested difficulty. Shaded bands: 95% session-bootstrap intervals. Exact values in the tables in 6.4 and Appendix B.](fig/fig1_levels.png)
+![Panel accuracy (left) and no-material accuracy (right) by requested difficulty. Shaded bands: 95% session-bootstrap intervals. Exact values in the tables in 6.4 and Appendix B.](../fig/fig1_levels.png)
 
 ### 6.5 Harder requests leak more (secondary; confirmed in Section 7)
 In invented subjects, a solver with **no material** answered half of all questions correctly at every level, twice
@@ -385,7 +385,7 @@ Leakage did not fall, though: overall KF was 54.8% in C and 57.0% in CFIX. The i
 difficulty gradient (hard-minus-easy d = −2.5 in CFIX against +5.9 in C; difference −8.4 [−14.1, −2.3], secondary).
 It did so by raising easy-round leakage (49.4% → 58.8%), not by lowering hard-round leakage.
 
-![Follow-up study. Left: no-material accuracy by requested level, plain (C) vs with the distractor-matching instruction (CFIX). Right: share of questions whose correct option is the longest.](fig/fig2_followup.png)
+![Follow-up study. Left: no-material accuracy by requested level, plain (C) vs with the distractor-matching instruction (CFIX). Right: share of questions whose correct option is the longest.](../fig/fig2_followup.png)
 
 **Secondary (descriptive).**
 
