@@ -1,0 +1,11 @@
+body{font-family:"DejaVu Serif",Georgia,serif;font-size:10.5pt;line-height:1.45;color:#1b1f24;max-width:none;margin:0}
+header h1.title{font-family:"DejaVu Sans",sans-serif;font-size:20pt;margin:0 0 4px}
+.subtitle{font-size:12pt;color:#52514e;margin:0 0 6px}
+.author,.date{font-size:10pt;color:#52514e;margin:0}
+h2{font-family:"DejaVu Sans",sans-serif;font-size:13pt;margin:18px 0 6px;border-bottom:1px solid #c9d1d9;padding-bottom:2px}
+h3{font-family:"DejaVu Sans",sans-serif;font-size:11pt;margin:12px 0 4px}
+table{border-collapse:collapse;margin:8px 0;font-size:9pt;page-break-inside:avoid}
+th,td{border-bottom:1px solid #d8dde3;padding:3px 7px;text-align:left;vertical-align:top}
+th{background:#f2f5f8}
+figure{margin:10px 0;page-break-inside:avoid} figure img{width:100%} figcaption{font-size:8.5pt;color:#52514e}
+code{font-size:9pt} li{margin-bottom:2px} p{margin:5px 0}
