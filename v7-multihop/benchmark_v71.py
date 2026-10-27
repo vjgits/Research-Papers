@@ -15,7 +15,7 @@ No paid APIs, no generated answers, no claims of scientific novelty.
 import argparse, collections, hashlib, json, math, pathlib, time
 import numpy as np
 import ahocorasick
-from benchmark_v7 import Methods, chain_scores, get_records, make_corpus, DENSE_MODEL
+from benchmark_v7 import Methods, chain_scores, make_corpus, DENSE_MODEL, DATA_URL, SEED as WIKI_SEED
 from benchmark_musique import load_sample, pool_documents, id_of
 
 SEED="v71-2026-10-27"
@@ -84,9 +84,11 @@ class EvidenceLedger:
         seeds=list(dict.fromkeys(initial[:BASE_SEEDS]))
         initial_baseline=list(initial)
         if not seeds:return initial_baseline,{"time_ms":0,"expanded":0,"edges_tested":0,"depth":0,"memory_ids":0}
-        raremass=max(sum(idx.idfs.get(term,0) for term,j in idx.words.vocabulary_.items() if j in qset),1e-8)
+        vocab_terms=idx.words.get_feature_names_out()
+        qidf={j:float(idx.idfs.get(vocab_terms[j],0.)) for j in qset}
+        raremass=max(sum(qidf.values()),1e-8)
         def mass(terms):
-            return sum(float(idx.idfs.get(idx.words.get_feature_names_out()[j],0)) for j in terms&qset)/raremass
+            return sum(qidf[j] for j in terms&qset)/raremass
         # Non-parameter, non-LLM memory: a compact set of seen document IDs
         # and query-term indices, plus a path showing explicit source mentions.
         beam=[]
@@ -221,6 +223,29 @@ def evaluate_dataset(name,rows,docs,goldfn,output,model):
         "graph":ledger.stats,"dense_index_seconds":system.embed_s,
         "methods":summary}
 
+def load_2wiki_second_sample(dest):
+    """Read sample-2 IDs without modifying original V7 method or its sorting."""
+    import pyarrow.parquet as pq
+    import urllib.request
+    dest.mkdir(parents=True,exist_ok=True)
+    fname=dest/"2wiki_validation.parquet"
+    if not fname.exists():urllib.request.urlretrieve(DATA_URL,fname)
+    rows=pq.read_table(fname,columns=["id","question","type","supporting_facts","context"]).to_pylist()
+    rows.sort(key=lambda x:hashlib.sha256((WIKI_SEED+"|"+str(x["id"])).encode()).digest())
+    selected=[]
+    for r in rows:
+        ctx=r.get("context") or {}
+        titles=ctx.get("title") or []
+        paras=ctx.get("sentences") or []
+        sf=r.get("supporting_facts") or {}
+        required={t.strip().casefold() for t in sf.get("title") or [] if t}
+        available={str(t).strip().casefold() for t in titles}
+        if titles and len(titles)==len(paras) and len(required)>=2 and required<=available:
+            selected.append(r)
+            if len(selected)>=480:break
+    if len(selected)<480:raise ValueError("Insufficient 2Wiki validation records")
+    return selected[240:480]
+
 def gold_2wiki(row):
     return {str(t).strip().casefold() for t in row["supporting_facts"]["title"]}
 
@@ -250,7 +275,7 @@ def main():
     model=SentenceTransformer(DENSE_MODEL,device="cpu")
     result=[]
     if "2wiki" in args.datasets:
-        rows=get_records(args.data,offset=240)
+        rows=load_2wiki_second_sample(args.data)
         result.append(evaluate_dataset("2wiki_disjoint_sample2",rows,make_corpus(rows),
              gold_2wiki,args.out,model))
     if "musique" in args.datasets:
