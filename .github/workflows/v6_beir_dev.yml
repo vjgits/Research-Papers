@@ -1,0 +1,47 @@
+name: Truth-Seeking V6 BEIR Development
+
+on:
+  push:
+    branches: [v6-beir-development-2026-10-27]
+    paths:
+      - 'v6-benchmark/**'
+      - '.github/workflows/v6_beir_dev.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: truth-v6-dev-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  benchmark-dev:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: v6-benchmark
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: v6-benchmark/requirements.txt
+      - name: Install numerical retrieval dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Run tests and smoke checks
+        run: |
+          python -m unittest discover -s tests -v
+          python benchmark_v6.py smoke
+      - name: Fetch official BEIR datasets and evaluate development partition
+        run: python benchmark_v6.py dev --datasets scifact nfcorpus --results results
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: truth-v6-dev-results
+          path: v6-benchmark/results/
+          if-no-files-found: warn
+          retention-days: 14
