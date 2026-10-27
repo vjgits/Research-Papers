@@ -155,7 +155,8 @@ class Methods:
         counts=collections.Counter()
         for rank,i in enumerate(bmids[:3]):
             for j in self.linked(i):counts[j]+=1/(rank+1)
-        graph=sorted(range(len(self.ids)),key=lambda i:(-(1/(61+bmids.index(i))+0.012*counts[i]),self.ids[i]))
+        bmrank={doc:pos for pos,doc in enumerate(bmids)}
+        graph=sorted(range(len(self.ids)),key=lambda i:(-(1/(61+bmrank[i])+0.012*counts[i]),self.ids[i]))
         ms_graph=(time.perf_counter()-t5)*1000
         return {"bm25":bmids,"tfidf":tfids,"dense":den_ids,"hybrid":hybrid,
                 "title_link_baseline":graph,"proofgap_v7":proof},{
