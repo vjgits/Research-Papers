@@ -9,7 +9,8 @@ supporting-title gold labels are disjoint from old HotpotQA experiments.
 All methods search the exact same documents and are evaluated at same k.
 No LLM generation, no paid APIs. Model/index costs reported separately.
 """
-import argparse, collections, hashlib, json, pathlib, re, time, urllib.request
+import argparse, collections, hashlib, json, pathlib, re, sys, time, urllib.request
+sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]/'v6-benchmark'))
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 from benchmark_v6 import Retriever
