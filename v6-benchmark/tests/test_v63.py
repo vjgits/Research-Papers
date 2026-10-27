@@ -24,12 +24,16 @@ class V63Tests(unittest.TestCase):
  def test_rank(self):
   self.assertEqual(stable_rank([0.1,0.4,0.2],["a","b","c"])[0],1)
  def test_no_benchmark_answers_for_reviewers(self):
+  import ast
   source=(pathlib.Path(__file__).resolve().parents[1]/"benchmark_v63.py").read_text()
-  context=source.split("def context_review(",1)[1].split("class EvidenceSystem:",1)[0]
-  evaluation=source.split("def evaluate_one(",1)[1].split("def eval_dataset(",1)[0]
-  for s in [context,evaluation]:
-   for forbidden in ["qrels","reference_answer","measures(","gold","ground_truth"]:
-    self.assertNotIn(forbidden,s)
+  tree=ast.parse(source)
+  check=[n for n in ast.walk(tree) if isinstance(n,ast.FunctionDef) and
+         n.name in ("context_review","evaluate_one")]
+  self.assertEqual(len(check),2)
+  for fn in check:
+   refs={n.id for n in ast.walk(fn) if isinstance(n,ast.Name)}
+   for forbidden in ["qrels","reference_answer","measures","gold","ground_truth"]:
+    self.assertNotIn(forbidden,refs)
  def test_qrels_filter(self):
   source=(pathlib.Path(__file__).resolve().parents[1]/"benchmark_v63.py").read_text()
   self.assertIn('partition(dataset,q["_id"])=="dev"',source)
