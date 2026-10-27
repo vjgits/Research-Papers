@@ -35,13 +35,14 @@ jobs:
         run: |
           python -m unittest discover -s tests -v
           python benchmark_v6.py smoke
-      - name: Fetch official BEIR datasets and evaluate development partition
-        run: python benchmark_v6.py dev --datasets scifact nfcorpus --results results
+          python benchmark_v61.py smoke
+      - name: Fetch official BEIR datasets and evaluate V6.1 development partition
+        run: python benchmark_v61.py dev --datasets scifact nfcorpus --results results-v61
       - name: Upload results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: truth-v6-dev-results
-          path: v6-benchmark/results/
+          name: truth-v61-dev-results
+          path: v6-benchmark/results-v61/
           if-no-files-found: warn
           retention-days: 14
