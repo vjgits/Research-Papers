@@ -1,7 +1,7 @@
-name: V7 Multi-hop Retrieval Benchmark (No Reviewers)
+name: V7 Multi-hop Independent Second Sample
 on:
   push:
-    branches: [v7-multihop-comparison-2026-10-27]
+    branches: [v7-second-sample-2026-10-27]
     paths:
       - 'v7-multihop/**'
       - '.github/workflows/v7_multihop.yml'
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: truth-v7-${{ github.ref }}
+  group: truth-v7-sample2-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -38,12 +38,12 @@ jobs:
           HF_HUB_DISABLE_TELEMETRY: '1'
           OMP_NUM_THREADS: '2'
         run: |
-          python -u benchmark_v7.py run --out results-v7
+          python -u benchmark_v7.py run --offset 240 --out results-v7
       - name: Upload score tables
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: truth-v7-multihop-retrieval
+          name: truth-v7-independent-second-sample
           path: v7-multihop/results-v7/
           if-no-files-found: warn
           retention-days: 14
