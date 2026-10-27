@@ -68,7 +68,9 @@ class EvidenceLedger:
         self.adj,self.stats=phrases(methods.index,methods.docs)
         self.stats["graph_index_seconds"]=time.perf_counter()-s
         self.term_sets=[doc_terms(methods.index,i) for i in range(len(methods.docs))]
-    def search(self,question,initial,mode="ledger",hops=HOPS):
+        names=methods.index.words.get_feature_names_out()
+        self.vocab_idf=np.asarray([methods.index.idfs.get(t,0.) for t in names],dtype=np.float32)
+    def search(self,question,initial,mode="ledger",hops=HOPS,bmraw=None):
         """Ablation switches ONLY prior-hop term memory; all remaining
         traversal constraints, seed set, and hop budget are identical.
         """
@@ -76,16 +78,15 @@ class EvidenceLedger:
         t0=time.perf_counter()
         idx=self.m.index
         qset=set(idx.query_words.transform([question]).indices)
-        bmraw=idx.search(question,"bm25",100)
-        bmpos={j:i for i,(j,s) in enumerate(bmraw)}
+        if bmraw is None:
+            bmraw=idx.search(question,"bm25",100)
         maxbm=max(1e-8,bmraw[0][1] if bmraw else 1.)
         bmscores={j:max(0.,s)/maxbm for j,s in bmraw}
         # initial is one ranking shared by both ledger and reset variants
         seeds=list(dict.fromkeys(initial[:BASE_SEEDS]))
         initial_baseline=list(initial)
         if not seeds:return initial_baseline,{"time_ms":0,"expanded":0,"edges_tested":0,"depth":0,"memory_ids":0}
-        vocab_terms=idx.words.get_feature_names_out()
-        qidf={j:float(idx.idfs.get(vocab_terms[j],0.)) for j in qset}
+        qidf={j:float(self.vocab_idf[j]) for j in qset}
         raremass=max(sum(qidf.values()),1e-8)
         def mass(terms):
             return sum(qidf[j] for j in terms&qset)/raremass
@@ -176,11 +177,12 @@ def evaluate_dataset(name,rows,docs,goldfn,output,model):
             "hybrid":ranks["hybrid"],
             "v7_onehop":ranks["proofgap_v7"]}
         meta={}
+        shared_bmraw=system.index.search(query,"bm25",100)
         for label,mode,depth in [("graph_onehop","one-hop",1),
              ("multihop_reset","reset",4),
              ("multihop_ledger","ledger",4),
              ("multihop_ledger2","ledger",2)]:
-            ranksout,stats=ledger.search(query,seedrank,mode=mode,hops=depth)
+            ranksout,stats=ledger.search(query,seedrank,mode=mode,hops=depth,bmraw=shared_bmraw)
             methods[label]=ranksout
             meta[label]=stats
             timings[label].append(stats["time_ms"])
