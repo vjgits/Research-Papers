@@ -42,12 +42,12 @@ jobs:
         env:
           TOKENIZERS_PARALLELISM: 'false'
           HF_HUB_DISABLE_TELEMETRY: '1'
-        run: python -u benchmark_v63.py dev-validation --out results-v63
+        run: python -u benchmark_v63.py dev-validation --datasets nfcorpus --out results-v63
       - name: Upload results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: truth-v63-dev-results
+          name: truth-v63-nfcorpus-results
           path: v6-benchmark/results-v63/
           if-no-files-found: warn
           retention-days: 14
