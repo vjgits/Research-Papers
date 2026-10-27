@@ -121,7 +121,7 @@ class EvidenceSystem:
                    convert_to_numpy=True),dtype=np.float32).reshape(-1)
         denseids=stable_rank(self.dense@qemb,self.bm.ids,100)
         timing["dense_ms"]=(time.perf_counter()-t)*1000
-        if not bmids or not denseids:raise ValueError("Empty retrieval result")
+        if not denseids:raise ValueError("Dense search returned no results")
         bset=set(bmids[:100])
         pool=list(dict.fromkeys(bmids[:BM25_POOL]+denseids[:DENSE_POOL]))
         # A query-blind-from-searcher reviewer: question+candidate text, without
@@ -151,7 +151,7 @@ class EvidenceSystem:
         # a new document over the initial BM25 top-10 only when it fills
         # otherwise unresolved terms, and the blind critic is favorable.
         bm10=bmids[:10]
-        baseline_ce=blind.get(bmids[0],0)
+        baseline_ce=blind.get(bmids[0],0) if bmids else 0.0
         approved=[]
         for i in blindrank:
             if i in bm10:continue
@@ -168,7 +168,12 @@ class EvidenceSystem:
         dual=list(bmids)
         if approved:
             candidate=approved[0]
-            dual=bmids[:4]+[candidate]+[i for i in bmids[4:] if i!=candidate]
+            if bmids:
+                dual=bmids[:4]+[candidate]+[i for i in bmids[4:] if i!=candidate]
+            else:
+                # No lexical matches. Allow a separately approved semantic
+                # source as an explicit recovery action, never invent BM25 hits.
+                dual=[candidate]+[i for i in denseids if i!=candidate]
             dual=dual[:100]
         # Published baselines and ablations:
         def fill(ids,back):
@@ -260,6 +265,7 @@ if __name__=="__main__":
     ap.add_argument("--out",type=pathlib.Path,default=pathlib.Path("results-v63"))
     ap.add_argument("--data",type=pathlib.Path,default=pathlib.Path("data"))
     ap.add_argument("--limit",type=int,default=0)
+    ap.add_argument("--datasets",nargs="+",choices=BENCHMARKS,default=list(BENCHMARKS))
     args=ap.parse_args()
     if args.command=="smoke":smoke();sys.exit(0)
     from sentence_transformers import SentenceTransformer,CrossEncoder
@@ -270,7 +276,7 @@ if __name__=="__main__":
     critic=CrossEncoder(REVIEW_MODEL,max_length=CE_MAX_LEN,device="cpu")
     print("Models loaded in seconds:",round(time.perf_counter()-start,1),flush=True)
     data=[]
-    for name in BENCHMARKS:
+    for name in args.datasets:
         data.extend(eval_dataset(name,download(name,args.data),args.out,embedder,critic,args.limit))
     (args.out/"summary.json").write_text(json.dumps({
         "version":"6.3","reviewer_type":"independent open-weight evidence scorers, not LLM agents",
