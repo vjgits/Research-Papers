@@ -2,7 +2,7 @@ name: Truth-Seeking V6 BEIR Development
 
 on:
   push:
-    branches: [v6-beir-development-2026-10-27]
+    branches: [v6-2-proofgap-2026-10-27]
     paths:
       - 'v6-benchmark/**'
       - '.github/workflows/v6_beir_dev.yml'
@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: truth-v6-dev-${{ github.ref }}
+  group: truth-v62-dev-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -36,13 +36,14 @@ jobs:
           python -m unittest discover -s tests -v
           python benchmark_v6.py smoke
           python benchmark_v61.py smoke
-      - name: Fetch official BEIR datasets and evaluate V6.1 development partition
-        run: python benchmark_v61.py dev --datasets scifact nfcorpus --results results-v61
+          python benchmark_v62.py smoke
+      - name: Execute V6.2 counterfactual action-value dev-fit/dev-validation
+        run: python benchmark_v62.py dev --out results-v62
       - name: Upload results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: truth-v61-dev-results
-          path: v6-benchmark/results-v61/
+          name: truth-v62-dev-results
+          path: v6-benchmark/results-v62/
           if-no-files-found: warn
           retention-days: 14
