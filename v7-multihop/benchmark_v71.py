@@ -148,13 +148,19 @@ class EvidenceLedger:
         # To avoid arbitrary long paths displacing all lexical answers,
         # keep one lexical anchor and then select complementary path docs.
         result=[initial_baseline[0]]
+        already={initial_baseline[0]}
         for score,path,seen in path_scores:
             for doc in path:
-                if doc not in result:result.append(doc)
+                if doc not in already:
+                    result.append(doc)
+                    already.add(doc)
                 if len(result)>=10:break
             if len(result)>=10:break
         for i in initial_baseline:
-            if i not in result:result.append(i)
+            if len(result)>=100:break
+            if i not in already:
+                result.append(i)
+                already.add(i)
         return result[:100],{"time_ms":(time.perf_counter()-t0)*1000,
            "expanded":expanded,"edges_tested":edges_tested,"depth":deepest,
            "memory_ids":max((len(path) for _,path,_ in allstates),default=0),
