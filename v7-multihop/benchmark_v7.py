@@ -19,7 +19,7 @@ SEED="v7-2wikimultihop-2026-10-27"
 NUM_QUESTIONS=240
 DENSE_MODEL="sentence-transformers/all-MiniLM-L6-v2"
 
-def get_records(dir):
+def get_records(dir,offset=0):
     import pyarrow.parquet as pq
     dir.mkdir(parents=True,exist_ok=True)
     f=dir/"2wiki_validation.parquet"
@@ -40,9 +40,9 @@ def get_records(dir):
         available={str(t).strip().casefold() for t in titles}
         if not gold<=available:continue
         selected.append(r)
-        if len(selected)>=NUM_QUESTIONS:break
-    if len(selected)<NUM_QUESTIONS:raise ValueError("Insufficient complete 2Wiki records")
-    return selected
+        if len(selected)>=NUM_QUESTIONS+offset:break
+    if len(selected)<NUM_QUESTIONS+offset:raise ValueError("Insufficient complete 2Wiki records")
+    return selected[offset:offset+NUM_QUESTIONS]
 
 def make_corpus(rows):
     # One title maps to one document, chosen without looking at supporting labels.
@@ -172,7 +172,7 @@ def chain_scores(ranks,gold,doc_ids):
 
 def run(args):
     tstart=time.perf_counter()
-    rows=get_records(args.data)
+    rows=get_records(args.data,args.offset)
     docs=make_corpus(rows)
     from sentence_transformers import SentenceTransformer
     import torch
@@ -221,7 +221,7 @@ def run(args):
     proof_queries=sum(r["time_ms"]["proof_searches"] for r in firstmethod)
     changed=sum(r["time_ms"]["proof_changed"] for r in firstmethod)
     report={"setup":{"dataset":"framolfese/2WikiMultihopQA validation (repackaged official)",
-       "data_source":DATA_URL,"selection_seed":SEED,"questions":len(rows),
+       "data_source":DATA_URL,"selection_seed":SEED,"selection_offset":args.offset,"questions":len(rows),
        "documents":len(docs),"pooling":"all question-provided passages, title deduplicated; NOT full Wikipedia",
        "no_ircot_or_hipporag2_replication":True,"gold_labels_not_used_in_ranking":True,
        "no_final_answer_generation":True,"dense_model":DENSE_MODEL,
@@ -247,6 +247,7 @@ if __name__=="__main__":
     p.add_argument("command",choices=["smoke","run"])
     p.add_argument("--data",type=pathlib.Path,default=pathlib.Path("data"))
     p.add_argument("--out",type=pathlib.Path,default=pathlib.Path("results-v7"))
+    p.add_argument("--offset",type=int,default=0)
     a=p.parse_args()
     if a.command=="smoke":smoke()
     else:run(a)
