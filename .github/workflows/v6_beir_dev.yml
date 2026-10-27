@@ -1,53 +1,18 @@
-name: Truth-Seeking V6.3 Independent Evidence Reviewers
-
+name: Stop V6.3 Reviewer Evaluations
 on:
   push:
     branches: [v6-3-evidence-reviewers-2026-10-27]
     paths:
-      - 'v6-benchmark/**'
       - '.github/workflows/v6_beir_dev.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
-
 concurrency:
   group: truth-v63-dev-${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
-  benchmark-dev:
+  stop-only:
     runs-on: ubuntu-latest
-    timeout-minutes: 55
-    defaults:
-      run:
-        working-directory: v6-benchmark
+    timeout-minutes: 1
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
-          cache-dependency-path: v6-benchmark/requirements.txt
-      - name: Install numerical retrieval dependencies
-        run: python -m pip install -r requirements.txt
-      - name: Run tests and smoke checks
-        run: |
-          python -m unittest discover -s tests -v
-          python benchmark_v6.py smoke
-          python benchmark_v61.py smoke
-          python benchmark_v62.py smoke
-          python benchmark_v63.py smoke
-      - name: Evaluate independent reviewers and challenger retrieval on dev-validation
-        env:
-          TOKENIZERS_PARALLELISM: 'false'
-          HF_HUB_DISABLE_TELEMETRY: '1'
-        run: python -u benchmark_v63.py dev-validation --datasets nfcorpus --out results-v63
-      - name: Upload results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: truth-v63-nfcorpus-results
-          path: v6-benchmark/results-v63/
-          if-no-files-found: warn
-          retention-days: 14
+      - run: echo "Reviewer evaluation stopped on user request; no inference or dataset evaluation."
