@@ -1,0 +1,49 @@
+name: V7 Multi-hop Retrieval Benchmark (No Reviewers)
+on:
+  push:
+    branches: [v7-multihop-comparison-2026-10-27]
+    paths:
+      - 'v7-multihop/**'
+      - '.github/workflows/v7_multihop.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: truth-v7-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  v7-multihop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install numerical and open-weight search dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Run V7 smoke and isolation tests
+        run: |
+          python -m unittest discover -s tests -v
+          python benchmark_v7.py smoke
+      - name: Run official 2Wiki pooled-corpus development retrieval benchmark
+        env:
+          TOKENIZERS_PARALLELISM: 'false'
+          HF_HUB_DISABLE_TELEMETRY: '1'
+          OMP_NUM_THREADS: '2'
+        run: |
+          python -u benchmark_v7.py run --out results-v7
+      - name: Upload score tables
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: truth-v7-multihop-retrieval
+          path: v7-multihop/results-v7/
+          if-no-files-found: warn
+          retention-days: 14
