@@ -1,7 +1,7 @@
-name: V7 MuSiQue Cross-dataset Retrieval (No Reviewers)
+name: V7.1 Context Ledger vs Reset (No Reviewers)
 on:
   push:
-    branches: [v7-musique-crossdomain-2026-10-27]
+    branches: [v71-context-ledger-2026-10-27]
     paths:
       - 'v7-multihop/**'
       - '.github/workflows/v7_multihop.yml'
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: truth-v7-musique-${{ github.ref }}
+  group: truth-v71-context-ledger-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -32,19 +32,19 @@ jobs:
         run: |
           python -m unittest discover -s tests -v
           python benchmark_v7.py smoke
-      - name: Run independent MuSiQue pooled-corpus development retrieval benchmark
+      - name: Run memory-retained versus reset 2Wiki/MuSiQue evidence chains
         env:
           TOKENIZERS_PARALLELISM: 'false'
           HF_HUB_DISABLE_TELEMETRY: '1'
           OMP_NUM_THREADS: '2'
         run: |
-          python benchmark_musique.py smoke
-          python -u benchmark_musique.py run --out results-musique
+          python benchmark_v71.py smoke
+          python -u benchmark_v71.py run --out results-v71
       - name: Upload score tables
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: truth-v7-musique-paragraph-retrieval
-          path: v7-multihop/results-musique/
+          name: truth-v71-memory-ablation
+          path: v7-multihop/results-v71/
           if-no-files-found: warn
           retention-days: 14
