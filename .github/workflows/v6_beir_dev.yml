@@ -1,8 +1,8 @@
-name: Truth-Seeking V6 BEIR Development
+name: Truth-Seeking V6.3 Independent Evidence Reviewers
 
 on:
   push:
-    branches: [v6-2-proofgap-2026-10-27]
+    branches: [v6-3-evidence-reviewers-2026-10-27]
     paths:
       - 'v6-benchmark/**'
       - '.github/workflows/v6_beir_dev.yml'
@@ -12,13 +12,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: truth-v62-dev-${{ github.ref }}
+  group: truth-v63-dev-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   benchmark-dev:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 55
     defaults:
       run:
         working-directory: v6-benchmark
@@ -37,13 +37,17 @@ jobs:
           python benchmark_v6.py smoke
           python benchmark_v61.py smoke
           python benchmark_v62.py smoke
-      - name: Execute V6.2 counterfactual action-value dev-fit/dev-validation
-        run: python benchmark_v62.py dev --out results-v62
+          python benchmark_v63.py smoke
+      - name: Evaluate independent reviewers and challenger retrieval on dev-validation
+        env:
+          TOKENIZERS_PARALLELISM: 'false'
+          HF_HUB_DISABLE_TELEMETRY: '1'
+        run: python -u benchmark_v63.py dev-validation --out results-v63
       - name: Upload results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: truth-v62-dev-results
-          path: v6-benchmark/results-v62/
+          name: truth-v63-dev-results
+          path: v6-benchmark/results-v63/
           if-no-files-found: warn
           retention-days: 14
