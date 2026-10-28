@@ -1,0 +1,51 @@
+name: PGER V8.5 One-Time Source-Chain Selection
+on:
+  push:
+    branches: [v85-chain-selection-2026-10-27]
+    paths:
+      - 'v7-multihop/pger_v85_chain.py'
+      - 'v7-multihop/benchmark_v85.py'
+      - 'v7-multihop/test_pger_v85.py'
+      - '.github/workflows/pger_v85.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pger-v85-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test-and-evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install zero-API CPU retrieval dependencies
+        run: |
+          python -m pip install 'numpy>=1.24,<3' 'scipy>=1.10,<2' 'scikit-learn>=1.3,<2' 'pyarrow>=17,<27' 'pyahocorasick>=2,<4'
+          python -m pip install 'torch>=2.3,<3' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install 'sentence-transformers>=3.3,<6'
+      - name: Validate source-span and same-pool chain reranking
+        run: |
+          python -m unittest discover -s . -p 'test_pger_v85.py' -v
+          python benchmark_v85.py smoke
+      - name: Frozen question-disjoint public-validation experiment
+        env:
+          OMP_NUM_THREADS: '2'
+          OPENBLAS_NUM_THREADS: '2'
+          TOKENIZERS_PARALLELISM: 'false'
+          HF_HUB_DISABLE_TELEMETRY: '1'
+        run: python -u benchmark_v85.py run --datasets 2wiki musique --out results-v85
+      - name: Archive per-question results even when benchmark fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v85-chain-selection
+          path: v7-multihop/results-v85/
+          if-no-files-found: warn
+          retention-days: 30
