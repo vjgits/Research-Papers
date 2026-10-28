@@ -1,0 +1,53 @@
+name: PGER V8.9 One-Time REBEL Source-First Generator Pilot
+on:
+  push:
+    branches: [v89-rebel-generator-2026-10-27]
+    paths:
+      - 'v7-multihop/pger_v89_core.py'
+      - 'v7-multihop/benchmark_v89.py'
+      - 'v7-multihop/test_pger_v89.py'
+      - '.github/workflows/pger_v89.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pger-v89-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  rebel-development-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install no-cost CPU text generation dependencies
+        run: |
+          python -m pip install 'numpy>=1.24,<3' 'transformers==4.52.4' 'safetensors>=0.4'
+          python -m pip install 'torch>=2.3,<3' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip freeze > results-v89-freeze.txt
+      - name: Test raw REBEL output parsing and exact-source integrity
+        run: |
+          python -m unittest discover -s . -p 'test_pger_v89.py' -v
+          python benchmark_v89.py smoke
+      - name: Compare REBEL generation with same-window regex control on previously inspected DocRED sources
+        env:
+          OMP_NUM_THREADS: '2'
+          OPENBLAS_NUM_THREADS: '2'
+          TOKENIZERS_PARALLELISM: 'false'
+          HF_HUB_DISABLE_TELEMETRY: '1'
+        run: python -u benchmark_v89.py run --out results-v89
+      - name: Preserve per-document outputs and even negative results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v89-rebel-development
+          path: |
+            v7-multihop/results-v89/
+            v7-multihop/results-v89-freeze.txt
+          if-no-files-found: warn
+          retention-days: 30
