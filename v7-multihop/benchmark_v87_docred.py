@@ -11,22 +11,25 @@ NLI='cross-encoder/nli-MiniLM2-L6-H768'
 NLI_REV='9aa22b250d25a10ac39ab4a6b2bc28213507cb0c'
 SEED=20261027
 
-def get_parquet(outdir):
+def get_validation(outdir):
+    """Download official DocRED dev.json.gz; the HF parquet viewer is disabled."""
+    import gzip
     outdir.mkdir(parents=True,exist_ok=True)
-    manifest_url='https://datasets-server.huggingface.co/parquet?dataset=thunlp%2Fdocred'
-    with urllib.request.urlopen(urllib.request.Request(manifest_url,headers={'User-Agent':'PGER-research-v87/1.0'}),timeout=90) as r:
-        manifest=json.load(r)
-    files=[a for a in manifest.get('parquet_files',[]) if a.get('split')=='validation']
-    if not files:raise RuntimeError('Official DocRED validation parquet not found; do not substitute train/test silently')
-    import pyarrow.parquet as pq
-    rows=[];sha=[]
-    for idx,entry in enumerate(files):
-        p=outdir/f'original_docred_validation_{idx}.parquet'
-        if not p.exists():urllib.request.urlretrieve(entry['url'],p)
-        data=p.read_bytes();sha.append(dict(file=p.name,sha256=hashlib.sha256(data).hexdigest(),source_url=entry['url']))
-        rows.extend(pq.read_table(p).to_pylist())
-    if len(rows)<500:raise RuntimeError('DocRED too few validation rows; check source')
-    return rows,sha
+    url='https://huggingface.co/datasets/thunlp/docred/resolve/main/data/dev.json.gz?download=true'
+    path=outdir/'docred_dev.json.gz'
+    if not path.exists():
+        req=urllib.request.Request(url,headers={'User-Agent':'PGER-research-v87/1.0'})
+        with urllib.request.urlopen(req,timeout=120) as response:
+            content=response.read()
+        if len(content)<100000 or content[:2]!=b'\\x1f\\x8b':
+            raise RuntimeError('Official DocRED gzip was invalid; no dataset substitution')
+        path.write_bytes(content)
+    content=path.read_bytes()
+    rows=json.loads(gzip.decompress(content).decode('utf-8'))
+    if not isinstance(rows,list) or len(rows)<900:
+        raise RuntimeError('DocRED validation not loaded correctly; expected ~998 entries')
+    return rows,[{'file':path.name,'sha256':hashlib.sha256(content).hexdigest(),
+                  'source_url':url,'sample_count':len(rows)}]
 
 def choose_samples(raw,n=100,docs_cap=95):
     """External gold annotation used ONLY to choose positive gold-labeled entity pairs.
@@ -74,7 +77,7 @@ def paired_bootstrap(records,a,b,key='correct',rep=4000):
 
 def run(out,limit=100,cap=4):
     out.mkdir(parents=True,exist_ok=True)
-    rows,sources=get_parquet(out/'cache')
+    rows,sources=get_validation(out/'cache')
     items=choose_samples(rows,n=limit)
     import torch
     from sentence_transformers import CrossEncoder
