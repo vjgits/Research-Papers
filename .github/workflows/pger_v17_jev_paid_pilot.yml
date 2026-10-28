@@ -1,0 +1,62 @@
+name: PGER V17 Original SAG2 JEV Paid Pilot - Opt-in Push Only
+on:
+  push:
+    branches: [v17-hover-official-sag2-reproduction-2026-10-28]
+    paths:
+      - 'v7-multihop/V17_AUTHORIZE_JEV_PILOT_TRIGGER.txt'
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: pger-v17-jev-paid-pilot
+  cancel-in-progress: false
+jobs:
+  paid-jev-authorized-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Load unchanged frozen HoVer corpus from verified V17 preparation
+        uses: actions/download-artifact@v4
+        with:
+          name: pger-v17-hover-shared-120-claim-corpus
+          github-token: ${{ github.token }}
+          run-id: 40741978291
+          path: v7-multihop/v17-hover-data/prepared/
+      - name: Checkout original SAG2 source pinned to historical author SHA
+        run: |
+          git clone --quiet https://github.com/Zleap-AI/SAG-Benchmark.git sag-benchmark-v17
+          git -C sag-benchmark-v17 checkout --quiet bb7f82751ba1576219f9d9ebd021128603d130c3
+          test "$(git -C sag-benchmark-v17 rev-parse HEAD)" = "bb7f82751ba1576219f9d9ebd021128603d130c3"
+      - name: Install upstream SAG2 CPU index and HTTP dependencies
+        run: |
+          python -m pip install 'aiohttp>=3.9' 'jieba==0.42.1' 'pyuca==1.2' 'python-dotenv>=1.0' 'regex>=2024.0' 'tiktoken>=0.12'
+          python -m pip freeze > results-v17-jev-deps.txt
+      - name: Verify frozen source hashes and original JEV settings without spending
+        run: python benchmark_v17_original_jev.py --max-cases 10 --budget-usd 2.00
+      - name: Execute real author JEV for ten HoVer claims with USD 2.00 cumulative stop threshold
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          if [ -z "$OPENROUTER_API_KEY" ]; then
+            echo "::error::OPENROUTER_API_KEY GitHub Actions repository secret not configured. No provider calls made."
+            exit 1
+          fi
+          python -u benchmark_v17_original_jev.py --paid-run --max-cases 10 --budget-usd 2.00 --out results-v17-jev-pilot
+      - name: Archive per-question original JEV results and cost audit, never credentials
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v17-original-sag2-jev-ten-claim-paid-pilot
+          path: |
+            v7-multihop/results-v17-jev-pilot/cases.jsonl
+            v7-multihop/results-v17-jev-pilot/summary.json
+            v7-multihop/results-v17-jev-deps.txt
+          if-no-files-found: warn
+          retention-days: 30
