@@ -1,0 +1,69 @@
+{
+  "experiment_id": "PGER-V14C-V14D-failure-postmortem",
+  "review_date": "2026-10-28",
+  "evidence_run_urls": [
+    "https://github.com/vjgits/Research-Papers/actions/runs/40729260684",
+    "https://github.com/vjgits/Research-Papers/actions/runs/40729726941"
+  ],
+  "failure_modes": [
+    "candidate_missing",
+    "domain_transfer",
+    "unproven_entailment",
+    "indexing_cost"
+  ],
+  "observed_failure": "On official EntailmentBank 340 test questions, 196 required four-plus exact proof leaf facts; sparse 120 candidate set contained all facts in 1/196, and a fixed sparse+dense 120 pool in 11/196. Among 117 source-available hard cases, almost all were still missing gold from the candidate pool. No method completed a 4+-fact proof set in Top 10.",
+  "baseline": "Frozen V14C BM25/V7.1 and V14D sparse boosted/dense hybrid on original questions; V14D is an exploratory reuse of inspected public test.",
+  "systems": {
+    "SAG2": {
+      "official_source": "https://github.com/Zleap-AI/SAG-Benchmark/blob/main/sag2/scripts/sag2.py",
+      "actual_mechanism": "BM25 retrieval, contextual JEV necessary-evidence decisions, preserve selected passages, source passage -> bounded selected terms -> fresh BM25 candidates, then contextual rescoring; DPP only a final local diversity operator.",
+      "what_pger_previously_tested": "V12 tested DPP on top-ten boosted-ranked documents without running contextual JEV and source-anchored iterative evidence expansion.",
+      "failure_specific_contrast": "Our V14 search did not obtain the missing intermediate science proof facts; using an evidence-derived next-hop frontier could discover facts unreachable through only the original question.",
+      "proposed_adaptation": "Implement a bounded source-frontier query action selected only after detecting a provisional missing proof obligation; preserve source IDs and cost; compare with fixed equally budgeted generic expansion.",
+      "costs_and_risks": "JEV calls are material model cost; a boosted relevance score is not validated as equivalent to contextual necessary evidence; lexical terms can drift.",
+      "falsifier": "On new proof-tree source-disjoint questions with equal BM25 search actions, complete gold candidate recovery at a feasible TopK fails to beat matched generic expansion."
+    },
+    "HippoRAG2": {
+      "official_source": "https://github.com/OSU-NLP-Group/HippoRAG/blob/main/src/hipporag/HippoRAG.py",
+      "actual_mechanism": "Offline OpenIE fact/entity graph with fact-to-passage provenance, embedding-based query anchoring and Personalized PageRank over grounded associations; query-time fact retrieval is linked to original passages.",
+      "what_pger_previously_tested": "V12 tested TF-IDF document similarity plus query-local PPR, not true fact/entity extraction or validated typed edges.",
+      "failure_specific_contrast": "Science proof intermediates connect by atomic facts and scientific relations; generic document word overlap has no typed graph edges to bridge undermentioned premises.",
+      "proposed_adaptation": "Build a small, optional typed fact/passage adjacency with exact evidence spans, only traversing independently validated edges when present; report unseen edge error and offline extraction costs.",
+      "costs_and_risks": "OpenIE and embedding indexing are expensive and can create hallucinated or wrong-direction edges; graph connectivity alone cannot verify an assertion.",
+      "falsifier": "Verified graph-neighbor retrieval cannot recover missing gold proof facts beyond source frontier / dense on a new source-disjoint dataset under same index/query budget."
+    },
+    "S2GRAG": {
+      "official_source": "https://github.com/nianaaa/S2G-RAG/blob/main/inference/inference_bm25.py",
+      "actual_mechanism": "A trained sufficiency judge reads original question plus compressed sentence evidence, produces structured missing-fact slots and controls whether to launch targeted retrieval or stop.",
+      "what_pger_previously_tested": "V12 tested uncovered lexical query words, not a learned sufficiency model or atomic missing propositions.",
+      "failure_specific_contrast": "V14 full candidate coverage failed because later necessary science facts often are not named in the original question; a missing relation could target a useful intermediate premise.",
+      "proposed_adaptation": "Propose a structured provisional missing atomic fact with subject, relation, object placeholder, direction, negation/time, quoted context, and budget; never certify it until independently verified.",
+      "costs_and_risks": "Training judge needs labeled gaps and may hallucinate useful-looking false premises; V13B MiniLM safety failure prohibits using unvalidated entailment scores.",
+      "falsifier": "On independent human-labeled missing-fact targets, gap precision and full candidate recovery do not exceed no-gap source-frontier search while respecting false-proof rates and search cost."
+    }
+  },
+  "pger_native_proposal": "Keep PGER competing hypotheses and proof-gap ledger; cheaply retrieve; form provisional typed missing evidence obligations; choose budgeted SAG2 source frontier, Hippo grounded fact neighbor or S2G structured gap query action; preserve provenance; allow answer only when external edge verification is independently validated, else continue bounded search or abstain.",
+  "preserves": [
+    "competing_hypotheses",
+    "proof_gap_ledger",
+    "provenance_hashes",
+    "independent_sources",
+    "bounded_search",
+    "contradiction_abstention"
+  ],
+  "prior_negative_controls": [
+    "V9.6A/B lexical bridge",
+    "V11 lexical witness",
+    "V12 DPP-only",
+    "V12 TF-IDF PPR",
+    "V12 uncovered-word gap",
+    "V13A co-necessity",
+    "V13B HANS-failing MiniLM",
+    "V14D unvalidated dense hybrid ranker"
+  ],
+  "preregistered_evaluation": "New held-out source/topic-disjoint human proof-tree questions, measured full gold availability, candidate complete 5/10/20 and full pool, true proof depth, human fact-edge precision/false entailment, answer accuracy when answers generated, 0/1/2/3 matched extra search actions and CPU/wall p95/index/model costs; no oracle inputs.",
+  "acceptance_criteria": "Promotion requires paired confidence intervals supporting a meaningful increase in complete evidence at feasible K without easy-question regression, missing/contradiction false-proof control, and matched offline+online cost within frozen constraints; replicates on unseen sources.",
+  "status": "review_accepted_proposal_not_implemented",
+  "should_promote": false,
+  "actual_official_sag2_hipporag2_s2g_head_to_head_run": false
+}
