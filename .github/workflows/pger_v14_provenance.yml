@@ -1,0 +1,31 @@
+name: PGER V14B One-Time Gold Fact Provenance Audit
+on:
+  push:
+    branches: [v14b-entailmentbank-provenance-2026-10-28]
+    paths:
+      - 'v7-multihop/audit_v14b_provenance.py'
+      - '.github/workflows/pger_v14_provenance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  provenance-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Identify exact facts, duplicate equivalents, provenance UUIDs and missing evidence
+        run: python -u audit_v14b_provenance.py --out results-v14-provenance
+      - name: Archive integrity issues and canonical hash evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v14b-fact-provenance-audit
+          path: v7-multihop/results-v14-provenance/
+          retention-days: 30
