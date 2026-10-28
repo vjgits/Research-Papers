@@ -21,7 +21,7 @@ def get_validation(outdir):
         req=urllib.request.Request(url,headers={'User-Agent':'PGER-research-v87/1.0'})
         with urllib.request.urlopen(req,timeout=120) as response:
             content=response.read()
-        if len(content)<100000 or content[:2]!=b'\\x1f\\x8b':
+        if len(content)<100000 or content[:2]!=b'\x1f\x8b':
             raise RuntimeError('Official DocRED gzip was invalid; no dataset substitution')
         path.write_bytes(content)
     content=path.read_bytes()
