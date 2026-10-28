@@ -2,6 +2,10 @@
 
 This branch forks `v71-context-ledger-2026-10-27`, NOT `main`. **Status: controlled retrieval-only prototype.** Code was frozen before the next public-validation question-disjoint cohort. No paid APIs, no reviewer agents, no scheduled scans, no official IRCoT/HippoRAG reproduction, no answer generation or SOTA claim.
 
+## Measured outcome (fresh-cohort run, 2026-10-27 Pacific)
+
+**Retained relation memory did NOT beat the matched reset/no-memory method.** Across all 400 fresh validation questions, Top-5 and Top-10 complete-chain results were identical on a paired per-question basis. 2Wiki V7.2 @5/@10: 75.42%/86.67% versus cheap V7.1 graph 76.25%/82.50%. MuSiQue V7.2 @5/@10: 16.88%/27.50% versus cheap V7.1 graph 16.88%/25.63%; MuSiQue four-support @5 remains 0/28. Extra searches/latency remove any claim of a better fast-path default. Full results, paired CIs, indexing/query timing and concrete misses: [V72_FRESH_RESULTS_AND_LIMITATIONS.md](V72_FRESH_RESULTS_AND_LIMITATIONS.md). [Successful Actions run](https://github.com/vjgits/Research-Papers/actions/runs/40610829554); [per-query artifact](https://github.com/vjgits/Research-Papers/actions/runs/40610829554/artifacts/12782766998).
+
 ## Research question
 
 Does a *retained, source-verifiable surface-relation/dependency ledger* improve complete multi-document evidence chains compared with (a) fast BM25 + V7.1 indexed one-hop title graph and (b) the same V7.2 controller with relation memory reset? Does any benefit survive on MuSiQue three-/four-source cases at Top 5/10 when extra BM25 search work is matched?
