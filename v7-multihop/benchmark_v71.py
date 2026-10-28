@@ -184,11 +184,14 @@ def evaluate_dataset(name,rows,docs,goldfn,output,model):
             "v7_onehop":ranks["proofgap_v7"]}
         meta={}
         shared_bmraw=system.index.search(query,"bm25",100)
-        for label,mode,depth in [("graph_onehop","one-hop",1),
-             ("multihop_reset","reset",4),
-             ("multihop_ledger","ledger",4),
-             ("multihop_ledger2","ledger",2)]:
-            ranksout,stats=ledger.search(query,seedrank,mode=mode,hops=depth,bmraw=shared_bmraw)
+        for label,mode,depth,initial in [
+             ("graph_onehop","one-hop",1,seedrank),
+             ("multihop_reset","reset",4,seedrank),
+             ("multihop_ledger","ledger",4,seedrank),
+             ("multihop_ledger2","ledger",2,seedrank),
+             ("graph_onehop_bm25","one-hop",1,ranks["bm25"]),
+             ("multihop_ledger_bm25","ledger",4,ranks["bm25"])]:
+            ranksout,stats=ledger.search(query,initial,mode=mode,hops=depth,bmraw=shared_bmraw)
             methods[label]=ranksout
             meta[label]=stats
             timings[label].append(stats["time_ms"])
