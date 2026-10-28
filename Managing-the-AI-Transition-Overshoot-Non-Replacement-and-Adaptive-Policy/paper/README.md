@@ -8,4 +8,6 @@ Vijay Suresh · 2026
 - Zenodo DOI: https://doi.org/10.5281/zenodo.20078381
 - Zenodo record: https://zenodo.org/records/20078381
 
-The Zenodo record is the canonical archival source for citation. A local PDF can be added to this folder for convenience without replacing the DOI as the citation target.
+- PDF mirror (identical to the Zenodo file): [Managing_AI_Transition_Final.pdf](./Managing_AI_Transition_Final.pdf)
+
+The Zenodo record is the canonical archival source for citation.
