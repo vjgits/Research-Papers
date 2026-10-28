@@ -14,7 +14,7 @@ abstention-compatible outputs, no gold at inference.
 Research claim: evaluate only source discovery under fixed search budgets.
 No validated relation inference, answer truth, SOTA or official baseline runs.
 
-Question-disjoint primary: EntailmentBank task1 train records [400:800], not
+Question-disjoint primary: EntailmentBank task1 train records [800:1313], not
 previously scored by PGER (first 400 used to train V14 model). Secondary
 already-inspected validation/test are EXPLORATORY, never primary confirmation.
 Uses original question only; no gold source ID, answer or proof hypothesis.
@@ -30,10 +30,8 @@ from benchmark_v71 import EvidenceLedger
 from benchmark_v95_controlled import initial,paired,cpu_ms,unique
 from pger_v13_proof_gate import Claim,decide,Status
 
-PRIMARY=(400,800)
-SPLITS={"unseen_train_question_holdout":PRIMARY,
-        "published_validation":(0,187),
-        "previously_inspected_test":(0,340)}
+PRIMARY=(800,1313)
+SPLITS={"unseen_train_question_replication":PRIMARY}
 ROUND_SNAPSHOTS=(0,1,2,4)
 ACTIONS_PER_ROUND=2
 BM_HITS=45
@@ -46,7 +44,7 @@ MAX_FRONTIER=12
 MAX_SOURCE_QUERY_WORDS=3
 SEED=20261028
 METHODS=("bm25_zero","static_first_pass","adaptive_frontier",
-         "adaptive_frontier_factlinks")
+         "adaptive_frontier_factlinks","pger_budget_guarded")
 K_VALUES=(5,10,20)
 NO_ANSWER_LEAK=True
 
@@ -133,8 +131,10 @@ def run_arm(question,docs,sm,graph,graphidx,mode,rounds=4):
     original=start["fast"]
     if mode=="bm25_zero":
         return {0:{"rank":original,"pool":original[:POOL_LIMIT],
+                   "archive":original[:POOL_LIMIT],
                    "actions":[],"queries":0,"cost_ms":start["initial_ms"],
                    "graph_ms":0,"graph_docs":0}}
+    if mode=="pger_budget_guarded":rounds=1
     static=propose(question,docs,original,sm.index.idfs,
                    kind="mixed",seed_n=10,k=ACTIONS_PER_ROUND*rounds)
     static_terms=[a["term"] for a in static]
@@ -145,7 +145,12 @@ def run_arm(question,docs,sm,graph,graphidx,mode,rounds=4):
     for h in range(rounds+1):
         # Same frozen candidate cap/reserve for all iterative arms.
         ranked,pool=assemble(original,hits,graph_hitlists)
+        archive=unique(original[:POOL_LIMIT]+[i for hit in hits for i in hit]
+                       +[i for layer in graph_hitlists for i in layer])
+        if h>0:
+            assert set(snapshots[h-1]["archive"])<=set(archive),"archive lost earlier witnesses"
         snapshots[h]={
+          "archive":archive,
           "rank":ranked[:POOL_LIMIT],
           "pool":pool,
           "actions":[dict(x) for x in actions],
@@ -156,7 +161,7 @@ def run_arm(question,docs,sm,graph,graphidx,mode,rounds=4):
         if h==rounds:break
         for a in range(ACTIONS_PER_ROUND):
             t=time.process_time()
-            if mode=="static_first_pass":
+            if mode in ("static_first_pass","pger_budget_guarded"):
                 ix=h*ACTIONS_PER_ROUND+a
                 if ix>=len(static_terms):continue
                 term=static_terms[ix]
@@ -218,7 +223,7 @@ def assemble(initial,hits,graph_hits):
     ordered=sorted(pool,key=lambda i:(-scores[i],i))
     return ordered,pool
 
-def score(rank,pool,gold):
+def score(rank,pool,archive,gold):
     present=not gold["strict_unavailable"] and not gold["unresolved_leafs"]
     ids=gold["gold_mapped"]
     n=max(1,gold["required_n"])
@@ -226,7 +231,9 @@ def score(rank,pool,gold):
        "fact_depth":gold["depth"],
        "corpus_complete":int(present),
        "pool_complete":int(present and ids<=set(pool)),
-       "pool_fact_recall":len(ids&set(pool))/n}
+       "pool_fact_recall":len(ids&set(pool))/n,
+       "archive_complete":int(present and ids<=set(archive)),
+       "archive_fact_recall":len(ids&set(archive))/n}
     for k in K_VALUES:
         x["complete_at"+str(k)]=int(present and ids<=set(rank[:k]))
         x["recall_at"+str(k)]=len(ids&set(rank[:k]))/n
@@ -261,11 +268,13 @@ def evaluate(folder,out):
             metrics={}
             traces={}
             for method,stages in arms.items():
-                metrics[method]={str(h):score(s["rank"],s["pool"],gold)
+                metrics[method]={str(h):score(s["rank"],s["pool"],s["archive"],gold)
                                  for h,s in stages.items()}
                 traces[method]={str(h):{
                    "top20":[docs[i]["_id"] for i in s["rank"][:20]],
                    "full_pool_size":len(s["pool"]),
+                   "archive_documents":len(s["archive"]),
+                   "archive_metadata_estimated_bytes":len(s["archive"])*36,
                    "actions":s["actions"],
                    "n_extra_bm25_calls":s["queries"],
                    "cost_process_cpu_ms":round(s["cost_ms"],4),
@@ -294,6 +303,8 @@ def evaluate(folder,out):
           "primary_question_holdout_not_previously_pger_scored":group.startswith("unseen_train"),
           "published_validation_and_test_previously_inspected":not group.startswith("unseen_train"),
           "fixed_pool_limit":POOL_LIMIT,
+          "all_candidate_archive_never_evicted":True,
+          "one_round_two_action_budget_guard_frozen_from_V16A":True,
           "max_extra_BM25_calls_at_h4":ACTIONS_PER_ROUND*4,
           "source_graph_build_cpu_ms":idx.build_cpu_ms,
           "source_graph_token_links":idx.terms_indexed,
@@ -321,8 +332,14 @@ def evaluate(folder,out):
                 metrics={field:round(float(np.mean([x[field] for x in rows_h])),6)
                      for field in ("complete_at5","complete_at10","complete_at20",
                                    "recall_at5","recall_at10","recall_at20",
-                                   "pool_complete","pool_fact_recall")}
+                                   "pool_complete","pool_fact_recall",
+                                   "archive_complete","archive_fact_recall")}
                 metrics["n_four_plus"]=sum(c["n_required_leaves"]>=4 for c in cases)
+                metrics["mean_archive_documents"]=round(float(np.mean(
+                    [c["traces"][method][key]["archive_documents"] for c in cases])),3)
+                metrics["four_plus_archive_full"]=sum(
+                    c["n_required_leaves"]>=4 and c["metrics"][method][key]["archive_complete"]
+                    for c in cases)
                 metrics["four_plus_full_pool"]=sum(
                    c["n_required_leaves"]>=4 and c["metrics"][method][key]["pool_complete"]
                    for c in cases)
@@ -353,7 +370,7 @@ def evaluate(folder,out):
         print("V16_RESULT",group,json.dumps({
           "n":summary["n"],
           "methods":{m:{h:{"pool":v["pool_complete"],
-                 "hard":v["four_plus_full_pool"],"c20":v["complete_at20"],
+                 "hard":v["four_plus_full_pool"],"archive":v["archive_complete"],"hard_archive":v["four_plus_archive_full"],"c20":v["complete_at20"],
                  "cpu":v["mean_cpu_ms"],
                  "calls":v["mean_extra_calls"],
                  "vs_static":v.get("vs_static_pool_full")}
