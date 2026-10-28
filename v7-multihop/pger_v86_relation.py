@@ -112,7 +112,7 @@ def score_claims(claims,nli_predict,require_nli):
     """
     selected=[c for c in claims if lexical_scope(c)]
     logits=nli_predict([(c.quote,hypothesis(c)) for c in selected]) if require_nli and selected else []
-    if len(logits)!=len(selected):raise AssertionError('NLI scoring mismatch')
+    if require_nli and len(logits)!=len(selected):raise AssertionError('NLI scoring mismatch')
     observations=[];accepted=[]
     for i,c in enumerate(claims):
         typed=lexical_scope(c);usable=typed
