@@ -6,7 +6,7 @@ relationship verifier, end-to-end answer truth checker or SOTA claim.
 
 HARD RULES:
 - question source identities/gold only label development model examples.
-- confirmation (offsets 400:800) identities accessed solely AFTER all
+- confirmation (offsets 800:1200) identities accessed solely AFTER all
   predictions are frozen for that question.
 - same frozen 120-document candidate pool for all rerank controls.
 - report strict 2/3/4 source chain @5/@10, paired CI and CPU/model cost.
@@ -25,7 +25,7 @@ from expansion_v92 import terms
 
 SEED=20261028
 TRAIN=(0,400)
-CONF=(400,800)
+CONF=(800,1200)
 BUDGET=120
 MAX_DOC_CHARS=1800
 FACET_CALL_MAX=2
