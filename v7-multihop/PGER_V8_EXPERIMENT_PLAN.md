@@ -1,3 +1,5 @@
+> **POST-RUN STATUS (completed 2026-10-27 Pacific):** The [fresh V8 run](https://github.com/vjgits/Research-Papers/actions/runs/40616913946) passed all 6 tests and evaluated 240 question-disjoint 2Wiki and 160 MuSiQue queries. Candidate gold recall improved by +3.33 and +3.07 percentage points versus the matched two-search lexical control, but *none* of V7.3/V8.0/V8.1/V8.2 beat the unchanged fast V7.1 method at Top 5, and V8.2 was about 11x slower. **Do not deploy V8.2 as the default or claim semantic multi-hop ability.** Detailed Top-5/10 comparisons, paired CIs, hard-chain failure counts, indexing/query costs, and limitations: [V8_FRESH_RESULTS_NEGATIVE.md](V8_FRESH_RESULTS_NEGATIVE.md). GitHub Actions [full per-question artifact](https://github.com/vjgits/Research-Papers/actions/runs/40616913946/artifacts/12786125478). The document below records the *pre-run frozen plan* and must be read alongside those results.
+
 # PGER V7.3–V8.2: frozen sequential ablations
 
 **Status before execution:** new frozen public-validation question cohort; no reviewer agents, no paid API, no schedules, no changes to `main`.
