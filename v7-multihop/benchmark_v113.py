@@ -2,7 +2,7 @@
 """PGER V11.3: frozen cached-feature speed and three supervised rankers.
 
 Source: MultiHopRAG 609-news-article ODC-BY corpus. Training questions
-0..399, strict new-to-PGER confirmation questions 1200..1599; candidate
+0..399, strict new-to-PGER confirmation questions 1600..1999; candidate
 pool remains V11.1 fixed 120-document union. Labels only train rankings.
 This is standard supervised IR prior art, not semantic entailment, generated
 answers, new retrieval novelty, or independent sealed SOTA.
@@ -21,7 +21,7 @@ from benchmark_v11 import facet_queries,candidate_pool,fusion
 from benchmark_v111 import (data_features,tokenize,weight_overlap,reorder,
                             score,MAX_DOC_CHARS,RX_YEAR,SEED)
 TRAIN=(0,400)
-CONF=(1200,1600)
+CONF=(1600,2000)
 METHODS=("bm25","v71_fast","rf_cached","linear_cached","boosted_cached")
 FRAC_PARITY=15
 
