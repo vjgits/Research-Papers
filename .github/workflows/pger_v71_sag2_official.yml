@@ -30,7 +30,7 @@ jobs:
       - name: Verify unchanged V7.1 graph and canonical source adapter
         run: |
           python benchmark_v71_sag2_official.py smoke
-      - name: Full 1000-question official release: 2Wiki MuSiQue HotpotQA
+      - name: Full 1000-question official release — 2Wiki MuSiQue HotpotQA
         env:
           OMP_NUM_THREADS: '2'
           OPENBLAS_NUM_THREADS: '2'
