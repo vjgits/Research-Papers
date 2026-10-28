@@ -1,0 +1,47 @@
+name: PGER V8.3 One-time Guarded Source Bridges
+on:
+  push:
+    branches: [v83-guarded-source-bridge-2026-10-27]
+    paths:
+      - 'v7-multihop/pger_v83_core.py'
+      - 'v7-multihop/benchmark_v83.py'
+      - 'v7-multihop/test_pger_v83.py'
+      - '.github/workflows/pger_v83.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pger-v83-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  fresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install zero-API retrieval dependencies
+        run: python -m pip install 'numpy>=1.24,<3' 'scipy>=1.10,<2' 'scikit-learn>=1.3,<2' 'pyarrow>=17,<27' 'pyahocorasick>=2,<4'
+      - name: Verify provenance tests and smoke
+        run: |
+          python -m unittest discover -s . -p 'test_pger_v83.py' -v
+          python benchmark_v83.py smoke
+      - name: Evaluate disjoint cohort once
+        env:
+          OMP_NUM_THREADS: '2'
+          OPENBLAS_NUM_THREADS: '2'
+          HF_HUB_DISABLE_TELEMETRY: '1'
+        run: python -u benchmark_v83.py run --datasets 2wiki musique --out results-v83
+      - name: Preserve all results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v83-guarded-bridges
+          path: v7-multihop/results-v83/
+          if-no-files-found: warn
+          retention-days: 30
