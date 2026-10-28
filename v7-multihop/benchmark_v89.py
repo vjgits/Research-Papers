@@ -20,9 +20,10 @@ def score_one(doc,raw_predictions,baseline):
     r=accepted(raw_predictions)
     valid=all(verify_quote(x,doc['sents']) for x in raw_predictions)
     n,ev,examples=gold_matches(r,doc)
+    raw_hits,raw_ev,_=gold_matches([x for x in raw_predictions if x['r'] is not None],doc)
     b,b_ev,_=gold_matches(baseline,doc)
     gold=[lab for lab in doc['labels'] if lab['r'] in RELATION_MAP.values()]
-    return {'correct_rebel':n,'correct_rebel_evidence_overlap':ev,
+    return {'correct_rebel':n,'correct_rebel_evidence_overlap':ev,'correct_rebel_raw_mapped':raw_hits,'correct_rebel_raw_mapped_evidence_overlap':raw_ev,
             'correct_regex':b,'correct_regex_evidence_overlap':b_ev,
             'gold_total':len(gold),'source_valid':valid,'matches':examples,
             'raw_proposals':len(raw_predictions),'mapped_proposals':sum(x['r'] is not None for x in raw_predictions),
@@ -41,8 +42,10 @@ def run(out):
     t=time.perf_counter();tok=AutoTokenizer.from_pretrained(MODEL)
     model=AutoModelForSeq2SeqLM.from_pretrained(MODEL).eval()
     load_s=time.perf_counter()-t
+    resolved_revision=getattr(model.config,'_commit_hash',None)
     # This is a development cohort already used for V8.8. Freeze and disclose.
     results=[];cost=[];all_raw=[];pairs=0
+    if (out/'per_doc.jsonl').exists(): (out/'per_doc.jsonl').unlink()
     for ix,(doc_idx,doc) in enumerate(selection):
         sents=doc['sents'];selected=fixed_sentences(sents)
         raw=[];t0=time.perf_counter()
@@ -76,20 +79,22 @@ def run(out):
     total=sum(x['gold_total'] for x in results)
     rebel=sum(x['correct_rebel'] for x in results)
     regex=sum(x['correct_regex'] for x in results)
+    raw_rebel=sum(x['correct_rebel_raw_mapped'] for x in results)
     source=sum(x['annotated_gold_with_evidence_in_selected_window'] for x in results)
     rng=np.random.default_rng(SEED);paired=[]
     for _ in range(3000):
         z=rng.integers(0,len(results),len(results));den=sum(results[i]['gold_total'] for i in z)
         paired.append(100*sum(results[i]['correct_rebel']-results[i]['correct_regex'] for i in z)/max(1,den))
     report={
-      'status':'exploratory_20_doc_development_pilot','model':MODEL,'model_revision':'not_pinned','model_load_s':round(load_s,3),
+      'status':'exploratory_20_doc_development_pilot','model':MODEL,'model_revision':resolved_revision or 'not_pinned','model_load_s':round(load_s,3),
       'model_license':'cc-by-nc-sa-4.0 (non-commercial research restrictions)',
       'docred_sha256':sha,'v88_original_60_subset':'first_20','doc_ids_sha256':idsha,
       'n_documents':len(results),'n_inference_sentences':pairs,'sentence_limit_per_doc':MAX_SENT,
       'gold_positive_ontology_triples':total,'annotated_gold_with_evidence_in_window':source,
-      'baseline_regex_gold_hits':regex,'rebel_raw_gold_hits':None,
+      'baseline_regex_gold_hits':regex,'rebel_raw_gold_hits':raw_rebel,
       'rebel_accepted_gold_hits':rebel,
       'baseline_recall':round(regex/max(1,total),6),'rebel_recall':round(rebel/max(1,total),6),
+      'rebel_raw_mapped_recall':round(raw_rebel/max(1,total),6),
       'paired_gain_pp':round(100*(rebel-regex)/max(1,total),3),
       'paired_document_bootstrap_95_pp':[round(float(x),3) for x in np.quantile(paired,[.025,.975])],
       'raw_predictions':len(all_raw),'mapped_predictions':sum(x['r'] is not None for x in all_raw),
