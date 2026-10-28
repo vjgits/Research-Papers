@@ -1,0 +1,105 @@
+# 2Wiki Source-chain selection failures
+## 2 annotated support documents: 93 questions; 1 chain wins / 0 losses; 89 full gold in CE96 pool
+- WIN: 5c40bbf00bdc11eba7f7acde48001122; question: What is the place of birth of the director of film Une Si Jolie Petite Plage?
+  - Gold: ['une si jolie petite plage', 'yves allégret']
+  - CE96 Top10: ['une si jolie petite plage', 'madeleine robinson', 'jane marken', 'claude weisz', 'louis mercanton', 'yves allégret', 'hassan zee', 'rumbi katedza', 'george fitzmaurice', 'sepideh farsi']
+  - CHAIN Top10: ['une si jolie petite plage', 'madeleine robinson', 'jane marken', 'place of birth', 'yves allégret', 'the time, the place and the girl (1946 film)', 'tom clegg (director)', 'claude weisz', 'louis mercanton', 'hassan zee']
+  - Source mentions used: [{'source_id': 'une si jolie petite plage', 'target_id': 'yves allégret', 'predicate': 'directed_by', 'exact_quote': 'Une si jolie petite plage (English titles: Such a Pretty Little Beach and Riptide) is a French film shot in black-and-white, directed by Yves Allégret and released in 1949.', 'start': 0, 'end': 172, 'heuristic_only': True}]
+## 4 annotated support documents: 27 questions; 5 chain wins / 1 losses; 24 full gold in CE96 pool
+- WIN: 880e5d0c088d11ebbd70ac1f6bf848b6; question: Do director of film Winter Meeting and director of film Year Of The Horse have the same nationality?
+  - Gold: ['bretaigne windust', 'jim jarmusch', 'winter meeting', 'year of the horse']
+  - CE96 Top10: ['winter meeting', 'bretaigne windust', 'year of the horse', 'roy del ruth', 'white horse inn (1948 film)', 'alberto lattuada', 'elliot silverstein', 'george fitzmaurice', 'ray taylor (director)', 'jason moore (director)']
+  - CHAIN Top10: ['winter meeting', 'bretaigne windust', 'ray taylor (director)', 'year of the horse', 'jim jarmusch', 'white horse inn (1948 film)', 'roy del ruth', 'alberto lattuada', 'elliot silverstein', 'george fitzmaurice']
+  - Source mentions used: [{'source_id': 'winter meeting', 'target_id': 'bretaigne windust', 'predicate': 'directed_by', 'exact_quote': 'Winter Meeting is a 1948 American drama film directed by Bretaigne Windust and starring Bette Davis and Jim Davis.', 'start': 0, 'end': 114, 'heuristic_only': True}, {'source_id': 'year of the horse', 'target_id': 'jim jarmusch', 'predicate': 'directed_by', 'exact_quote': 'Year of the Horse is a 1997 documentary directed by Jim Jarmusch following Neil Young and Crazy Horse on their 1996 tour; an accompanying live album by Neil Young& Crazy Horse was released in 1997.', 'start': 0, 'end': 197, 'heuristic_only': True}]
+- WIN: fbef09ef089511ebbd75ac1f6bf848b6; question: Which film has the director died later, The Big Cube or Rangila Ratan?
+  - Gold: ['rangila ratan', 's. ramanathan (film director)', 'the big cube', 'tito davison']
+  - CE96 Top10: ['rangila ratan', 'the big cube', 'the big score (1983 film)', 'the longshots', 'querelle', 'alberto lattuada', 's. ramanathan (film director)', 'le masque de la méduse', 'roy del ruth', 'martin frič']
+  - CHAIN Top10: ['rangila ratan', 'the big cube', 's. ramanathan (film director)', 'tito davison', 'the big score (1983 film)', 'the longshots', 'fred durst', 'querelle', 'alberto lattuada', 'le masque de la méduse']
+  - Source mentions used: [{'source_id': 'the big cube', 'target_id': 'tito davison', 'predicate': 'directed_by', 'exact_quote': "The Big Cube is a 1969 American thriller film directed by Tito Davison and starring Lana Turner, Karin Mossberg, George Chakiris, Daniel O' Herlihy and Richard Egan; it was one of Lana Turner's last movies.", 'start': 0, 'end': 206, 'heuristic_only': True}, {'source_id': 'the longshots', 'target_id': 'fred durst', 'predicate': 'directed_by', 'exact_quote': 'The Longshots is a 2008 American comedy- drama sports film directed by Fred Durst, based on the real life events of Jasmine Plummer, the first female to participate in the Pop Warner football tournament.', 'start': 0, 'end': 203, 'heuristic_only': True}]
+- WIN: 9310d4b4085b11ebbd5cac1f6bf848b6; question: Which film has the producer who is older, Dweepa or Kalank?
+  - Gold: ['dweepa', 'kalank', 'karan johar', 'soundarya']
+  - CE96 Top10: ['dweepa', 'soundarya', 'kalank', 'james d. stern', 'rumbi katedza', 'j. om prakash', 'bob rafelson', 'karan johar', 'siddique (director)', 'richard marcus']
+  - CHAIN Top10: ['dweepa', 'soundarya', "it's the rage (film)", 'kalank', 'karan johar', 'james d. stern', 'rumbi katedza', 'j. om prakash', 'bob rafelson', 'siddique (director)']
+  - Source mentions used: [{'source_id': 'kalank', 'target_id': 'karan johar', 'predicate': 'directed_by', 'exact_quote': 'Kalank is a 2019 Indian Hindi- language period drama film directed by Abhishek Varman and produced by Karan Johar, Sajid Nadiadwala and Fox Star Studios.', 'start': 0, 'end': 153, 'heuristic_only': True}]
+- LOSS: eadb2cac085711ebbd5aac1f6bf848b6; question: Do director of film Captured! and director of film Sand (1949 Film) share the same nationality?
+  - Gold: ['captured!', 'louis king', 'roy del ruth', 'sand (1949 film)']
+  - CE96 Top10: ['sand (1949 film)', 'louis king', 'captured!', 'ray taylor (director)', 'roy del ruth', 'carol reed', 'george fitzmaurice', 'alberto lattuada', 'claude weisz', 'elliot silverstein']
+  - CHAIN Top10: ['sand (1949 film)', 'louis king', 'captured!', 'carol reed', 'ray taylor (director)', 'roy del ruth', 'the last bandit', 'george fitzmaurice', 'alberto lattuada', 'claude weisz']
+  - Source mentions used: []
+### Four-source complete-chain failures despite all support docs in CE96 shortlist: 19
+- be93a232088e11ebbd70ac1f6bf848b6: Which film has the director born later, Nude On The Moon or Belphegor, Phantom Of The Louvre?
+  - Gold: ['belphegor, phantom of the louvre', 'doris wishman', 'jean-paul salomé', 'nude on the moon']
+  - Top10 chain: ['belphegor, phantom of the louvre', 'jean-paul salomé', 'claude weisz', 'nude on the moon', 'the phantom of the range', 'doris wishman', 'tom clegg (director)', 'jean-luc martinez', 'george fitzmaurice', 'jacques décombe']
+- 35d160de086a11ebbd5fac1f6bf848b6: Which film has the director who was born later, Land Of Hunted Men or Black Bandit?
+  - Gold: ['black bandit', 'george waggner', 'land of hunted men', 's. roy luby']
+  - Top10 chain: ['land of hunted men', 's. roy luby', 'hunted men (1924 film)', 'the valley of hunted men', 'black bandit', 'valley of hunted men', 'the last bandit', 'rumbi katedza', 'hassan zee', 'claude weisz']
+- ce0005f6087211ebbd66ac1f6bf848b6: Which film has the director who died first, On The Right Track or Giggi Il Bullo?
+  - Gold: ['giggi il bullo', 'lee philips', 'marino girolami', 'on the right track']
+  - Top10 chain: ['giggi il bullo', 'marino girolami', 'jimmy the kid', 'on the right track', 'train of dreams', 's. ramanathan (film director)', 'alberto lattuada', 'roy del ruth', 'mr. right (2009 film)', 'ray taylor (director)']
+- eadb2cac085711ebbd5aac1f6bf848b6: Do director of film Captured! and director of film Sand (1949 Film) share the same nationality?
+  - Gold: ['captured!', 'louis king', 'roy del ruth', 'sand (1949 film)']
+  - Top10 chain: ['sand (1949 film)', 'louis king', 'captured!', 'carol reed', 'ray taylor (director)', 'roy del ruth', 'the last bandit', 'george fitzmaurice', 'alberto lattuada', 'claude weisz']
+- 7d1e554c08a011ebbd78ac1f6bf848b6: Which film has the director born later, He Comes Up Smiling or The Christine Jorgensen Story?
+  - Gold: ['allan dwan', 'he comes up smiling', 'irving rapper', 'the christine jorgensen story']
+  - Top10 chain: ['the christine jorgensen story', 'trent lehman', 'he comes up smiling', 'allan dwan', 'the christine keeler story', 'tom clegg (director)', 'elliot silverstein', 'claude weisz', 'rumbi katedza', 'mariano laurenti']
+
+# MuSiQue Source-chain selection failures
+## 2 annotated support documents: 73 questions; 0 chain wins / 2 losses; 55 full gold in CE96 pool
+- LOSS: 2hop__80637_19033; question: Where did the wrestler who created the Money in the Bank Ladder Match win in 2008?
+  - Gold: ['6bc90607c22c42c1b2085451', 'd9873809b140442a663acc1d']
+  - CE96 Top10: ['d9873809b140442a663acc1d', '093333797d6981c229a40d6c', '50a0cfd1431fb84126778b55', '3e25acb77278186aaba81aab', '6bc90607c22c42c1b2085451', '178680c6e0f1af36b4064f3c', 'a5258a5ee6c9de2872b7ca7e', '999f40f537cc8dc5ce53113a', '40f4e02fbf2fe4a6c3e302af', 'b1f0f95de81e52d0085cd23a']
+  - CHAIN Top10: ['d9873809b140442a663acc1d', '093333797d6981c229a40d6c', '3e25acb77278186aaba81aab', '50a0cfd1431fb84126778b55', '40f4e02fbf2fe4a6c3e302af', '6bc90607c22c42c1b2085451', '178680c6e0f1af36b4064f3c', 'a5258a5ee6c9de2872b7ca7e', '999f40f537cc8dc5ce53113a', 'b1f0f95de81e52d0085cd23a']
+  - Source mentions used: []
+- LOSS: 2hop__835710_7298; question: Along with the Closer performer, what notable pop artist started out his career on adult contemporary radio?
+  - Gold: ['a544d27f7023d8b09898b3e5', 'f2e22863559e5ab7678d7553']
+  - CE96 Top10: ['1bd12333496fe80aaeee1d02', 'c544e1d678a5b680a1767d2a', 'f2e22863559e5ab7678d7553', '5e42e62c55b11b9a1873da94', 'a544d27f7023d8b09898b3e5', '9369395bb267d85cb25e3193', 'ca3b80bf31efca51bcaa8b8f', 'd775d6dab3df48921c47283e', '9fe3db7dae2de47f233b8791', 'f7c6aba7e3c478f9274869e2']
+  - CHAIN Top10: ['1bd12333496fe80aaeee1d02', 'c544e1d678a5b680a1767d2a', '5e42e62c55b11b9a1873da94', 'f2e22863559e5ab7678d7553', '9369395bb267d85cb25e3193', 'a544d27f7023d8b09898b3e5', 'ca3b80bf31efca51bcaa8b8f', 'd775d6dab3df48921c47283e', '9fe3db7dae2de47f233b8791', 'f7c6aba7e3c478f9274869e2']
+  - Source mentions used: []
+## 3 annotated support documents: 65 questions; 3 chain wins / 7 losses; 39 full gold in CE96 pool
+- WIN: 3hop1__86965_488922_4093; question: What is the term for the prime minister in the country where legislators are elected for six year terms?
+  - Gold: ['24ebc02a30cc3ba25238d300', '6df34950d35a2106e0d05452', 'ac122fa84fd83fdbf5d7da35']
+  - CE96 Top10: ['343841aed818990e2e9ae11c', '6df34950d35a2106e0d05452', '4d3b52db5f40ccce648d0362', '24ebc02a30cc3ba25238d300', 'bc6e17c2eb81fb1b32fb694f', 'ac122fa84fd83fdbf5d7da35', '8f446248101bfcf3fe219397', '10005b575bc094a599068737', 'e4219b8826a04882b9986c8e', '547064de5e7cb02594c5331a']
+  - CHAIN Top10: ['343841aed818990e2e9ae11c', '6df34950d35a2106e0d05452', '24ebc02a30cc3ba25238d300', '4d3b52db5f40ccce648d0362', 'ac122fa84fd83fdbf5d7da35', 'bc6e17c2eb81fb1b32fb694f', '8f446248101bfcf3fe219397', '10005b575bc094a599068737', 'e4219b8826a04882b9986c8e', '547064de5e7cb02594c5331a']
+  - Source mentions used: []
+- WIN: 3hop2__9988_73205_70784; question: What region is to the north of what used to be known as Near East and the body of water between east africa and Arabian Peninsula?
+  - Gold: ['1b67bc70fe75ff0252287545', '2d389ae04b7755ebdcabdb19', 'f14d013e017922c929602d91']
+  - CE96 Top10: ['320c8c3aeb574722842addb9', '0e95a9ae7d8e727530c6af08', '1b67bc70fe75ff0252287545', 'f14d013e017922c929602d91', '798923b813f13bb08c7f41a3', '2d389ae04b7755ebdcabdb19', 'c719c2d9f63c898dd49a0740', '64a2e1417e5f75430acbe567', '538214d2b5faa2cb223a48e0', 'b09ccfd5eba4c8e9d1f2e0fe']
+  - CHAIN Top10: ['320c8c3aeb574722842addb9', '0e95a9ae7d8e727530c6af08', '1b67bc70fe75ff0252287545', '2d389ae04b7755ebdcabdb19', 'f14d013e017922c929602d91', '64a2e1417e5f75430acbe567', '31657d9dd06a87a2c500e932', '798923b813f13bb08c7f41a3', 'c719c2d9f63c898dd49a0740', '538214d2b5faa2cb223a48e0']
+  - Source mentions used: []
+- WIN: 3hop1__603558_87694_124169; question: When was the end of the governorship where the head of Catholicism is, along with the basilica named after the saint who San Pietro in Ciel d'Oro is named for?
+  - Gold: ['194300c17d01205df605772b', '54d0283741c416ed71c60007', 'e57fbdc91b1b750692cad031']
+  - CE96 Top10: ['e57fbdc91b1b750692cad031', '6a90217f43e15f8f4590f66b', 'a80dc8caaa0e9170fae2ed1f', 'cff2daf442fb05a4ac1519fe', 'cbe93de181d075572b3b5f27', '54d0283741c416ed71c60007', '194300c17d01205df605772b', '0255cdb118dab066d7a4c923', '53ec27323e102f3473953598', '52f235dce7ea47f5293bcc63']
+  - CHAIN Top10: ['e57fbdc91b1b750692cad031', '6a90217f43e15f8f4590f66b', '194300c17d01205df605772b', 'a80dc8caaa0e9170fae2ed1f', '54d0283741c416ed71c60007', 'cff2daf442fb05a4ac1519fe', 'cbe93de181d075572b3b5f27', '0255cdb118dab066d7a4c923', '53ec27323e102f3473953598', '52f235dce7ea47f5293bcc63']
+  - Source mentions used: []
+- LOSS: 3hop1__169494_42197_18397; question: Where did the arguer that Dmitry Okhotsimsky's country of citizenship had become an imperialist power declare he would intervene in the Korean conflict?
+  - Gold: ['07914f85783f7ee0663a59bf', '568c67bf906003694cde6921', '8fb6d38b190a9505341b0591']
+  - CE96 Top10: ['07914f85783f7ee0663a59bf', '568c67bf906003694cde6921', '8fb6d38b190a9505341b0591', '65b8d14fd5e6c686097b290b', 'f7de25b133fa1b6aed8d5483', '63d03fe967a072ef0b8ae976', '684e6833d65cd1e50bd18b5b', '0cd5c40f5144826aa8b5c47d', 'ec81f76890583192da0e2bf6', '817a622e41d5c9f3b9d469b5']
+  - CHAIN Top10: ['07914f85783f7ee0663a59bf', '568c67bf906003694cde6921', '65b8d14fd5e6c686097b290b', '684e6833d65cd1e50bd18b5b', 'f77a85e67de91bb41f600085', '8fb6d38b190a9505341b0591', 'f7de25b133fa1b6aed8d5483', '63d03fe967a072ef0b8ae976', '0cd5c40f5144826aa8b5c47d', 'ec81f76890583192da0e2bf6']
+  - Source mentions used: []
+- LOSS: 3hop1__672543_503371_21711; question: When was the Palau de la Generalitat built in the place of death of Martin, of the region containing Piedratajada?
+  - Gold: ['1cd2ae957c9219b038869cd3', '3c313484e2881cdbbe2162fd', '4f543c32dcee65d60439d93f']
+  - CE96 Top10: ['3c313484e2881cdbbe2162fd', 'ee16629be23c0e648eff5849', 'de81420e87ef90381d2bb82f', '4f543c32dcee65d60439d93f', '1cd2ae957c9219b038869cd3', 'f0c077b4c446477d1b419456', '4165684b353cc586260527fc', 'a69374d2e89323800821ecdb', '09adb8797a9d673062394f2b', '6d767ebb84bf47ec9d47ccb8']
+  - CHAIN Top10: ['3c313484e2881cdbbe2162fd', 'ee16629be23c0e648eff5849', '6d767ebb84bf47ec9d47ccb8', 'de81420e87ef90381d2bb82f', '4f543c32dcee65d60439d93f', '0cecd8fe6c8e563ded10089d', '1cd2ae957c9219b038869cd3', 'f0c077b4c446477d1b419456', '4165684b353cc586260527fc', 'a69374d2e89323800821ecdb']
+  - Source mentions used: []
+- LOSS: 3hop1__163654_503371_21711; question: When was the Palau de la Generalitat constructed in the place of death of Martin, of the region that contained Bordalba?
+  - Gold: ['3c313484e2881cdbbe2162fd', '4f543c32dcee65d60439d93f', 'e9cbc1eab9d0d04e9d72e912']
+  - CE96 Top10: ['3c313484e2881cdbbe2162fd', 'ee16629be23c0e648eff5849', 'de81420e87ef90381d2bb82f', '4f543c32dcee65d60439d93f', 'e9cbc1eab9d0d04e9d72e912', 'f0c077b4c446477d1b419456', '4165684b353cc586260527fc', '09adb8797a9d673062394f2b', 'a69374d2e89323800821ecdb', '6d767ebb84bf47ec9d47ccb8']
+  - CHAIN Top10: ['3c313484e2881cdbbe2162fd', 'ee16629be23c0e648eff5849', '6d767ebb84bf47ec9d47ccb8', 'de81420e87ef90381d2bb82f', '4f543c32dcee65d60439d93f', '0cecd8fe6c8e563ded10089d', 'e9cbc1eab9d0d04e9d72e912', 'f0c077b4c446477d1b419456', '4165684b353cc586260527fc', '09adb8797a9d673062394f2b']
+  - Source mentions used: []
+## 4 annotated support documents: 22 questions; 0 chain wins / 0 losses; 13 full gold in CE96 pool
+### Four-source complete-chain failures despite all support docs in CE96 shortlist: 13
+- 4hop1__151903_5274_458768_33637: How many ethnic minorities were looked at differently where the only group larger than the record label of The Lost Trident Sessions is headquartered?
+  - Gold: ['42ca7ab77a4e0f0a2d144067', 'd13460406a702b3e7e88ad23', 'e37dab69a22475ab88757a14', 'fa8dd5d7e45beb4f08740175']
+  - Top10 chain: ['42ca7ab77a4e0f0a2d144067', 'b9860acac7d8e5fbfded0a7c', '0fee541816a7625fa889a99b', '9a5b50fc8ecd99e82054510d', 'deeef75f3f15bef1c9bcebc8', 'fa8dd5d7e45beb4f08740175', '3a7a3bc455d52502de302d7b', '1d6952a035ad2593255ce885', '20911f6a5b4c8f50c12fab4d', '5e77d56e11b00054af5a251a']
+- 4hop2__161324_14670_8987_8529: A country's military branch, the equivalent of which in the US contains the Air Defense Artillery, was unprepared for the invasion of the country occupied by the Nazi's. When was the word "Slavs" used in the national anthem of the unprepared country?
+  - Gold: ['06544f0cc8b4a92fc9a96aac', '2be8c8861e388f2a3a41217f', '30e2520413a8f13dede16bd1', '71fcc8892d9ccf1d77569f59']
+  - Top10 chain: ['30e2520413a8f13dede16bd1', 'a372bd60d5f13254df63e69e', '06544f0cc8b4a92fc9a96aac', '7d8562394e716b78d9762529', 'b536a3139500787c6d7ffa2b', '9cdbee2e5a20f47d3def8fc7', '136305d545f7a9a975c69609', '373e4a214927e2f7055e5d30', 'f51f556d93dcb205e67f7b7b', 'd540dfcc0b99437c97f09c07']
+- 4hop3__257340_88460_30152_20999: How were the same people who the Somali Muslim Ajuran Empire declared independence from expelled from the natural boundary between Thailand and the country where Khong Island is found?
+  - Gold: ['47a2da869d6f8bcd5e82b099', '50f9dbc4e89aa0149cae4b4f', '6d4255512eee1ab10e61f12d', '75dbb354337ad33ecc9727b1']
+  - Top10 chain: ['50f9dbc4e89aa0149cae4b4f', 'fea674757aa18345cdda9ccf', '538214d2b5faa2cb223a48e0', '6d4255512eee1ab10e61f12d', 'be2d7a5fe476abde6efb3a85', '5edd09697160c38a4d1b8145', '734870878378ee3115402aff', 'b09ccfd5eba4c8e9d1f2e0fe', '7d52e497335fa4e49b5feb42', '8ccdda3fd517b289c97032c6']
+- 4hop3__862_846_326964_7713: How long was the city where the Yongle emperor greeted the person the Ming court thought the representatives were sent by the capitol of Yaxing Coach's headquarters location?
+  - Gold: ['3266423668444900723a7a1d', '66fd3d1217bffacd25d7eee5', 'a2eae887c2eed9052a63319c', 'ae5cce8cfd6ac61ff46957d3']
+  - Top10 chain: ['58254cf4936308637f759da7', '64561adaaf6d24847c49ee48', '3266423668444900723a7a1d', '65cc1aa034446d990f056cea', '666b0bda86c38e4fdeea2f01', '66fd3d1217bffacd25d7eee5', '523b7447488493eb9f5b0bf8', '8f8f9287759eeb7d57429dad', 'cb7c77df4c0d8e09a31e3f80', 'bde9b939a506b15e218b54f6']
+- 4hop3__524186_219173_128875_72134: When did the town WLUJ is licensed in become the capital of the state where The Poor Boob's screenwriter was born?
+  - Gold: ['a6ba61aee60ae1e3d1c16d00', 'ca7c5f02fe4d1c18b4b58c57', 'cb6f0366cffc0ac1dd316e0d', 'df4b904f1a86f1b3b7515c51']
+  - Top10 chain: ['df4b904f1a86f1b3b7515c51', 'a6ba61aee60ae1e3d1c16d00', '96dfa33f5efd494fdf16d6ed', 'cb6f0366cffc0ac1dd316e0d', '438e79b2340c8be6eb567ba5', '750b27471312b78b34525b2c', '93a8c1549632ad07124d5a77', '2fe05fcd66168b5b446645e1', 'ca7c5f02fe4d1c18b4b58c57', '5edf116d9f00b4427052bb66']
