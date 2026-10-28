@@ -1,0 +1,51 @@
+name: PGER V8.7 One-Time Natural Document Relation Probe
+on:
+  push:
+    branches: [v87-natural-relation-probe-2026-10-27]
+    paths:
+      - 'v7-multihop/pger_v87_core.py'
+      - 'v7-multihop/benchmark_v87_docred.py'
+      - 'v7-multihop/test_pger_v87.py'
+      - '.github/workflows/pger_v87.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pger-v87-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  natural-relation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install free, CPU-only NLI
+        run: |
+          python -m pip install 'numpy>=1.24,<3'
+          python -m pip install 'torch>=2.3,<3' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install 'sentence-transformers>=3.3,<6'
+      - name: Six core tests and smoke benchmark
+        run: |
+          python -m unittest discover -s . -p 'test_pger_v87.py' -v
+          python benchmark_v87_docred.py smoke
+      - name: Official DocRED validation natural-document experiment
+        env:
+          OMP_NUM_THREADS: '2'
+          OPENBLAS_NUM_THREADS: '2'
+          TOKENIZERS_PARALLELISM: 'false'
+          HF_HUB_DISABLE_TELEMETRY: '1'
+        run: python -u benchmark_v87_docred.py run --pairs 100 --windows 4 --out results-v87
+      - name: Preserve observed positive and negative results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v87-docred-natural-relation
+          path: v7-multihop/results-v87/
+          if-no-files-found: warn
+          retention-days: 30
