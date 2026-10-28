@@ -54,10 +54,10 @@ def rank_fuse(fast,bm25,hits,mode='fuse',strength=.7,protect=2,cutoff=100):
 def expand(question,docs,fast,bm,index,strategies=('names','mixed'),seed_n=4,query_limit=8):
     result=[]
     for kind in strategies:
-        selected=propose(question,docs,fast,index.idfs,kind=kind,seed_n=seed_n,k=query_limit)
+        selected=propose(question,docs,fast,index.index.idfs,kind=kind,seed_n=seed_n,k=query_limit)
         hits=[];logs=[]
         for p in selected:
-            rows=[i for i,_ in index.search(p['term'],'bm25',40)]
+            rows=[i for i,_ in index.index.search(p['term'],'bm25',40)]
             if rows:
                 hits.append(rows);logs.append({'query':p['term'],'witness_doc':p['witness_doc'],'sentence_index':p['sentence_index'],'quote':p['quote'],'returned':len(rows)})
         result.append((kind,hits,logs))
