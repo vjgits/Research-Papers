@@ -45,7 +45,7 @@ def facet_queries(q):
         parts=[x.strip(" ,;?.!") for x in CLAUSE_AND.split(q) if x.strip(" ,;?.!")]
     clean=[]
     for part in parts:
-        if len(terms(part))<3:continue
+        if len(terms(part))<2:continue
         k=" ".join(terms(part))
         if k not in {x[0] for x in clean}:clean.append((k,part))
     if len(clean)<2:
