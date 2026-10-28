@@ -28,6 +28,7 @@ from audit_v14_entailmentbank import get
 from benchmark_v72 import SparseMethods
 from benchmark_v71 import EvidenceLedger
 from benchmark_v95_controlled import initial,paired,cpu_ms,unique
+from pger_v13_proof_gate import Claim,decide,Status
 
 PRIMARY=(400,800)
 SPLITS={"unseen_train_question_holdout":PRIMARY,
@@ -99,8 +100,6 @@ def source_query_candidates(q,docs,source_id,index,used_queries):
     # Strongly prefer two novel linked terms; source text justifies both.
     candidates=[]
     for i,(a_score,a) in enumerate(scored[:5]):
-        others=[(b_score,b) for b_score,b in scored[i+1:i+5]
-                if len(index.postings[a]) & len(index.postings[b]) > 0] if False else []
         # Do not hallucinate atomic relations; the tentative slot remains unverified.
         phrase=a
         if phrase.casefold() not in used_queries:
@@ -273,8 +272,14 @@ def evaluate(folder,out):
                    "graph_cpu_ms":round(s["graph_ms"],4),
                    "graph_candidate_exposures":s["graph_docs"]
                  } for h,s in stages.items()}
+            # Explicit PGER safety boundary. With no independently validated
+            # fact-edge reviewers, no source-ranking outcome may authorize an answer.
+            safety=decide([Claim("question_proof","question","requires","validated_evidence")],
+                          {},[],0)
+            assert safety.status==Status.ABSTAIN
             cases.append({
               "id":rawq.get("id"),"question":question,
+              "proof_gate_status":safety.status.value,
               "n_required_leaves":gold["required_n"],
               "depth":gold["depth"],"steps":gold["steps"],
               "n_unavailable":len(gold["strict_unavailable"]),
