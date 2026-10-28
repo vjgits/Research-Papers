@@ -48,13 +48,29 @@ def evaluate(name,rows,docs,goldfn,dense,ce,out):
         t=time.perf_counter();fast,_=graph.search(q,bm_rank,mode='one-hop',bmraw=bmraw)
         graph_ms=(time.perf_counter()-t)*1000
         gate=early_gate(q,fast,docs)
-        # Actual route happens *before* expensive work in this invocation.
-        # Ablations below compute CE for ALL queries, so total job time is not deployment time.
-        t0=time.perf_counter()
-        routed=None;routed_ce_pairs=0;routed_ms=0.0
+        # Independent conditional path, executed BEFORE shared ablations.
+        # Fast queries truly skip TF-IDF, dense, followups and CE.
+        route_start=time.perf_counter()
+        routed_ce_pairs=0
         if gate:
             routed=list(fast)
-            routed_ms=(time.perf_counter()-t0)*1000
+        else:
+            route_tf=[i for i,_ in bm.index.search(q,'tfidf',120)]
+            route_qe=np.asarray(dense.encode([q],normalize_embeddings=True,convert_to_numpy=True,show_progress_bar=False)[0],dtype=np.float32)
+            route_ds=emb@route_qe
+            route_dense=sorted(range(len(docs)),key=lambda i:(-float(route_ds[i]),ids[i]))[:150]
+            route_rescue,_,_=build_candidate_rescue(q,fast,bm_rank,e,
+                 lambda qq,cap:[i for i,_ in bm.index.search(qq,'bm25',cap)])
+            route_near=sorted(e.nearby(fast[:12]),key=lambda i:ids[i])
+            route_wide,route_rrf=full_pool(fast,bm_rank,route_dense,route_tf,
+                  sorted(route_rescue,key=lambda i:ids[i]),route_near,ids)
+            route_pool=deterministic_shortlist(fast,route_wide,route_rrf,docs,q,96)
+            route_raw=ce.predict([(q,make_passage(docs[i])) for i in route_pool],batch_size=32,show_progress_bar=False)
+            route_map={i:float(v) for i,v in zip(route_pool,route_raw)}
+            routed,_=connected_beam(fast,route_pool,route_map,ids,docs,e,q,beam=8,width=5)
+            routed_ce_pairs=len(route_pool)
+        actual_ms=(time.perf_counter()-route_start)*1000
+        route_total_ms=base_ms+graph_ms+actual_ms
         # Shared dataset side-by-side ablations, including cases gated fast.
         t=time.perf_counter();tf=[i for i,_ in bm.index.search(q,'tfidf',120)];tf_ms=(time.perf_counter()-t)*1000
         t=time.perf_counter();qe=np.asarray(dense.encode([q],normalize_embeddings=True,convert_to_numpy=True,show_progress_bar=False)[0],dtype=np.float32)
@@ -76,15 +92,7 @@ def evaluate(name,rows,docs,goldfn,dense,ce,out):
         sourced,traces=directional_bonus_rank(fast,pools[96],scoremap,e)
         t=time.perf_counter();chain,chain_traces=connected_beam(fast,pools[96],scoremap,ids,docs,e,q,beam=8,width=5)
         chain_rank_ms=(time.perf_counter()-t)*1000
-        # Real conditional execution: gated queries reuse existing BM25/graph;
-        # other queries do a separately timed CE call on exactly 96 documents.
-        if not gate:
-            t=time.perf_counter()
-            raw_actual=ce.predict([(q,make_passage(docs[i])) for i in pools[96]],batch_size=32,show_progress_bar=False)
-            actual_map={i:float(v) for i,v in zip(pools[96],raw_actual)}
-            routed,_=connected_beam(fast,pools[96],actual_map,ids,docs,e,q,beam=8,width=5)
-            routed_ms=(time.perf_counter()-t)*1000
-            routed_ce_pairs=len(pools[96])
+        # Independent gated path never reuses the shared union CE scores.
         result={'bm25':bm_rank,'v71_fast':fast,'ce32':ce32,'ce64':ce64,'ce96':ce96,
                 'ce96_sourced':sourced,'v85_chain96':chain,'v85_early_gate':routed}
         # Gold only read after all retrieval and ranking calls are complete.
@@ -97,7 +105,7 @@ def evaluate(name,rows,docs,goldfn,dense,ce,out):
             met[method]={**c,**p,'ranked_top10':[ids[i] for i in ranking[:10]]}
         stage={'bm25':base_ms,'graph':graph_ms,'tfidf':tf_ms,'dense':dense_ms,
                'followups':follow_ms,'ce96_shared':ce_shared_ms,'chain_scoring':chain_rank_ms,
-               'conditional_ce_and_chain':routed_ms}
+               'conditional_all_downstream':actual_ms,'conditional_total':route_total_ms}
         for k,v in stage.items():stages[k].append(v)
         records.append(dict(qid=qid,question=q,support_count=len(gold),gold_ids=sorted(gold),methods=met,
           gate='fast' if gate else 'ce',actual_ce_pairs=routed_ce_pairs,wide_pool=len(wide),
