@@ -1,0 +1,50 @@
+name: PGER V12 One-Time Matched Architectural Comparison (SAG2/HippoRAG2/S2G Proxies)
+on:
+  push:
+    branches: [v12-top3-architecture-inspiration-2026-10-28]
+    paths:
+      - 'v7-multihop/benchmark_v12_architecture_ablation.py'
+      - '.github/workflows/pger_v12_top3_proxy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pger-v12-top3-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  three-architecture-inspired-proxies:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: v7-multihop
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install frozen free retrieval and learning dependencies
+        run: |
+          python -m pip install 'numpy>=1.24,<3' 'scipy>=1.10,<2' 'scikit-learn>=1.3,<2' 'pyarrow>=17,<27' 'pyahocorasick>=2,<4'
+          python -m pip freeze > results-v12-deps.txt
+      - name: Validate three proxy mechanisms and V11.3 feature parity
+        run: |
+          python benchmark_v12_architecture_ablation.py smoke
+          python benchmark_v113.py smoke
+          python benchmark_v101_multihoprag.py smoke
+      - name: Train frozen PGER on 0-399, score three proxies on 2000-2399
+        run: python -u benchmark_v12_architecture_ablation.py run --out results-v12
+      - name: Archive full evidence and regressions
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v12-three-architecture-proxies
+          path: |
+            v7-multihop/results-v12/
+            v7-multihop/results-v12-deps.txt
+          if-no-files-found: warn
+          retention-days: 30
