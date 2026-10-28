@@ -1,0 +1,33 @@
+name: PGER V17 Original SAG2 JEV Free Preflight (No Paid Calls)
+on:
+  push:
+    branches: [v17-hover-official-sag2-reproduction-2026-10-28]
+    paths:
+      - 'v7-multihop/benchmark_v17_original_jev.py'
+      - '.github/workflows/pger_v17_jev_preflight.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  validate-frozen-model-and-corpus:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          name: pger-v17-hover-shared-120-claim-corpus
+          github-token: ${{ github.token }}
+          run-id: 40741978291
+          path: v7-multihop/v17-hover-data/prepared/
+      - name: Verify 120 claims source hashes and historical JEV settings WITHOUT credentials or paid requests
+        run: |
+          python -u benchmark_v17_original_jev.py --max-cases 10 --budget-usd 1.0
+          test ! -f results-v17-original-jev/summary.json
