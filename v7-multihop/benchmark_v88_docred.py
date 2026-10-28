@@ -47,7 +47,7 @@ def canonical_aliases(group):
 def scored_doc(idx,doc,regex,spacy,nli=None):
     """NO gold read until every extraction/verification output is frozen."""
     sents=doc['sents'];results={};preds={};objects={}
-    for method,mentions in [('regex',regex),('spacy',spacy)]:
+    for method,mentions in ([('regex',regex),('spacy',spacy)] if spacy is not None else [('regex',regex)]):
         pairs=pair_candidates(mentions,sents)
         ts=relation_triples(mentions,sents)
         objects[method]={'mentions':mentions,'pairs':pairs,'triples':ts}
@@ -114,7 +114,7 @@ def run(out,n=60,use_spacy=True,use_nli=True):
         # ABSOLUTELY no call to doc['labels'] or doc['vertexSet'] until both models have proposed mentions and triples.
         sentences=doc['sents']
         regex=regex_mentions(sentences)
-        spacy_m=spacy_mentions(sentences,nlp) if nlp else regex
+        spacy_m=spacy_mentions(sentences,nlp) if nlp else None
         record=scored_doc(idx,doc,regex,spacy_m,nli=nli)
         records.append(record)
         if (i+1)%10==0:print('V88 DocRED source-first',i+1,'/',n,flush=True)
@@ -132,6 +132,20 @@ def run(out,n=60,use_spacy=True,use_nli=True):
                  excluded_v87_docs=len(EXCLUDE),model=loaded,methods=summary,
                  interpretation='Gold-positive recall only. Unlabeled outputs may be correct; no precision or official DocRED F1.',
                  scope='Document-level raw-text NER/cue triple proposals. No gold pair prompts. No open web, multi-hop answers or proof-gap retrieval yet.')
+    # Cluster bootstrap over independent documents; resample whole documents, not triples.
+    rng=np.random.default_rng(SEED)
+    boot={}
+    for name in names:
+        values=[(r['metrics'][name].get('gold_triples_found',0),r['gold_count']) for r in records]
+        replicas=[]
+        for _ in range(3000):
+            chosen=rng.integers(0,len(values),size=len(values))
+            hits=sum(values[j][0] for j in chosen)
+            den=sum(values[j][1] for j in chosen)
+            replicas.append(hits/max(1,den))
+        boot[name]={'annotated_triple_recall':round(summary[name]['gold_triples_found']/max(1,total),6),
+                    'doc_cluster_ci95':[round(float(v),6) for v in np.quantile(replicas,[.025,.975])]}
+    metrics['bootstrap']=boot
     (out/'summary.json').write_text(json.dumps(metrics,indent=2))
     with (out/'per_doc.jsonl').open('w') as f:
         for r in records:f.write(json.dumps(r)+'\n')
