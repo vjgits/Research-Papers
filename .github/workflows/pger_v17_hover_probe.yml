@@ -1,0 +1,29 @@
+name: PGER V17 HoVer Data and SAG2 Feasibility Audit (One Time)
+on:
+  push:
+    branches: [v17-hover-official-sag2-reproduction-2026-10-28]
+    paths:
+      - 'v7-multihop/probe_v17_hover.py'
+      - '.github/workflows/pger_v17_hover_probe.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -u probe_v17_hover.py
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v17-hover-source-availability-probe
+          path: v7-multihop/results-v17-hover-probe/
+          retention-days: 30
