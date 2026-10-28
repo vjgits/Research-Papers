@@ -47,7 +47,7 @@ def witnessed(src,target_title,qwords):
         return specificity,{"text":sentence[:400],"target":target}
     return 0,None
 
-def make_ranking(q,docs,base,pool,kind):
+def make_ranking(q,docs,base,pool,kind,adjacency=None):
     t=time.process_time()
     # fixed ordered candidate pool; retain all for complete rankings
     cand=unique([i for i in pool if i in set(base[:200])] + pool)
@@ -72,8 +72,11 @@ def make_ranking(q,docs,base,pool,kind):
         edge={}
         for i in cand[:POOL_MAX]:
             text=docs[i].get("text","")
+            # Pre-indexed Aho–Corasick title mentions provide an inexpensive
+            # necessary prefilter; still validate the source sentence below.
+            neighbors=set(adjacency[i]) if adjacency is not None else None
             for j in cand[:POOL_MAX]:
-                if i==j:continue
+                if i==j or (neighbors is not None and j not in neighbors):continue
                 v,w=witnessed(text,docs[j]["title"],qwords)
                 if v>=WITNESS_THRESHOLD:edge[(i,j)]=(v,w)
         audit["potential_edges"]=len(edge)
@@ -122,7 +125,7 @@ def evaluate(name,root,out):
             pool=unique(fused[:80]+fast[:80]+original[:80]+[
                 i for h in hits for i in h])
             diversified,diag_div,cost_div=make_ranking(q,docs,fused,pool,"independent_diversity")
-            witnessed_rank,diag_wit,cost_wit=make_ranking(q,docs,fused,pool,"source_witness_chain")
+            witnessed_rank,diag_wit,cost_wit=make_ranking(q,docs,fused,pool,"source_witness_chain",graph.adj)
             rankings={"v71_fast":fast,"two_query_fusion":fused,
                       "independent_diversity":diversified,
                       "source_witness_chain":witnessed_rank}
