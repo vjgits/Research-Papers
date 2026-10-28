@@ -1,0 +1,34 @@
+name: PGER V17 One-Time HoVer Wikipedia Corpus Preparation
+on:
+  push:
+    branches: [v17-hover-official-sag2-reproduction-2026-10-28]
+    paths:
+      - 'v7-multihop/prepare_v17_hover_corpus.py'
+      - '.github/workflows/pger_v17_hover_prepare.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: v17-hover-prep-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  original-hover-2017-wikipedia:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Freeze source titles WITHOUT gold then fetch source text from original Wikipedia database
+        run: python -u prepare_v17_hover_corpus.py
+      - name: Archive shared SAG2/PGER corpus, question IDs and source-availability audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v17-hover-shared-120-claim-corpus
+          path: v7-multihop/v17-hover-data/prepared/
+          retention-days: 30
