@@ -71,6 +71,12 @@ Observed directional source link traces were recorded in only **10/160 MuSiQue q
 
 Gate took the cheap path on only **3/120 2Wiki** and **2/160 MuSiQue** questions. It therefore barely reduces compute and is not a successful adaptive proof-gap controller. Per-query timings omit model load, network/data download and answer generation. Offline BM25 and title graph indexes built in 0.121/0.009 s (2Wiki) and 0.465/0.040 s (MuSiQue); dense embedding index 12.66 and 52.62 seconds respectively. Pretrained CE load 3.59 s; dense load 3.55 s. These are shared-process CPU observations, not production serving benchmarks.
 
+## Concrete provenance/semantic failure
+
+**Exact quote does not guarantee the extracted predicate.** In 2Wiki query `9310d4b4085b11ebbd5cac1f6bf848b6` (comparing the ages of the producers of *Dweepa* and *Kalank*), the source span says *"Kalank ... directed by Abhishek Varman and produced by Karan Johar ..."*. The rule-based extractor recorded `Kalank -> Karan Johar` with predicate `directed_by`. The cited text is real and the offsets pass, but the **relation is mislabeled**: the span identifies Karan Johar as a producer, not its director. This is an observed counterexample to treating validated source offsets as validated subclaim entailment. It directly motivates independently labeled subject–predicate–object evaluation before additional chain-ranking search.
+
+Full reproducible per-question wins, losses and missed chains: [V85_POSTHOC_FAILURE_EXAMPLES.md](V85_POSTHOC_FAILURE_EXAMPLES.md).
+
 ## Scientific decision
 
 **Reject V8.5 connected-source heuristic as an improvement.** It uses standard bounded beam search over weak title-cue edges, not semantic proof-gap resolution. No evidence of improved genuine four-source MuSiQue recovery, no substantial runtime saving, no robust matched-model win. Keep V7.1 as efficient default on title-linked queries; the protected CE remains a costly, task-conditional paragraph-ranking comparator. Do not silently substitute V8.5 for either.
