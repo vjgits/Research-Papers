@@ -47,3 +47,13 @@ references:
     year: 2026
     doi: "10.5281/zenodo.20078381"
     url: "https://doi.org/10.5281/zenodo.20078381"
+  - type: article
+    title: "Never Miss the Narrows: What a Short Instruction Does and Doesn't Fix When AI Assistants Plan Trips Over Long Conversations"
+    authors:
+      - family-names: Suresh
+        given-names: Vijay
+        orcid: "https://orcid.org/0009-0004-1471-0561"
+    year: 2026
+    version: "4.3"
+    doi: "10.5281/zenodo.23721946"
+    url: "https://doi.org/10.5281/zenodo.23721946"

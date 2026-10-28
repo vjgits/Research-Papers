@@ -1,0 +1,74 @@
+{
+ "phase_dir": "outputs/pilot",
+ "run_status": {
+  "OK": 31,
+  "INCOMPLETE_CAP": 1,
+  "INCOMPLETE_STOPPED": 2
+ },
+ "non_ok_http_attempts": {},
+ "by_model": {
+  "A anthropic/claude-opus-5.5": {
+   "runs": 3,
+   "runs_ok": 2,
+   "truncation_rate": 0.0,
+   "cached_share_of_input": 0.784,
+   "mean_out_tokens": 1266,
+   "mean_words_per_dp": 255.7,
+   "state_parse_rate": 1.0
+  },
+  "B anthropic/claude-sonnet-5.5": {
+   "runs": 5,
+   "runs_ok": 5,
+   "truncation_rate": 0.04,
+   "cached_share_of_input": 0.717,
+   "mean_out_tokens": 1416,
+   "mean_words_per_dp": 248.1,
+   "state_parse_rate": 1.0
+  },
+  "C openai/gpt-6.1-sol": {
+   "runs": 3,
+   "runs_ok": 2,
+   "truncation_rate": 0.0,
+   "cached_share_of_input": 0.641,
+   "mean_out_tokens": 958,
+   "mean_words_per_dp": 199.5,
+   "state_parse_rate": 0.8
+  },
+  "D google/gemini-4-argon": {
+   "runs": 3,
+   "runs_ok": 2,
+   "truncation_rate": 0.0,
+   "cached_share_of_input": 0.489,
+   "mean_out_tokens": 824,
+   "mean_words_per_dp": 293.7,
+   "state_parse_rate": 1.0
+  },
+  "E deepseek/deepseek-v4.1-flash": {
+   "runs": 3,
+   "runs_ok": 3,
+   "truncation_rate": 0.043,
+   "cached_share_of_input": 0.701,
+   "mean_out_tokens": 1986,
+   "mean_words_per_dp": 205.6,
+   "state_parse_rate": 0.6
+  },
+  "F z-ai/glm-5.3": {
+   "runs": 12,
+   "runs_ok": 12,
+   "truncation_rate": 0.0,
+   "cached_share_of_input": 0.673,
+   "mean_out_tokens": 693,
+   "mean_words_per_dp": 174.9,
+   "state_parse_rate": 1.0
+  },
+  "G qwen/qwen3.8-27b": {
+   "runs": 5,
+   "runs_ok": 5,
+   "truncation_rate": 0.0,
+   "cached_share_of_input": 0.755,
+   "mean_out_tokens": 1273,
+   "mean_words_per_dp": 156.7,
+   "state_parse_rate": 0.8
+  }
+ }
+}

@@ -70,6 +70,18 @@ Learners increasingly ask AI models to write practice questions, but a question 
 - **Pre-registrations (OSF):** [osf.io/uya5q](https://osf.io/uya5q) · [osf.io/93vpn](https://osf.io/93vpn) · [osf.io/3z64e](https://osf.io/3z64e)
 - **arXiv:** pending endorsement
 
+### 6. Never Miss the Narrows: What a Short Instruction Does and Doesn't Fix When AI Assistants Plan Trips Over Long Conversations
+
+**A preregistered evaluation of informed-choice preservation in long planning conversations**  
+Current version: **v4.3 · October 2026**
+
+AI travel assistants can say something important once, early in a long conversation, then fail to raise it when the traveler actually decides, quietly trade away a must-see, or forget a refund deadline they recorded themselves. This paper names the goal **informed-choice preservation** and tests a short drop-in instruction block across 7 models and 36 scenarios. AI readers understood more after protocol replies (0.42 → 0.59, positive in all six long cases), mostly about self-recorded deadlines and spare time. Must-sees were mentioned far more often, but rarely in a way that explained why they mattered ("mentioning is not informing"). The costs are more over-intervention as rated by judges, slightly fewer untargeted facts, and longer replies. All labels are from AI models; human validation is in progress.
+
+- **Project folder:** [Never-Miss-the-Narrows-What-a-Short-Instruction-Does-and-Doesnt-Fix](./Never-Miss-the-Narrows-What-a-Short-Instruction-Does-and-Doesnt-Fix/)
+- **Current PDF v4.3:** [Download manuscript](./Never-Miss-the-Narrows-What-a-Short-Instruction-Does-and-Doesnt-Fix/paper/v4.3/Never_Miss_the_Narrows_v4.3.pdf)
+- **Paper, data and code (v4.3):** [doi:10.5281/zenodo.23721946](https://doi.org/10.5281/zenodo.23721946)
+- **arXiv:** pending endorsement
+
 ## Canonical Zenodo index
 
 | Research object | DOI |
@@ -82,6 +94,7 @@ Learners increasingly ask AI models to write practice questions, but a question 
 | Observed Recoverable Behavioral Failures in LLM Workflows | [10.5281/zenodo.20271844](https://doi.org/10.5281/zenodo.20271844) |
 | Managing the AI Transition: Overshoot, Non-Replacement, and Adaptive Policy | [10.5281/zenodo.20078381](https://doi.org/10.5281/zenodo.20078381) |
 | No Poker Face: Why AI Can't Keep the Answer to Itself — v1.1 (paper, data and code) | [10.5281/zenodo.23398343](https://doi.org/10.5281/zenodo.23398343) |
+| Never Miss the Narrows — v4.3 (paper, data and code) | [10.5281/zenodo.23721946](https://doi.org/10.5281/zenodo.23721946) |
 
 ## Repository organization
 
@@ -94,6 +107,7 @@ Research-Papers/
 ├── Boundary-Contamination-in-LLM-Workflows/
 ├── Managing-the-AI-Transition-Overshoot-Non-Replacement-and-Adaptive-Policy/
 ├── No-Poker-Face-Why-AI-Cant-Keep-the-Answer-to-Itself/
+├── Never-Miss-the-Narrows-What-a-Short-Instruction-Does-and-Doesnt-Fix/
 └── archive/
 ```
 

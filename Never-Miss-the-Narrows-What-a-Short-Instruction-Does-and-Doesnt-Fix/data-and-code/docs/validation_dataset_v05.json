@@ -1,0 +1,1787 @@
+{
+ "n_checks": 356,
+ "n_fail": 0,
+ "fails": [],
+ "all": [
+  {
+   "check": "unique case ids",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "gold for every case",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": ">=25% no-nag controls",
+   "ok": true,
+   "detail": "9/36 = 25.0%"
+  },
+  {
+   "check": "disruptions 20-30% of scenarios",
+   "ok": true,
+   "detail": "8/36 = 22.2%"
+  },
+  {
+   "check": "no disruptions in controls",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": ">=4 more-lodging/more-time-efficient scenarios",
+   "ok": true,
+   "detail": "4"
+  },
+  {
+   "check": "no Utah locations anywhere in the test set",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "unique (region, mechanism, calendar) triples",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "pairwise tag Jaccard <= 0.5",
+   "ok": true,
+   "detail": "max 0.50 (C01,C02)"
+  },
+  {
+   "check": "LH1: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH1: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH1: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH1: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH1: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH1: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH1: total messages 100-250",
+   "ok": true,
+   "detail": "120"
+  },
+  {
+   "check": "LH1: \u2605 mentioned in frozen history only in the first two anchor exchanges",
+   "ok": true,
+   "detail": "idx=[1, 2]"
+  },
+  {
+   "check": "LH1: \u2605 last mention >= 90 messages before DP1",
+   "ok": true,
+   "detail": "distance=106"
+  },
+  {
+   "check": "LH1: deadline recorded by the assistant in exactly one frozen turn",
+   "ok": true,
+   "detail": "idx=[47]"
+  },
+  {
+   "check": "LH1: has all six DP roles",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH1: deadline window DP is 0-7 h before the deadline",
+   "ok": true,
+   "detail": "1.6 h"
+  },
+  {
+   "check": "LH1: no night-time filler messages",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH1: filler has no skip/idle-endorsing phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH1: no filler day plan repeats a sight",
+   "ok": true,
+   "detail": "0 plans"
+  },
+  {
+   "check": "LH1: no leftover rest/shorten phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH1: filler day plans end at or after 16:30",
+   "ok": true,
+   "detail": "[995, 995, 995]"
+  },
+  {
+   "check": "LH1: no anchor dismisses the dependency",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH1: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH2: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH2: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH2: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH2: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH2: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH2: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH2: total messages 100-250",
+   "ok": true,
+   "detail": "140"
+  },
+  {
+   "check": "LH2: \u2605 mentioned in frozen history only in the first two anchor exchanges",
+   "ok": true,
+   "detail": "idx=[1, 3]"
+  },
+  {
+   "check": "LH2: \u2605 last mention >= 90 messages before DP1",
+   "ok": true,
+   "detail": "distance=125"
+  },
+  {
+   "check": "LH2: deadline recorded by the assistant in exactly one frozen turn",
+   "ok": true,
+   "detail": "idx=[43]"
+  },
+  {
+   "check": "LH2: has all six DP roles",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH2: deadline window DP is 0-7 h before the deadline",
+   "ok": true,
+   "detail": "1.6 h"
+  },
+  {
+   "check": "LH2: no night-time filler messages",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH2: filler has no skip/idle-endorsing phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH2: no filler day plan repeats a sight",
+   "ok": true,
+   "detail": "0 plans"
+  },
+  {
+   "check": "LH2: no leftover rest/shorten phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH2: filler day plans end at or after 16:30",
+   "ok": true,
+   "detail": "[995, 995, 995]"
+  },
+  {
+   "check": "LH2: no anchor dismisses the dependency",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH2: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH3: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH3: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH3: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH3: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH3: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH3: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH3: total messages 100-250",
+   "ok": true,
+   "detail": "170"
+  },
+  {
+   "check": "LH3: \u2605 mentioned in frozen history only in the first two anchor exchanges",
+   "ok": true,
+   "detail": "idx=[1, 3]"
+  },
+  {
+   "check": "LH3: \u2605 last mention >= 90 messages before DP1",
+   "ok": true,
+   "detail": "distance=155"
+  },
+  {
+   "check": "LH3: deadline recorded by the assistant in exactly one frozen turn",
+   "ok": true,
+   "detail": "idx=[51]"
+  },
+  {
+   "check": "LH3: has all six DP roles",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH3: deadline window DP is 0-7 h before the deadline",
+   "ok": true,
+   "detail": "5.3 h"
+  },
+  {
+   "check": "LH3: no night-time filler messages",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH3: filler has no skip/idle-endorsing phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH3: no filler day plan repeats a sight",
+   "ok": true,
+   "detail": "0 plans"
+  },
+  {
+   "check": "LH3: no leftover rest/shorten phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH3: filler day plans end at or after 16:30",
+   "ok": true,
+   "detail": "[995, 995, 995]"
+  },
+  {
+   "check": "LH3: no anchor dismisses the dependency",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH3: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH4: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH4: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH4: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH4: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH4: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH4: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH4: total messages 100-250",
+   "ok": true,
+   "detail": "198"
+  },
+  {
+   "check": "LH4: \u2605 mentioned in frozen history only in the first two anchor exchanges",
+   "ok": true,
+   "detail": "idx=[1, 2]"
+  },
+  {
+   "check": "LH4: \u2605 last mention >= 90 messages before DP1",
+   "ok": true,
+   "detail": "distance=184"
+  },
+  {
+   "check": "LH4: deadline recorded by the assistant in exactly one frozen turn",
+   "ok": true,
+   "detail": "idx=[61]"
+  },
+  {
+   "check": "LH4: has all six DP roles",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH4: deadline window DP is 0-7 h before the deadline",
+   "ok": true,
+   "detail": "5.3 h"
+  },
+  {
+   "check": "LH4: no night-time filler messages",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH4: filler has no skip/idle-endorsing phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH4: no filler day plan repeats a sight",
+   "ok": true,
+   "detail": "0 plans"
+  },
+  {
+   "check": "LH4: no leftover rest/shorten phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH4: filler day plans end at or after 16:30",
+   "ok": true,
+   "detail": "[995, 995, 995]"
+  },
+  {
+   "check": "LH4: no anchor dismisses the dependency",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH4: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH5: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH5: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH5: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH5: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH5: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH5: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH5: total messages 100-250",
+   "ok": true,
+   "detail": "226"
+  },
+  {
+   "check": "LH5: \u2605 mentioned in frozen history only in the first two anchor exchanges",
+   "ok": true,
+   "detail": "idx=[1, 2, 3]"
+  },
+  {
+   "check": "LH5: \u2605 last mention >= 90 messages before DP1",
+   "ok": true,
+   "detail": "distance=211"
+  },
+  {
+   "check": "LH5: deadline recorded by the assistant in exactly one frozen turn",
+   "ok": true,
+   "detail": "idx=[69]"
+  },
+  {
+   "check": "LH5: has all six DP roles",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH5: deadline window DP is 0-7 h before the deadline",
+   "ok": true,
+   "detail": "6.5 h"
+  },
+  {
+   "check": "LH5: no night-time filler messages",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH5: filler has no skip/idle-endorsing phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH5: no filler day plan repeats a sight",
+   "ok": true,
+   "detail": "0 plans"
+  },
+  {
+   "check": "LH5: no leftover rest/shorten phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH5: filler day plans end at or after 16:30",
+   "ok": true,
+   "detail": "[995, 995, 995]"
+  },
+  {
+   "check": "LH5: no anchor dismisses the dependency",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH5: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH6: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH6: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH6: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH6: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH6: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH6: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH6: total messages 100-250",
+   "ok": true,
+   "detail": "248"
+  },
+  {
+   "check": "LH6: \u2605 mentioned in frozen history only in the first two anchor exchanges",
+   "ok": true,
+   "detail": "idx=[1, 2]"
+  },
+  {
+   "check": "LH6: \u2605 last mention >= 90 messages before DP1",
+   "ok": true,
+   "detail": "distance=234"
+  },
+  {
+   "check": "LH6: deadline recorded by the assistant in exactly one frozen turn",
+   "ok": true,
+   "detail": "idx=[75]"
+  },
+  {
+   "check": "LH6: has all six DP roles",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH6: deadline window DP is 0-7 h before the deadline",
+   "ok": true,
+   "detail": "3.8 h"
+  },
+  {
+   "check": "LH6: no night-time filler messages",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH6: filler has no skip/idle-endorsing phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH6: no filler day plan repeats a sight",
+   "ok": true,
+   "detail": "0 plans"
+  },
+  {
+   "check": "LH6: no leftover rest/shorten phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH6: filler day plans end at or after 16:30",
+   "ok": true,
+   "detail": "[995, 995, 995]"
+  },
+  {
+   "check": "LH6: no anchor dismisses the dependency",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH6: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH7: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH7: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH7: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH7: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH7: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH7: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH7: total messages 100-250",
+   "ok": true,
+   "detail": "152"
+  },
+  {
+   "check": "LH7: no night-time filler messages",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH7: filler has no skip/idle-endorsing phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH7: no filler day plan repeats a sight",
+   "ok": true,
+   "detail": "0 plans"
+  },
+  {
+   "check": "LH7: no leftover rest/shorten phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH7: filler day plans end at or after 16:30",
+   "ok": true,
+   "detail": "[995, 995, 995]"
+  },
+  {
+   "check": "LH7: no anchor dismisses the dependency",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH7: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH8: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH8: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH8: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH8: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH8: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH8: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH8: total messages 100-250",
+   "ok": true,
+   "detail": "202"
+  },
+  {
+   "check": "LH8: no night-time filler messages",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH8: filler has no skip/idle-endorsing phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH8: no filler day plan repeats a sight",
+   "ok": true,
+   "detail": "0 plans"
+  },
+  {
+   "check": "LH8: no leftover rest/shorten phrasing",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "LH8: filler day plans end at or after 16:30",
+   "ok": true,
+   "detail": "[995, 995, 995]"
+  },
+  {
+   "check": "LH8: no anchor dismisses the dependency",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "LH8: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R01: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R01: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R01: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R01: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R01: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "R01: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R01: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R02: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R02: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R02: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R02: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R02: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "R02: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R02: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R03: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R03: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R03: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R03: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R03: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "R03: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R03: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R04: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R04: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R04: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R04: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R04: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "R04: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R04: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R05: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R05: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R05: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R05: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R05: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "R05: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R05: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R06: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R06: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R06: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R06: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R06: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "R06: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R06: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R07: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R07: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R07: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R07: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R07: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "R07: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R07: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R08: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R08: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R08: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R08: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R08: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "R08: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R08: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R09: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R09: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R09: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R09: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R09: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "R09: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R09: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R10: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R10: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R10: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R10: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R10: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "R10: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "R10: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C01: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C01: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C01: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C01: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C01: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "C01: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C01: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C02: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C02: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C02: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C02: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C02: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "C02: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C02: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C03: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C03: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C03: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C03: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C03: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "C03: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C03: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C04: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C04: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C04: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C04: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C04: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "C04: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C04: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C05: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C05: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C05: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C05: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C05: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "C05: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C05: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C06: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C06: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C06: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C06: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C06: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "C06: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C06: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C07: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C07: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C07: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C07: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C07: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "C07: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C07: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C08: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C08: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C08: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C08: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C08: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "C08: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C08: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C09: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C09: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C09: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C09: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C09: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "C09: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C09: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C10: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C10: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C10: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C10: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C10: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "C10: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C10: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C11: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C11: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C11: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C11: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C11: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "C11: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "C11: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K01: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K01: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K01: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K01: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K01: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "K01: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K01: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K02: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K02: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K02: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K02: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K02: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "K02: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K02: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K03: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K03: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K03: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K03: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K03: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "K03: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K03: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K04: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K04: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K04: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K04: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K04: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "K04: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K04: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K05: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K05: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K05: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K05: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K05: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "K05: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K05: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K06: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K06: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K06: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K06: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K06: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "K06: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K06: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K07: roles alternate user/assistant",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K07: frozen timestamps non-decreasing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K07: DPs chronological and after frozen history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K07: every DP metric has gold",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K07: facts exist in ledger",
+   "ok": true,
+   "detail": "[]"
+  },
+  {
+   "check": "K07: checkpoints valid",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "K07: no gold vocabulary in model-facing text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "WARN-ONLY unverified facts in triggered cases (gold avoids exact values)",
+   "ok": true,
+   "detail": "F-AMA-1"
+  },
+  {
+   "check": "arms: protocol block verbatim present in P and S, absent in B",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "manifest_main: unique run ids",
+   "ok": true,
+   "detail": "756"
+  },
+  {
+   "check": "manifest_main: all cases exist",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "manifest_pilot: unique run ids",
+   "ok": true,
+   "detail": "84"
+  },
+  {
+   "check": "manifest_pilot: all cases exist",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "manifest_smoke: unique run ids",
+   "ok": true,
+   "detail": "14"
+  },
+  {
+   "check": "manifest_smoke: all cases exist",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "pilot cases are a strict subset of main cases",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}

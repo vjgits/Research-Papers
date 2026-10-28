@@ -1,0 +1,74 @@
+{
+ "dataset_version": "0.5.2",
+ "built_utc": "2026-10-24T22:35:53.272587+00:00",
+ "sha256": {
+  "src/arms_v05.py": "db08dacd794d0742cf44347c5f947fe600e8c142208cb9f2700aab277e35dc68",
+  "src/filler_v05.py": "c00784f28cf27e55dcf0ae816a4268c76bc91ecd606579e42c27dbfe7bef83a6",
+  "src/scenarios_lh_v05.py": "f471274d5670721d3fbef03825557d373bee62506774662f6c03456492365bb2",
+  "src/scenarios_short_v05.py": "32e8ab309b4e5b8209fbfbe178bc3275a5c2b199b5d0a5ed6f3ccb291157510a",
+  "src/build_v05.py": "2c441fab3f41ed4049c8599e061eca6891388bc7c1ef1597c97316e8b1fd66a5",
+  "models_v05.json": "cf4099a2ca5a7e34a083ed4274b06469871247c9a62df7e1b8d66f3ea28a5874",
+  "data/FACT_LEDGER_v05.csv": "918d6d7fb614f5b09840cd07b201e2d19038a844e43c6a1da75e1497dab2a56a",
+  "data/cases_v05.jsonl": "bcda2c5f511705f50f0d7fa694b4d21b9b2b4879957fcd739474b593dbba284a",
+  "data/gold_v05.jsonl": "fded9a1bb2f3cfc3c918e445e588bf1d3c544244e029fa1a99d8168acd6c6e0f",
+  "data/manifest_main.csv": "e0e652ac195876ebf9df1243b090dd956c3c746d7af89cb4692da4950a81a793",
+  "data/manifest_pilot.csv": "b4be7fde044f6f64032704ed7c3e2a4e1b3dab7457b4c58c485ade1c298e84fe",
+  "data/manifest_smoke.csv": "03da7e80e5f32ec7b28dc6c07ca90fabbbfaea7047ea3c2d4982e1f2b98f3079"
+ },
+ "counts": {
+  "cases": 36,
+  "by_tier": {
+   "LH": 8,
+   "RCD": 10,
+   "CON": 11,
+   "CTL": 7
+  },
+  "controls": 9,
+  "dps": 76,
+  "main_runs": 756,
+  "pilot_runs": 84,
+  "smoke_runs": 14
+ },
+ "lh_lengths": {
+  "LH1": {
+   "frozen": 108,
+   "total": 120,
+   "est_tokens": 5939
+  },
+  "LH2": {
+   "frozen": 128,
+   "total": 140,
+   "est_tokens": 6218
+  },
+  "LH3": {
+   "frozen": 158,
+   "total": 170,
+   "est_tokens": 9031
+  },
+  "LH4": {
+   "frozen": 186,
+   "total": 198,
+   "est_tokens": 10613
+  },
+  "LH5": {
+   "frozen": 214,
+   "total": 226,
+   "est_tokens": 11256
+  },
+  "LH6": {
+   "frozen": 236,
+   "total": 248,
+   "est_tokens": 11882
+  },
+  "LH7": {
+   "frozen": 140,
+   "total": 152,
+   "est_tokens": 7549
+  },
+  "LH8": {
+   "frozen": 190,
+   "total": 202,
+   "est_tokens": 10884
+  }
+ }
+}

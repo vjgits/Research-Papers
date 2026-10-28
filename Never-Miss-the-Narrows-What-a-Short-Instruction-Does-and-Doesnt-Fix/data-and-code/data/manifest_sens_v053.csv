@@ -1,0 +1,15 @@
+run_id,case_id,arm,model_slot,trial
+v053sens-C07-S-B-t1,C07,S,B,1
+v053sens-LH1-S-B-t1,LH1,S,B,1
+v053sens-LH2-S-B-t1,LH2,S,B,1
+v053sens-LH3-S-B-t1,LH3,S,B,1
+v053sens-LH4-S-B-t1,LH4,S,B,1
+v053sens-LH5-S-B-t1,LH5,S,B,1
+v053sens-LH6-S-B-t1,LH6,S,B,1
+v053sens-LH7-S-B-t1,LH7,S,B,1
+v053sens-LH8-S-B-t1,LH8,S,B,1
+v053sens-R03-S-B-t1,R03,S,B,1
+v053sens-R05-S-B-t1,R05,S,B,1
+v053sens-R06-S-B-t1,R06,S,B,1
+v053sens-R08-S-B-t1,R08,S,B,1
+v053sens-R10-S-B-t1,R10,S,B,1
