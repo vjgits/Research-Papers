@@ -1,0 +1,2012 @@
+{
+ "label_source": "SUPPLEMENTARY (judge labels; not human ground truth)",
+ "n_obs": 4366,
+ "strata": {
+  "CON": {
+   "composite_all_models": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.7176,
+      "n_obs": 55
+     },
+     "P": {
+      "rate": 0.8805,
+      "n_obs": 54
+     },
+     "S": {
+      "rate": 0.8538,
+      "n_obs": 55
+     }
+    },
+    "P-B": {
+     "estimate": 0.1536,
+     "ci95": [
+      0.0928,
+      0.3353
+     ],
+     "matched_cells": 53,
+     "permutation": {
+      "p_two_sided": 0.0625,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.181,
+      "slope_per_log_words": 0.2576
+     }
+    },
+    "S-P": {
+     "estimate": -0.0302,
+     "ci95": [
+      -0.2293,
+      0.0714
+     ],
+     "matched_cells": 54,
+     "permutation": {
+      "p_two_sided": 0.28125,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.076,
+      "slope_per_log_words": 0.3921
+     }
+    },
+    "S-B": {
+     "estimate": 0.1387,
+     "ci95": [
+      0.0484,
+      0.25
+     ],
+     "matched_cells": 54,
+     "permutation": {
+      "p_two_sided": 0.125,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.154,
+      "slope_per_log_words": 0.1247
+     }
+    }
+   },
+   "metric_DR": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.9286,
+      "n_obs": 14
+     },
+     "P": {
+      "rate": 0.8571,
+      "n_obs": 14
+     },
+     "S": {
+      "rate": 0.9286,
+      "n_obs": 14
+     }
+    },
+    "P-B": {
+     "estimate": -0.0714,
+     "ci95": [
+      -0.1429,
+      0.0
+     ],
+     "matched_cells": 14,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": -0.0714
+    },
+    "S-P": {
+     "estimate": 0.0714,
+     "ci95": [
+      0.0,
+      0.1429
+     ],
+     "matched_cells": 14,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": 0.0714
+    },
+    "S-B": {
+     "estimate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "matched_cells": 14,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": 0.0
+    }
+   },
+   "metric_AoC": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.3704,
+      "n_obs": 27
+     },
+     "P": {
+      "rate": 0.8077,
+      "n_obs": 26
+     },
+     "S": {
+      "rate": 0.6296,
+      "n_obs": 27
+     }
+    },
+    "P-B": {
+     "estimate": 0.4,
+     "ci95": [
+      0.2222,
+      0.5833
+     ],
+     "matched_cells": 25,
+     "permutation": {
+      "p_two_sided": 0.125,
+      "n_cases": 4,
+      "min_achievable_p": 0.125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.5014,
+      "slope_per_log_words": -1.569
+     }
+    },
+    "S-P": {
+     "estimate": -0.1923,
+     "ci95": [
+      -0.4815,
+      0.0741
+     ],
+     "matched_cells": 26,
+     "permutation": {
+      "p_two_sided": 0.25,
+      "n_cases": 4,
+      "min_achievable_p": 0.125
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.1922,
+      "slope_per_log_words": 0.0309
+     }
+    },
+    "S-B": {
+     "estimate": 0.2692,
+     "ci95": [
+      0.08,
+      0.4815
+     ],
+     "matched_cells": 26,
+     "permutation": {
+      "p_two_sided": 0.25,
+      "n_cases": 4,
+      "min_achievable_p": 0.125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3694,
+      "slope_per_log_words": -2.0906
+     }
+    }
+   },
+   "metric_ISD": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.8571,
+      "n_obs": 7
+     },
+     "P": {
+      "rate": 1.0,
+      "n_obs": 7
+     },
+     "S": {
+      "rate": 0.8571,
+      "n_obs": 7
+     }
+    },
+    "P-B": {
+     "estimate": 0.1429,
+     "ci95": null,
+     "matched_cells": 7,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0483,
+      "slope_per_log_words": 0.5462
+     }
+    },
+    "S-P": {
+     "estimate": -0.1429,
+     "ci95": null,
+     "matched_cells": 7,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.1364,
+      "slope_per_log_words": -1.6834
+     }
+    },
+    "S-B": {
+     "estimate": 0.0,
+     "ci95": null,
+     "matched_cells": 7,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.2787,
+      "slope_per_log_words": 1.5749
+     }
+    }
+   },
+   "metric_RoC": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.7143,
+      "n_obs": 7
+     },
+     "P": {
+      "rate": 0.8571,
+      "n_obs": 7
+     },
+     "S": {
+      "rate": 1.0,
+      "n_obs": 7
+     }
+    },
+    "P-B": {
+     "estimate": 0.1429,
+     "ci95": null,
+     "matched_cells": 7,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.182,
+      "slope_per_log_words": 0.8642
+     }
+    },
+    "S-P": {
+     "estimate": 0.1429,
+     "ci95": null,
+     "matched_cells": 7,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0423,
+      "slope_per_log_words": 1.9987
+     }
+    },
+    "S-B": {
+     "estimate": 0.2857,
+     "ci95": null,
+     "matched_cells": 7,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.1384,
+      "slope_per_log_words": 0.9951
+     }
+    }
+   },
+   "metric_DCC": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.5714,
+      "n_obs": 42
+     },
+     "P": {
+      "rate": 0.5,
+      "n_obs": 40
+     },
+     "S": {
+      "rate": 0.4634,
+      "n_obs": 41
+     }
+    },
+    "P-B": {
+     "estimate": -0.05,
+     "ci95": [
+      -0.2195,
+      0.0732
+     ],
+     "matched_cells": 40,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.0639,
+      "slope_per_log_words": 0.231
+     }
+    },
+    "S-P": {
+     "estimate": -0.05,
+     "ci95": [
+      -0.1707,
+      0.05
+     ],
+     "matched_cells": 40,
+     "permutation": {
+      "p_two_sided": 0.75,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.05,
+      "slope_per_log_words": -0.0047
+     }
+    },
+    "S-B": {
+     "estimate": -0.0976,
+     "ci95": [
+      -0.1905,
+      -0.0244
+     ],
+     "matched_cells": 41,
+     "permutation": {
+      "p_two_sided": 0.25,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.1056,
+      "slope_per_log_words": 0.1312
+     }
+    }
+   },
+   "composite_frontier_models": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.7188,
+      "n_obs": 32
+     },
+     "P": {
+      "rate": 0.9531,
+      "n_obs": 32
+     },
+     "S": {
+      "rate": 0.9219,
+      "n_obs": 32
+     }
+    },
+    "P-B": {
+     "estimate": 0.2344,
+     "ci95": [
+      0.1667,
+      0.3958
+     ],
+     "matched_cells": 32,
+     "permutation": {
+      "p_two_sided": 0.03125,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.2329,
+      "slope_per_log_words": 0.4762
+     }
+    },
+    "S-P": {
+     "estimate": -0.0312,
+     "ci95": [
+      -0.1333,
+      0.0
+     ],
+     "matched_cells": 32,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.0622,
+      "slope_per_log_words": 0.0395
+     }
+    },
+    "S-B": {
+     "estimate": 0.2031,
+     "ci95": [
+      0.1042,
+      0.3333
+     ],
+     "matched_cells": 32,
+     "permutation": {
+      "p_two_sided": 0.0625,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.1959,
+      "slope_per_log_words": 0.2457
+     }
+    }
+   },
+   "composite_open_models": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.7159,
+      "n_obs": 23
+     },
+     "P": {
+      "rate": 0.7833,
+      "n_obs": 22
+     },
+     "S": {
+      "rate": 0.7614,
+      "n_obs": 23
+     }
+    },
+    "P-B": {
+     "estimate": 0.0417,
+     "ci95": [
+      -0.0521,
+      0.25
+     ],
+     "matched_cells": 21,
+     "permutation": {
+      "p_two_sided": 0.25,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.1333,
+      "slope_per_log_words": -0.361
+     }
+    },
+    "S-P": {
+     "estimate": -0.0333,
+     "ci95": [
+      -0.3667,
+      0.1923
+     ],
+     "matched_cells": 22,
+     "permutation": {
+      "p_two_sided": 0.3125,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.1082,
+      "slope_per_log_words": 0.7071
+     }
+    },
+    "S-B": {
+     "estimate": 0.05,
+     "ci95": [
+      -0.0952,
+      0.2222
+     ],
+     "matched_cells": 22,
+     "permutation": {
+      "p_two_sided": 0.625,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0913,
+      "slope_per_log_words": -0.0032
+     }
+    }
+   },
+   "composite_by_model": {
+    "A": {
+     "estimate": 0.125,
+     "ci95": [
+      0.0,
+      0.4167
+     ],
+     "matched_cells": 8,
+     "permutation": {
+      "p_two_sided": 0.5,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.1963,
+      "slope_per_log_words": 0.8686
+     }
+    },
+    "B": {
+     "estimate": 0.125,
+     "ci95": [
+      0.0,
+      0.4167
+     ],
+     "matched_cells": 8,
+     "permutation": {
+      "p_two_sided": 0.5,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.2044,
+      "slope_per_log_words": 2.055
+     }
+    },
+    "C": {
+     "estimate": 0.5625,
+     "ci95": [
+      0.0,
+      0.75
+     ],
+     "matched_cells": 8,
+     "permutation": {
+      "p_two_sided": 0.375,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.2054,
+      "slope_per_log_words": 0.6481
+     }
+    },
+    "D": {
+     "estimate": 0.125,
+     "ci95": [
+      0.0,
+      0.4286
+     ],
+     "matched_cells": 8,
+     "permutation": {
+      "p_two_sided": 0.5,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3376,
+      "slope_per_log_words": -1.4524
+     }
+    },
+    "E": {
+     "estimate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "matched_cells": 7,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0,
+      "slope_per_log_words": 0.0
+     }
+    },
+    "F": {
+     "estimate": 0.1875,
+     "ci95": [
+      0.0833,
+      0.5
+     ],
+     "matched_cells": 8,
+     "permutation": {
+      "p_two_sided": 0.25,
+      "n_cases": 7,
+      "min_achievable_p": 0.01562
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.375,
+      "slope_per_log_words": -0.0633
+     }
+    },
+    "G": {
+     "estimate": -0.125,
+     "ci95": [
+      -0.3333,
+      0.0
+     ],
+     "matched_cells": 6,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 5,
+      "min_achievable_p": 0.0625
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.4033,
+      "slope_per_log_words": 2.1814
+     }
+    }
+   },
+   "H6_DCC_equivalence_TOST": {
+    "P-B": {
+     "ci90": [
+      -0.1905,
+      0.0513
+     ],
+     "equivalent_within_±0.10": false
+    },
+    "S-B": {
+     "ci90": [
+      -0.1707,
+      -0.025
+     ],
+     "equivalent_within_±0.10": false
+    }
+   }
+  },
+  "CONTROL": {
+   "bad_event_rates (lower is better)": {
+    "OVER2": {
+     "B": {
+      "rate": 0.0977,
+      "n_obs": 133
+     },
+     "P": {
+      "rate": 0.2556,
+      "n_obs": 133
+     },
+     "S": {
+      "rate": 0.3684,
+      "n_obs": 133
+     }
+    },
+    "OVER1": {
+     "B": {
+      "rate": 0.5789,
+      "n_obs": 133
+     },
+     "P": {
+      "rate": 0.7444,
+      "n_obs": 133
+     },
+     "S": {
+      "rate": 0.8271,
+      "n_obs": 133
+     }
+    },
+    "NAG": {
+     "B": {
+      "rate": 0.0388,
+      "n_obs": 129
+     },
+     "P": {
+      "rate": 0.1508,
+      "n_obs": 126
+     },
+     "S": {
+      "rate": 0.2131,
+      "n_obs": 122
+     }
+    }
+   },
+   "H3_non_inferiority": {
+    "OVER2 P-B": {
+     "estimate_bad_rate_diff": 0.1579,
+     "upper_97.5_bootstrap": 0.3175,
+     "upper_97.5_t_df_n-1": 0.3492,
+     "non_inferior_at_+0.10 (both bounds)": false,
+     "matched_cells": 133
+    },
+    "OVER2 S-B": {
+     "estimate_bad_rate_diff": 0.2707,
+     "upper_97.5_bootstrap": 0.3776,
+     "upper_97.5_t_df_n-1": 0.4328,
+     "non_inferior_at_+0.10 (both bounds)": false,
+     "matched_cells": 133
+    },
+    "NAG P-B": {
+     "estimate_bad_rate_diff": 0.1148,
+     "upper_97.5_bootstrap": 0.2712,
+     "upper_97.5_t_df_n-1": 0.3013,
+     "non_inferior_at_+0.10 (both bounds)": false,
+     "matched_cells": 122
+    },
+    "NAG S-B": {
+     "estimate_bad_rate_diff": 0.1695,
+     "upper_97.5_bootstrap": 0.2963,
+     "upper_97.5_t_df_n-1": 0.3262,
+     "non_inferior_at_+0.10 (both bounds)": false,
+     "matched_cells": 118
+    },
+    "H3_DECISION_all_four_pass": false
+   },
+   "words_by_arm": {
+    "B": 155.7,
+    "P": 174.5,
+    "S": 180.1
+   }
+  },
+  "LH": {
+   "composite_all_models": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.4944,
+      "n_obs": 293
+     },
+     "P": {
+      "rate": 0.76,
+      "n_obs": 291
+     },
+     "S": {
+      "rate": 0.7847,
+      "n_obs": 276
+     }
+    },
+    "P-B": {
+     "estimate": 0.2666,
+     "ci95": [
+      0.1909,
+      0.351
+     ],
+     "matched_cells": 290,
+     "permutation": {
+      "p_two_sided": 0.03125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.2673,
+      "slope_per_log_words": 0.0897
+     }
+    },
+    "S-P": {
+     "estimate": 0.03,
+     "ci95": [
+      -0.0001,
+      0.0601
+     ],
+     "matched_cells": 273,
+     "permutation": {
+      "p_two_sided": 0.25,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0269,
+      "slope_per_log_words": 0.2456
+     }
+    },
+    "S-B": {
+     "estimate": 0.2932,
+     "ci95": [
+      0.2159,
+      0.3726
+     ],
+     "matched_cells": 275,
+     "permutation": {
+      "p_two_sided": 0.03125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3132,
+      "slope_per_log_words": -0.0289
+     }
+    }
+   },
+   "metric_SCD": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.1807,
+      "n_obs": 83
+     },
+     "P": {
+      "rate": 0.5122,
+      "n_obs": 82
+     },
+     "S": {
+      "rate": 0.6,
+      "n_obs": 80
+     }
+    },
+    "P-B": {
+     "estimate": 0.3333,
+     "ci95": [
+      0.2317,
+      0.443
+     ],
+     "matched_cells": 81,
+     "permutation": {
+      "p_two_sided": 0.03125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3233,
+      "slope_per_log_words": 0.0864
+     }
+    },
+    "S-P": {
+     "estimate": 0.0897,
+     "ci95": [
+      0.0253,
+      0.1579
+     ],
+     "matched_cells": 78,
+     "permutation": {
+      "p_two_sided": 0.125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.07,
+      "slope_per_log_words": 0.1853
+     }
+    },
+    "S-B": {
+     "estimate": 0.4177,
+     "ci95": [
+      0.321,
+      0.5375
+     ],
+     "matched_cells": 79,
+     "permutation": {
+      "p_two_sided": 0.03125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.4418,
+      "slope_per_log_words": -0.1119
+     }
+    }
+   },
+   "metric_STR": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.8095,
+      "n_obs": 42
+     },
+     "P": {
+      "rate": 1.0,
+      "n_obs": 41
+     },
+     "S": {
+      "rate": 1.0,
+      "n_obs": 38
+     }
+    },
+    "P-B": {
+     "estimate": 0.1951,
+     "ci95": [
+      0.0238,
+      0.4615
+     ],
+     "matched_cells": 41,
+     "permutation": {
+      "p_two_sided": 0.25,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.2408,
+      "slope_per_log_words": -0.3061
+     }
+    },
+    "S-P": {
+     "estimate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "matched_cells": 37,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0,
+      "slope_per_log_words": 0.0
+     }
+    },
+    "S-B": {
+     "estimate": 0.1842,
+     "ci95": [
+      0.025,
+      0.4474
+     ],
+     "matched_cells": 38,
+     "permutation": {
+      "p_two_sided": 0.25,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.311,
+      "slope_per_log_words": -0.7305
+     }
+    }
+   },
+   "metric_DR": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.6667,
+      "n_obs": 42
+     },
+     "P": {
+      "rate": 0.8095,
+      "n_obs": 42
+     },
+     "S": {
+      "rate": 0.9048,
+      "n_obs": 42
+     }
+    },
+    "P-B": {
+     "estimate": 0.1429,
+     "ci95": [
+      0.0476,
+      0.2381
+     ],
+     "matched_cells": 42,
+     "permutation": {
+      "p_two_sided": 0.125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": 0.1429
+    },
+    "S-P": {
+     "estimate": 0.0952,
+     "ci95": [
+      -0.0238,
+      0.1905
+     ],
+     "matched_cells": 42,
+     "permutation": {
+      "p_two_sided": 0.3125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": 0.0952
+    },
+    "S-B": {
+     "estimate": 0.2381,
+     "ci95": [
+      0.1667,
+      0.3333
+     ],
+     "matched_cells": 42,
+     "permutation": {
+      "p_two_sided": 0.03125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": 0.2381
+    }
+   },
+   "metric_AoC": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.5,
+      "n_obs": 42
+     },
+     "P": {
+      "rate": 0.881,
+      "n_obs": 42
+     },
+     "S": {
+      "rate": 0.8684,
+      "n_obs": 38
+     }
+    },
+    "P-B": {
+     "estimate": 0.381,
+     "ci95": [
+      0.1667,
+      0.5952
+     ],
+     "matched_cells": 42,
+     "permutation": {
+      "p_two_sided": 0.0625,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.363,
+      "slope_per_log_words": 0.1164
+     }
+    },
+    "S-P": {
+     "estimate": 0.0,
+     "ci95": [
+      -0.2,
+      0.1429
+     ],
+     "matched_cells": 38,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.0138,
+      "slope_per_log_words": 0.3942
+     }
+    },
+    "S-B": {
+     "estimate": 0.3947,
+     "ci95": [
+      0.1818,
+      0.6341
+     ],
+     "matched_cells": 38,
+     "permutation": {
+      "p_two_sided": 0.0625,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3693,
+      "slope_per_log_words": 0.1366
+     }
+    }
+   },
+   "metric_ISD": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.0476,
+      "n_obs": 42
+     },
+     "P": {
+      "rate": 0.5,
+      "n_obs": 42
+     },
+     "S": {
+      "rate": 0.4324,
+      "n_obs": 37
+     }
+    },
+    "P-B": {
+     "estimate": 0.4524,
+     "ci95": [
+      0.2619,
+      0.5952
+     ],
+     "matched_cells": 42,
+     "permutation": {
+      "p_two_sided": 0.0625,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.4406,
+      "slope_per_log_words": 0.1676
+     }
+    },
+    "S-P": {
+     "estimate": -0.0541,
+     "ci95": [
+      -0.1316,
+      0.0
+     ],
+     "matched_cells": 37,
+     "permutation": {
+      "p_two_sided": 0.5,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.0642,
+      "slope_per_log_words": 0.3734
+     }
+    },
+    "S-B": {
+     "estimate": 0.3784,
+     "ci95": [
+      0.2,
+      0.5278
+     ],
+     "matched_cells": 37,
+     "permutation": {
+      "p_two_sided": 0.0625,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3777,
+      "slope_per_log_words": 0.0081
+     }
+    }
+   },
+   "metric_RoC": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.7619,
+      "n_obs": 42
+     },
+     "P": {
+      "rate": 0.8571,
+      "n_obs": 42
+     },
+     "S": {
+      "rate": 0.9024,
+      "n_obs": 41
+     }
+    },
+    "P-B": {
+     "estimate": 0.0952,
+     "ci95": [
+      0.0,
+      0.2381
+     ],
+     "matched_cells": 42,
+     "permutation": {
+      "p_two_sided": 0.5,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0924,
+      "slope_per_log_words": 0.0447
+     }
+    },
+    "S-P": {
+     "estimate": 0.0488,
+     "ci95": [
+      0.0,
+      0.1026
+     ],
+     "matched_cells": 41,
+     "permutation": {
+      "p_two_sided": 0.5,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0248,
+      "slope_per_log_words": 0.3514
+     }
+    },
+    "S-B": {
+     "estimate": 0.1463,
+     "ci95": [
+      0.0,
+      0.3415
+     ],
+     "matched_cells": 41,
+     "permutation": {
+      "p_two_sided": 0.5,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.1454,
+      "slope_per_log_words": 0.0078
+     }
+    }
+   },
+   "composite_frontier_models": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.5764,
+      "n_obs": 168
+     },
+     "P": {
+      "rate": 0.8854,
+      "n_obs": 168
+     },
+     "S": {
+      "rate": 0.8626,
+      "n_obs": 163
+     }
+    },
+    "P-B": {
+     "estimate": 0.309,
+     "ci95": [
+      0.2014,
+      0.4132
+     ],
+     "matched_cells": 168,
+     "permutation": {
+      "p_two_sided": 0.03125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3155,
+      "slope_per_log_words": -0.0007
+     }
+    },
+    "S-P": {
+     "estimate": -0.0181,
+     "ci95": [
+      -0.0398,
+      0.0041
+     ],
+     "matched_cells": 163,
+     "permutation": {
+      "p_two_sided": 0.25,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.0147,
+      "slope_per_log_words": 0.2527
+     }
+    },
+    "S-B": {
+     "estimate": 0.284,
+     "ci95": [
+      0.1715,
+      0.4104
+     ],
+     "matched_cells": 163,
+     "permutation": {
+      "p_two_sided": 0.03125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3099,
+      "slope_per_log_words": -0.27
+     }
+    }
+   },
+   "composite_open_models": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.3844,
+      "n_obs": 125
+     },
+     "P": {
+      "rate": 0.591,
+      "n_obs": 123
+     },
+     "S": {
+      "rate": 0.6646,
+      "n_obs": 113
+     }
+    },
+    "P-B": {
+     "estimate": 0.2085,
+     "ci95": [
+      0.1405,
+      0.3034
+     ],
+     "matched_cells": 122,
+     "permutation": {
+      "p_two_sided": 0.03125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.2107,
+      "slope_per_log_words": 0.1109
+     }
+    },
+    "S-P": {
+     "estimate": 0.1004,
+     "ci95": [
+      0.0119,
+      0.2039
+     ],
+     "matched_cells": 110,
+     "permutation": {
+      "p_two_sided": 0.125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0963,
+      "slope_per_log_words": 0.1971
+     }
+    },
+    "S-B": {
+     "estimate": 0.299,
+     "ci95": [
+      0.2086,
+      0.4017
+     ],
+     "matched_cells": 112,
+     "permutation": {
+      "p_two_sided": 0.03125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3463,
+      "slope_per_log_words": -0.0304
+     }
+    }
+   },
+   "composite_by_model": {
+    "A": {
+     "estimate": 0.375,
+     "ci95": [
+      0.2778,
+      0.4722
+     ],
+     "matched_cells": 42,
+     "permutation": {
+      "p_two_sided": 0.03125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3234,
+      "slope_per_log_words": 1.107
+     }
+    },
+    "B": {
+     "estimate": 0.3472,
+     "ci95": [
+      0.2083,
+      0.4861
+     ],
+     "matched_cells": 42,
+     "permutation": {
+      "p_two_sided": 0.03125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3569,
+      "slope_per_log_words": 0.492
+     }
+    },
+    "C": {
+     "estimate": 0.25,
+     "ci95": [
+      0.1111,
+      0.3889
+     ],
+     "matched_cells": 42,
+     "permutation": {
+      "p_two_sided": 0.0625,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.2166,
+      "slope_per_log_words": -0.0231
+     }
+    },
+    "D": {
+     "estimate": 0.2639,
+     "ci95": [
+      0.1389,
+      0.4306
+     ],
+     "matched_cells": 42,
+     "permutation": {
+      "p_two_sided": 0.0625,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.2645,
+      "slope_per_log_words": -0.1955
+     }
+    },
+    "E": {
+     "estimate": 0.2778,
+     "ci95": [
+      0.1667,
+      0.375
+     ],
+     "matched_cells": 42,
+     "permutation": {
+      "p_two_sided": 0.0625,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3007,
+      "slope_per_log_words": 0.0877
+     }
+    },
+    "F": {
+     "estimate": 0.1692,
+     "ci95": [
+      0.0139,
+      0.3194
+     ],
+     "matched_cells": 41,
+     "permutation": {
+      "p_two_sided": 0.1875,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.1709,
+      "slope_per_log_words": 0.313
+     }
+    },
+    "G": {
+     "estimate": 0.1722,
+     "ci95": [
+      0.0486,
+      0.3426
+     ],
+     "matched_cells": 39,
+     "permutation": {
+      "p_two_sided": 0.125,
+      "n_cases": 6,
+      "min_achievable_p": 0.03125
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.1753,
+      "slope_per_log_words": 0.0218
+     }
+    }
+   },
+   "nagging_in_triggered_DESCRIPTIVE_ONLY (eligibility depends on earlier disclosure, which the arm affects)": {
+    "B": {
+     "rate": 0.0,
+     "n_obs": 38
+    },
+    "P": {
+     "rate": 0.0,
+     "n_obs": 112
+    },
+    "S": {
+     "rate": 0.0826,
+     "n_obs": 121
+    }
+   }
+  },
+  "RCD": {
+   "composite_all_models": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.619,
+      "n_obs": 13
+     },
+     "P": {
+      "rate": 0.8571,
+      "n_obs": 11
+     },
+     "S": {
+      "rate": 0.8571,
+      "n_obs": 14
+     }
+    },
+    "P-B": {
+     "estimate": 0.1964,
+     "ci95": [
+      0.1429,
+      0.25
+     ],
+     "matched_cells": 11,
+     "permutation": {
+      "p_two_sided": 0.5,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.1903,
+      "slope_per_log_words": -0.2602
+     }
+    },
+    "S-P": {
+     "estimate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "matched_cells": 11,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.0028,
+      "slope_per_log_words": 3.9644
+     }
+    },
+    "S-B": {
+     "estimate": 0.2381,
+     "ci95": [
+      0.1429,
+      0.3333
+     ],
+     "matched_cells": 13,
+     "permutation": {
+      "p_two_sided": 0.5,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.2745,
+      "slope_per_log_words": -1.2979
+     }
+    }
+   },
+   "metric_SCD": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.3333,
+      "n_obs": 6
+     },
+     "P": {
+      "rate": 0.1429,
+      "n_obs": 7
+     },
+     "S": {
+      "rate": 0.2857,
+      "n_obs": 7
+     }
+    },
+    "P-B": {
+     "estimate": -0.1667,
+     "ci95": null,
+     "matched_cells": 6,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.3863,
+      "slope_per_log_words": 1.593
+     }
+    },
+    "S-P": {
+     "estimate": 0.1429,
+     "ci95": null,
+     "matched_cells": 7,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.1754,
+      "slope_per_log_words": 1.0509
+     }
+    },
+    "S-B": {
+     "estimate": 0.0,
+     "ci95": null,
+     "matched_cells": 6,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0,
+      "slope_per_log_words": 0.0
+     }
+    }
+   },
+   "metric_STR": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.6667,
+      "n_obs": 6
+     },
+     "P": {
+      "rate": 1.0,
+      "n_obs": 4
+     },
+     "S": {
+      "rate": 1.0,
+      "n_obs": 7
+     }
+    },
+    "P-B": {
+     "estimate": 0.25,
+     "ci95": null,
+     "matched_cells": 4,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": null
+    },
+    "S-P": {
+     "estimate": 0.0,
+     "ci95": null,
+     "matched_cells": 4,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": null
+    },
+    "S-B": {
+     "estimate": 0.3333,
+     "ci95": null,
+     "matched_cells": 6,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.5272,
+      "slope_per_log_words": -4.5323
+     }
+    }
+   },
+   "metric_AoC": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.5714,
+      "n_obs": 7
+     },
+     "P": {
+      "rate": 0.7143,
+      "n_obs": 7
+     },
+     "S": {
+      "rate": 0.7143,
+      "n_obs": 7
+     }
+    },
+    "P-B": {
+     "estimate": 0.1429,
+     "ci95": null,
+     "matched_cells": 7,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.152,
+      "slope_per_log_words": -0.2171
+     }
+    },
+    "S-P": {
+     "estimate": 0.0,
+     "ci95": null,
+     "matched_cells": 7,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0818,
+      "slope_per_log_words": 4.977
+     }
+    },
+    "S-B": {
+     "estimate": 0.1429,
+     "ci95": null,
+     "matched_cells": 7,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.081,
+      "slope_per_log_words": 2.3881
+     }
+    }
+   },
+   "metric_DCC": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.7353,
+      "n_obs": 68
+     },
+     "P": {
+      "rate": 0.7231,
+      "n_obs": 65
+     },
+     "S": {
+      "rate": 0.6377,
+      "n_obs": 69
+     }
+    },
+    "P-B": {
+     "estimate": -0.0469,
+     "ci95": [
+      -0.1212,
+      0.0328
+     ],
+     "matched_cells": 64,
+     "permutation": {
+      "p_two_sided": 0.5,
+      "n_cases": 10,
+      "min_achievable_p": 0.00195
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.046,
+      "slope_per_log_words": -0.0154
+     }
+    },
+    "S-P": {
+     "estimate": -0.0769,
+     "ci95": [
+      -0.1385,
+      -0.0145
+     ],
+     "matched_cells": 65,
+     "permutation": {
+      "p_two_sided": 0.07812,
+      "n_cases": 10,
+      "min_achievable_p": 0.00195
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.077,
+      "slope_per_log_words": 0.0804
+     }
+    },
+    "S-B": {
+     "estimate": -0.1045,
+     "ci95": [
+      -0.1912,
+      0.0
+     ],
+     "matched_cells": 67,
+     "permutation": {
+      "p_two_sided": 0.12109,
+      "n_cases": 10,
+      "min_achievable_p": 0.00195
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.0748,
+      "slope_per_log_words": -0.4416
+     }
+    }
+   },
+   "composite_frontier_models": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.625,
+      "n_obs": 8
+     },
+     "P": {
+      "rate": 1.0,
+      "n_obs": 6
+     },
+     "S": {
+      "rate": 1.0,
+      "n_obs": 8
+     }
+    },
+    "P-B": {
+     "estimate": 0.375,
+     "ci95": [
+      0.25,
+      0.5
+     ],
+     "matched_cells": 6,
+     "permutation": {
+      "p_two_sided": 0.5,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.3922,
+      "slope_per_log_words": -1.8631
+     }
+    },
+    "S-P": {
+     "estimate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "matched_cells": 6,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0,
+      "slope_per_log_words": 0.0
+     }
+    },
+    "S-B": {
+     "estimate": 0.375,
+     "ci95": [
+      0.25,
+      0.5
+     ],
+     "matched_cells": 8,
+     "permutation": {
+      "p_two_sided": 0.5,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.4258,
+      "slope_per_log_words": -2.4145
+     }
+    }
+   },
+   "composite_open_models": {
+    "arm_rates": {
+     "B": {
+      "rate": 0.6667,
+      "n_obs": 5
+     },
+     "P": {
+      "rate": 0.6667,
+      "n_obs": 5
+     },
+     "S": {
+      "rate": 0.6667,
+      "n_obs": 6
+     }
+    },
+    "P-B": {
+     "estimate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "matched_cells": 5,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": {
+      "adjusted_effect": 0.0,
+      "slope_per_log_words": 0.0
+     }
+    },
+    "S-P": {
+     "estimate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "matched_cells": 5,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.1287,
+      "slope_per_log_words": 6.4107
+     }
+    },
+    "S-B": {
+     "estimate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "matched_cells": 5,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": {
+      "adjusted_effect": -0.5231,
+      "slope_per_log_words": 9.7023
+     }
+    }
+   },
+   "composite_by_model": {
+    "A": {
+     "estimate": 0.0,
+     "ci95": null,
+     "matched_cells": 1,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": null
+    },
+    "B": {
+     "estimate": 0.0,
+     "ci95": null,
+     "matched_cells": 1,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": null
+    },
+    "C": {
+     "estimate": 0.5,
+     "ci95": [
+      0.0,
+      1.0
+     ],
+     "matched_cells": 2,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": null
+    },
+    "D": {
+     "estimate": 0.5,
+     "ci95": [
+      0.0,
+      1.0
+     ],
+     "matched_cells": 2,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": null
+    },
+    "E": {
+     "estimate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "matched_cells": 2,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": null
+    },
+    "F": {
+     "estimate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "matched_cells": 2,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 2,
+      "min_achievable_p": 0.5
+     },
+     "length_adjusted": null
+    },
+    "G": {
+     "estimate": 0.0,
+     "ci95": null,
+     "matched_cells": 1,
+     "permutation": {
+      "p_two_sided": 1.0,
+      "n_cases": 1,
+      "min_achievable_p": 1.0
+     },
+     "length_adjusted": null
+    }
+   },
+   "H6_DCC_equivalence_TOST": {
+    "P-B": {
+     "ci90": [
+      -0.1077,
+      0.0164
+     ],
+     "equivalent_within_±0.10": false
+    },
+    "S-B": {
+     "ci90": [
+      -0.1765,
+      -0.0303
+     ],
+     "equivalent_within_±0.10": false
+    }
+   }
+  }
+ }
+}

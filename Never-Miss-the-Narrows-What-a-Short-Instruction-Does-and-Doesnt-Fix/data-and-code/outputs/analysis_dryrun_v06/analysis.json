@@ -1,0 +1,349 @@
+{
+ "version": "0.6-dry",
+ "note": "AI readers and an AI grader; a method check, not human evidence.",
+ "triggered_LH": {
+  "R_openai": {
+   "composite_recovered": {
+    "B": 0.439,
+    "P": 0.618,
+    "P_minus_B": 0.18,
+    "ci95": [
+     0.125,
+     0.23
+    ],
+    "exact_signflip_p": 0.0312,
+    "n_cases": 6,
+    "n_cells": 204,
+    "cases_positive": 6
+   },
+   "by_point": {
+    "deadline": {
+     "B": 0.597,
+     "P": 0.734,
+     "P_minus_B": 0.136,
+     "ci95": [
+      0.089,
+      0.175
+     ],
+     "exact_signflip_p": 0.0312,
+     "n_cases": 6,
+     "n_cells": 124,
+     "cases_positive": 6
+    },
+    "option_diff": {
+     "B": 0.868,
+     "P": 0.947,
+     "P_minus_B": 0.079,
+     "ci95": [
+      0,
+      0.19
+     ],
+     "exact_signflip_p": 0.5,
+     "n_cases": 6,
+     "n_cells": 38,
+     "cases_positive": 2
+    },
+    "spare_time": {
+     "B": 0.071,
+     "P": 0.405,
+     "P_minus_B": 0.333,
+     "ci95": [
+      0.071,
+      0.571
+     ],
+     "exact_signflip_p": 0.125,
+     "n_cases": 6,
+     "n_cells": 42,
+     "cases_positive": 4
+    },
+    "spare_use": {
+     "B": 0.333,
+     "P": 0.69,
+     "P_minus_B": 0.357,
+     "ci95": [
+      0.071,
+      0.643
+     ],
+     "exact_signflip_p": 0.125,
+     "n_cases": 6,
+     "n_cells": 42,
+     "cases_positive": 5
+    },
+    "star_effort": {
+     "B": 0.193,
+     "P": 0.277,
+     "P_minus_B": 0.083,
+     "ci95": [
+      0.0,
+      0.179
+     ],
+     "exact_signflip_p": 0.25,
+     "n_cases": 6,
+     "n_cells": 83,
+     "cases_positive": 4
+    },
+    "star_value": {
+     "B": 0.072,
+     "P": 0.325,
+     "P_minus_B": 0.255,
+     "ci95": [
+      0.167,
+      0.35
+     ],
+     "exact_signflip_p": 0.0312,
+     "n_cases": 6,
+     "n_cells": 83,
+     "cases_positive": 6
+    },
+    "two_options": {
+     "B": 0.868,
+     "P": 0.921,
+     "P_minus_B": 0.056,
+     "ci95": [
+      0,
+      0.111
+     ],
+     "exact_signflip_p": 0.5,
+     "n_cases": 6,
+     "n_cells": 38,
+     "cases_positive": 2
+    }
+   }
+  },
+  "R_google": {
+   "composite_recovered": {
+    "B": 0.404,
+    "P": 0.562,
+    "P_minus_B": 0.16,
+    "ci95": [
+     0.102,
+     0.227
+    ],
+    "exact_signflip_p": 0.0312,
+    "n_cases": 6,
+    "n_cells": 204,
+    "cases_positive": 6
+   },
+   "by_point": {
+    "deadline": {
+     "B": 0.565,
+     "P": 0.685,
+     "P_minus_B": 0.12,
+     "ci95": [
+      0.088,
+      0.159
+     ],
+     "exact_signflip_p": 0.0312,
+     "n_cases": 6,
+     "n_cells": 124,
+     "cases_positive": 6
+    },
+    "option_diff": {
+     "B": 0.775,
+     "P": 0.925,
+     "P_minus_B": 0.143,
+     "ci95": [
+      0.048,
+      0.262
+     ],
+     "exact_signflip_p": 0.125,
+     "n_cases": 6,
+     "n_cells": 40,
+     "cases_positive": 4
+    },
+    "spare_time": {
+     "B": 0.05,
+     "P": 0.35,
+     "P_minus_B": 0.306,
+     "ci95": [
+      0.127,
+      0.484
+     ],
+     "exact_signflip_p": 0.125,
+     "n_cases": 6,
+     "n_cells": 40,
+     "cases_positive": 4
+    },
+    "spare_use": {
+     "B": 0.25,
+     "P": 0.55,
+     "P_minus_B": 0.317,
+     "ci95": [
+      -0.024,
+      0.619
+     ],
+     "exact_signflip_p": 0.1562,
+     "n_cases": 6,
+     "n_cells": 40,
+     "cases_positive": 5
+    },
+    "star_effort": {
+     "B": 0.122,
+     "P": 0.159,
+     "P_minus_B": 0.036,
+     "ci95": [
+      0,
+      0.083
+     ],
+     "exact_signflip_p": 0.5,
+     "n_cases": 6,
+     "n_cells": 82,
+     "cases_positive": 2
+    },
+    "star_value": {
+     "B": 0.098,
+     "P": 0.28,
+     "P_minus_B": 0.188,
+     "ci95": [
+      0.107,
+      0.292
+     ],
+     "exact_signflip_p": 0.0312,
+     "n_cases": 6,
+     "n_cells": 82,
+     "cases_positive": 6
+    },
+    "two_options": {
+     "B": 0.775,
+     "P": 0.925,
+     "P_minus_B": 0.147,
+     "ci95": [
+      0.048,
+      0.266
+     ],
+     "exact_signflip_p": 0.125,
+     "n_cases": 6,
+     "n_cells": 40,
+     "cases_positive": 4
+    }
+   }
+  },
+  "mean": {
+   "composite_recovered": {
+    "B": 0.415,
+    "P": 0.585,
+    "P_minus_B": 0.173,
+    "ci95": [
+     0.117,
+     0.228
+    ],
+    "exact_signflip_p": 0.0312,
+    "n_cases": 6,
+    "n_cells": 200,
+    "cases_positive": 6
+   },
+   "by_point": null
+  }
+ },
+ "reader_agreement": {
+  "n_point_pairs": 898,
+  "pct_agree": 0.898,
+  "kappa": 0.795
+ },
+ "judge_vs_reader": {
+  "SCD|R_openai": {
+   "n": 164,
+   "judge_rate": 0.348,
+   "reader_rate": 0.104,
+   "pct_agree": 0.732,
+   "kappa": 0.292
+  },
+  "SCD|R_google": {
+   "n": 163,
+   "judge_rate": 0.344,
+   "reader_rate": 0.086,
+   "pct_agree": 0.73,
+   "kappa": 0.271
+  },
+  "DR|R_openai": {
+   "n": 247,
+   "judge_rate": 0.652,
+   "reader_rate": 0.664,
+   "pct_agree": 0.988,
+   "kappa": 0.973
+  },
+  "DR|R_google": {
+   "n": 247,
+   "judge_rate": 0.656,
+   "reader_rate": 0.623,
+   "pct_agree": 0.951,
+   "kappa": 0.895
+  },
+  "AoC|R_openai": {
+   "n": 80,
+   "judge_rate": 0.688,
+   "reader_rate": 0.875,
+   "pct_agree": 0.812,
+   "kappa": 0.478
+  },
+  "AoC|R_google": {
+   "n": 82,
+   "judge_rate": 0.683,
+   "reader_rate": 0.841,
+   "pct_agree": 0.841,
+   "kappa": 0.577
+  },
+  "ISD|R_openai": {
+   "n": 84,
+   "judge_rate": 0.274,
+   "reader_rate": 0.238,
+   "pct_agree": 0.869,
+   "kappa": 0.657
+  },
+  "ISD|R_google": {
+   "n": 82,
+   "judge_rate": 0.268,
+   "reader_rate": 0.171,
+   "pct_agree": 0.829,
+   "kappa": 0.509
+  }
+ },
+ "controls": {
+  "R_openai": {
+   "reopen_rate": {
+    "B": 0.195,
+    "P": 0.211,
+    "P_minus_B": 0.032,
+    "ci95": [
+     0,
+     0.079
+    ],
+    "exact_signflip_p": 0.5,
+    "n_cases": 9,
+    "n_cells": 133,
+    "cases_positive": 2
+   },
+   "vs_judge_OVER2": {
+    "n": 266,
+    "kappa": 0.207,
+    "reopen_rate_when_judge_OVER2": 0.383,
+    "reopen_rate_when_judge_not_OVER2": 0.164
+   }
+  },
+  "R_google": {
+   "reopen_rate": {
+    "B": 0.09,
+    "P": 0.158,
+    "P_minus_B": 0.037,
+    "ci95": [
+     -0.032,
+     0.116
+    ],
+    "exact_signflip_p": 0.5,
+    "n_cases": 9,
+    "n_cells": 133,
+    "cases_positive": 3
+   },
+   "vs_judge_OVER2": {
+    "n": 266,
+    "kappa": 0.268,
+    "reopen_rate_when_judge_OVER2": 0.319,
+    "reopen_rate_when_judge_not_OVER2": 0.082
+   }
+  }
+ },
+ "parse": {
+  "reads_ok": 1363,
+  "grades_ok": 826
+ }
+}

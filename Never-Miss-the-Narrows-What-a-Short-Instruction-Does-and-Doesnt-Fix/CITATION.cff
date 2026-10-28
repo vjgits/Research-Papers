@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the paper."
+title: "Never Miss the Narrows: What a Short Instruction Does and Doesn't Fix When AI Assistants Plan Trips Over Long Conversations"
+type: article
+version: "4.3"
+date-released: 2026-10-28
+doi: 10.5281/zenodo.23721946
+license: CC-BY-4.0
+url: "https://doi.org/10.5281/zenodo.23721946"
+repository-code: "https://github.com/vjgits/research-papers/tree/main/Never-Miss-the-Narrows-What-a-Short-Instruction-Does-and-Doesnt-Fix"
+authors:
+  - family-names: Suresh
+    given-names: Vijay
+    affiliation: Independent Researcher
+    orcid: "https://orcid.org/0009-0004-1471-0561"
+keywords:
+  - LLM evaluation
+  - proactive disclosure
+  - informed choice
+  - long-context dialogue
+  - travel planning
+  - preregistration

@@ -1,0 +1,76 @@
+{
+ "phase_dir": "outputs/main",
+ "run_status": {
+  "OK": 755,
+  "ERROR:MALFORMED_JSON": 1,
+  "DP_EMPTY": 12,
+  "INCOMPLETE_CAP": 1,
+  "INCOMPLETE_STOPPED": 1
+ },
+ "non_ok_http_attempts": {},
+ "by_model": {
+  "A anthropic/claude-opus-5.5": {
+   "runs": 110,
+   "runs_ok": 108,
+   "truncation_rate": 0.003,
+   "cached_share_of_input": 0.726,
+   "mean_out_tokens": 1494,
+   "mean_words_per_dp": 248.4,
+   "state_parse_rate": 0.966
+  },
+  "B anthropic/claude-sonnet-5.5": {
+   "runs": 108,
+   "runs_ok": 108,
+   "truncation_rate": 0.146,
+   "cached_share_of_input": 0.721,
+   "mean_out_tokens": 1393,
+   "mean_words_per_dp": 238.3,
+   "state_parse_rate": 0.966
+  },
+  "C openai/gpt-6.1-sol": {
+   "runs": 108,
+   "runs_ok": 108,
+   "truncation_rate": 0.017,
+   "cached_share_of_input": 0.45,
+   "mean_out_tokens": 849,
+   "mean_words_per_dp": 192.0,
+   "state_parse_rate": 0.915
+  },
+  "D google/gemini-4-argon": {
+   "runs": 109,
+   "runs_ok": 108,
+   "truncation_rate": 0.01,
+   "cached_share_of_input": 0.561,
+   "mean_out_tokens": 990,
+   "mean_words_per_dp": 260.3,
+   "state_parse_rate": 1.0
+  },
+  "E deepseek/deepseek-v4.1-flash": {
+   "runs": 111,
+   "runs_ok": 108,
+   "truncation_rate": 0.073,
+   "cached_share_of_input": 0.671,
+   "mean_out_tokens": 1719,
+   "mean_words_per_dp": 192.5,
+   "state_parse_rate": 0.422
+  },
+  "F z-ai/glm-5.3": {
+   "runs": 108,
+   "runs_ok": 108,
+   "truncation_rate": 0.0,
+   "cached_share_of_input": 0.704,
+   "mean_out_tokens": 592,
+   "mean_words_per_dp": 168.2,
+   "state_parse_rate": 0.966
+  },
+  "G qwen/qwen3.8-27b": {
+   "runs": 116,
+   "runs_ok": 107,
+   "truncation_rate": 0.07,
+   "cached_share_of_input": 0.651,
+   "mean_out_tokens": 1069,
+   "mean_words_per_dp": 134.8,
+   "state_parse_rate": 0.866
+  }
+ }
+}

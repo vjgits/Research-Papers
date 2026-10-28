@@ -1,0 +1,161 @@
+{
+ "n": 31,
+ "n_fail": 0,
+ "results": [
+  {
+   "test": "all 6 rollouts recorded OK",
+   "ok": true,
+   "detail": "['OK', 'OK', 'OK', 'OK', 'OK', 'OK']"
+  },
+  {
+   "test": "records marked MOCK_TEST_NOT_DATA",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "six DPs per LH rollout",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "explicit-cache model: 1-4 cache breakpoints per call",
+   "ok": true,
+   "detail": "[1, 3, 4]"
+  },
+  {
+   "test": "auto-cache model: no cache_control blocks",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "max_tokens = model's configured limit (+600 on S-arm replies; v0.5.2) and reasoning effort low",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "data_collection deny sent",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "S arm: state built at checkpoints",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "S arm: [PLANNING STATE] block shown with each DP",
+   "ok": true,
+   "detail": "12"
+  },
+  {
+   "test": "S arm: <state> stripped from visible replies",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "S arm: state updated from reply",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "S arm: old state blocks not carried in history",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "B arm system prompt has no protocol",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "DP calls carry the full frozen history (>=108 msgs + system)",
+   "ok": true,
+   "detail": "110"
+  },
+  {
+   "test": "resume skips completed runs",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "hard cap: launch spend never exceeds cap",
+   "ok": true,
+   "detail": "spent=0.0000"
+  },
+  {
+   "test": "hard cap: stopped runs recorded INCOMPLETE_CAP",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "read timeout -> AMBIGUOUS, single attempt",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "AMBIGUOUS not re-run without --rerun-ambiguous",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "truncated DPs flagged and rollout continues",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "HTTP 502: single attempt, ERROR, worst-case cost recorded",
+   "ok": true,
+   "detail": "attempts=1 cost=[amount]"
+  },
+  {
+   "test": "AMBIGUOUS timeout recorded at worst-case cost",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "S arm: truncated/unclosed <state> stripped and flagged",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "empty reply -> DP_EMPTY and rollout stops",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "provider usage since baseline counts toward the global guard",
+   "ok": true,
+   "detail": "Refusing: v0.5 spend $[amount] (recorded $[amount], provider-reported since baseline $[amount]) + th"
+  },
+  {
+   "test": "mock launches never write the real budget ledger",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "balance below cap refuses launch",
+   "ok": true,
+   "detail": "Refusing: account balance $[amount] is below this launch's cap $[amount]."
+  },
+  {
+   "test": "missing --max-cost-usd refuses",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "main run requires --confirm-main",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "global cap refuses when recorded spend + cap > 50",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "test": "API key never written to any output",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}

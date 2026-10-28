@@ -1,0 +1,15 @@
+run_id,case_id,arm,model_slot,trial
+v05smoke-R06-B-A-t1,R06,B,A,1
+v05smoke-R06-S-A-t1,R06,S,A,1
+v05smoke-R06-B-B-t1,R06,B,B,1
+v05smoke-R06-S-B-t1,R06,S,B,1
+v05smoke-R06-B-C-t1,R06,B,C,1
+v05smoke-R06-S-C-t1,R06,S,C,1
+v05smoke-R06-B-D-t1,R06,B,D,1
+v05smoke-R06-S-D-t1,R06,S,D,1
+v05smoke-R06-B-E-t1,R06,B,E,1
+v05smoke-R06-S-E-t1,R06,S,E,1
+v05smoke-R06-B-F-t1,R06,B,F,1
+v05smoke-R06-S-F-t1,R06,S,F,1
+v05smoke-R06-B-G-t1,R06,B,G,1
+v05smoke-R06-S-G-t1,R06,S,G,1

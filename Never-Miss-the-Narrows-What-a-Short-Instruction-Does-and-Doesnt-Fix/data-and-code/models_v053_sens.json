@@ -1,0 +1,22 @@
+{
+  "_comment": "v0.5.3 SENSITIVITY ONLY (2026-10-24): Sonnet 5.5 S-arm re-run with max_tokens 5000 (S adds 600) for the 14 S-arm runs that had truncated decision points in the main run (33/48 LH DPs). Reported beside, never pooled with, the preregistered v0.5.2 main analysis.",
+  "slots": {
+    "B": {
+      "provider": "openrouter",
+      "model": "anthropic/claude-sonnet-5.5",
+      "tier": "frontier",
+      "open_weight": false,
+      "cache": "explicit",
+      "main": true,
+      "params": {
+        "max_tokens": 5000,
+        "reasoning": {
+          "effort": "low"
+        },
+        "provider": {
+          "data_collection": "deny"
+        }
+      }
+    }
+  }
+}
