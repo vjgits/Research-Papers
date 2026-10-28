@@ -1,0 +1,66 @@
+name: PGER V17 Direct Fresh HoVer vs Genuine Official SAG2 SQLite BM25 Stage
+on:
+  push:
+    branches: [v17-hover-official-sag2-reproduction-2026-10-28]
+    paths:
+      - 'v7-multihop/benchmark_v17_hover_vs_sag2.py'
+      - '.github/workflows/pger_v17_hover_headtohead.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: pger-v17-headtohead-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  actual-same-source-benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    defaults:
+      run:
+        working-directory: v7-multihop
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      HF_HUB_DISABLE_TELEMETRY: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download label-blind shared HoVer source corpus from completed V17 preparation
+        uses: actions/download-artifact@v4
+        with:
+          name: pger-v17-hover-shared-120-claim-corpus
+          github-token: ${{ github.token }}
+          run-id: 40741978291
+          path: v7-multihop/v17-hover-data/prepared/
+      - name: Clone and lock ORIGINAL SAG2 MIT source code, not a proxy
+        run: |
+          git clone --quiet https://github.com/Zleap-AI/SAG-Benchmark.git sag-benchmark-v17
+          cd sag-benchmark-v17
+          git checkout --quiet bb7f82751ba1576219f9d9ebd021128603d130c3
+          git rev-parse HEAD
+      - name: Install CPU PGER and upstream SAG2 source/index dependencies
+        run: |
+          python -m pip install 'numpy>=1.24,<3' 'scipy>=1.10,<2' 'scikit-learn>=1.3,<2' 'pyarrow>=17,<27' 'pyahocorasick>=2,<4'
+          python -m pip install 'aiohttp>=3.9' 'jieba==0.42.1' 'pyuca==1.2' 'python-dotenv>=1.0' 'regex>=2024.0' 'tiktoken>=0.12'
+          python -m pip freeze > results-v17-requirements.txt
+      - name: Enforce PGER proof safety and three-original-system failure review
+        run: |
+          python validate_three_system_review.py reviews/v14_failure_three_systems.json
+          python -m unittest test_three_system_review_gate test_pger_v13_proof_gate -v
+      - name: Run actual upstream SAG2 BM25 reader and PGER V16 on exactly the same HoVer articles
+        run: python -u benchmark_v17_hover_vs_sag2.py --prepared v17-hover-data/prepared --out results-v17-comparison --upstream sag-benchmark-v17
+      - name: Preserve full per-question outputs, fair scope and all failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v17-hover-official-sag2-bm25-vs-pger-comparison
+          path: |
+            v7-multihop/results-v17-comparison/summary.json
+            v7-multihop/results-v17-comparison/cases.jsonl
+            v7-multihop/results-v17-requirements.txt
+          if-no-files-found: warn
+          retention-days: 30
