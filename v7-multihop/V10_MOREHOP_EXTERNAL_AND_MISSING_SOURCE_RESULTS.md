@@ -26,6 +26,13 @@ Initial **601** unique documents, retained **524** after a SHA-based blackout (7
 
 V9.5 vs V7.1: +0.268 pp, CI [-0.449,+1.073], 11 wins/8 losses. Evidence absence is not addressed by simply searching the same diminished corpus more. No successful detection of missing evidence/abstention was measured.
 
+
+### IMPORTANT SECONDARY SOURCE-INTEGRITY AUDIT
+
+Directly inspecting **all 1,118 archived V10 per-question records** shows `gold_title_count == 2` in **1118/1118** questions. Although all rows have three question-decomposition entries and `no_of_hops` fields up to five, these are **TWO-GOLD-TITLE** retrieval tests, NOT >2 distinct-source chain retrieval tests. No 4+ source evidence claim is justified by the high V10 title-chain@5 numbers. This is an essential downgrade of what V10 can establish, not a change to the numerical scores. The correct next external evaluation must have explicit human-labeled 4/5/6/8 distinct-source chains with gold source provenance.
+
+The 15% hash blackout actually removed **77/601 = 12.81%** of unique documents due to deterministic modulus sampling. Among the **863** questions with both required titles still present, V7.1 recovered both in Top 5 on **715/863 = 82.85%**, versus 83.36% on the original complete corpus; the dominant failure impact is therefore absolute source loss, not generalized degradation of ranking on questions whose evidence remains available. These are post-hoc analyses of the successful frozen run, not new retrieval experiments.
+
 ## True hop-count caution
 
 All 1,118 records have **three question-decomposition entries**; the `no_of_hops` field is the dataset's **extra reasoning-step count** (distribution: 1=444, 2=416, 3=154, 4=13, 5=91). These fields are NOT direct proof of five independent retrieval hops or eight distinct supporting documents. MoreHopQA adds arithmetic/symbolic/commonsense reasoning atop earlier multi-hop questions. Our system did not generate answers or check these deductions. We categorically make **no 5/6/8-hop success claim** from this experiment.
