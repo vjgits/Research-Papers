@@ -81,7 +81,7 @@ def fuse(fast,dense):
             key=lambda i:(-scores[i],i))
     return unique(out+fast+dense)
 
-def online_features(q,docs,fast,bm,dense,graph):
+def online_features(q,docs,fast,bm,graph):
     qt=set(terms(q)); qt=qt or {"_EMPTY_"}
     top=fast[:5]
     qt_covered=set()
@@ -89,7 +89,8 @@ def online_features(q,docs,fast,bm,dense,graph):
         qt_covered |= set(terms(docs[i]["title"]+" "+docs[i].get("text","")[:700]))
     qlen=len(terms(q))
     coverage=len(qt&qt_covered)/len(qt)
-    overlap=len(set(fast[:10])&set(dense[:10]))/10.
+    # Cheap-first routing must not invoke or inspect the dense model.
+    overlap=len(set(fast[:10])&set(bm[:10]))/10.
     linked=sum(len(graph.adj[i]) for i in fast[:2]) if top else 0
     return [min(60,qlen)/60.,coverage,overlap,min(100,linked)/100.,
             min(3,qlen/12.),float(len(set(fast[:5])&set(bm[:5])))/5.]
@@ -115,7 +116,7 @@ def eval_dataset(name,root,out):
         ranked={"v71_fast":fast,"v95_two_query":sparse,
                 "dense_direct":vector,"dense_fused":combined}
         # All source discovery/ranking and routing features precede gold access.
-        feat=online_features(q,docs,fast,bm,vector,graph)
+        feat=online_features(q,docs,fast,bm,graph)
         pools={"v71_fast":unique(fast[:TOP_BASE]),
                "v95_two_query":unique(fast[:TOP_BASE]+
                                     [i for h in expansions for i in h]),
