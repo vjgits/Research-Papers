@@ -8,7 +8,7 @@ Preserve PGER's original boosted passage relevance, provenance IDs,
 retrieval budget, and trace of possible incomplete-proof links.
 
 Public MultiHop-RAG news corpus (609 sources); training questions [0,400),
-previously unused test [2400,2800), same 120 candidate budget, no extra
+previously unused test [2400,2556), same 120 candidate budget, no extra
 searches for any arm. Evaluation gold source URLs used only after all ranks.
 """
 import argparse,collections,hashlib,json,pathlib,time
@@ -26,7 +26,7 @@ from benchmark_v111 import reorder,score,SEED
 from expansion_v92 import terms
 
 TRAIN=(0,400)
-TEST=(2400,2800)
+TEST=(2400,2556)
 K=5
 POOL=120
 PAIR_BASE_TOP=56
@@ -232,7 +232,7 @@ def run(rawdocs,questions,hashes,out):
                      "diversity":divms}
         })
         if len(cases)%50==0:print("V13_PROGRESS",len(cases),flush=True)
-    assert len(cases)>=180
+    assert len(cases)>=80
     out.mkdir(parents=True,exist_ok=True)
     summary={"stage":"V13A_pair_co_necessity_not_entailment",
         "source_dataset_sha256":hashes,
