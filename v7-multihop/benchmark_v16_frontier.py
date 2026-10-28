@@ -151,6 +151,8 @@ def run_arm(question,docs,sm,graph,graphidx,mode,rounds=4):
             assert set(snapshots[h-1]["archive"])<=set(archive),"archive lost earlier witnesses"
         snapshots[h]={
           "archive":archive,
+          "hitlists":[list(x) for x in hits],
+          "graph_hitlists":[list(x) for x in graph_hitlists],
           "rank":ranked[:POOL_LIMIT],
           "pool":pool,
           "actions":[dict(x) for x in actions],
