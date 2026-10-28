@@ -13,7 +13,7 @@ class GateTests(unittest.TestCase):
             "three":Source("three","Paris is not the capital of France.")}
         self.policy=ProofPolicy(allowed_reviewers=frozenset({"reviewer_A"}))
         self.proofs=[
-           Witness("c1","one",self.sources["one"].sha256,0,29,
+           Witness("c1","one",self.sources["one"].sha256,0,len(self.sources["one"].text),
                   self.sources["one"].text, Verdict.SUPPORTED,
                   "reviewer_A","audit-simulated-001"),
            Witness("c1","two",self.sources["two"].sha256,0,
