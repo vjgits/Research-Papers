@@ -1,6 +1,6 @@
 import json, pathlib, unittest
 from dataclasses import dataclass
-from pger_v86_relation import lexical_scope, hypothesis, logits_to_probs, classify_nli, rerank, query_predicates
+from pger_v86_relation import lexical_scope, hypothesis, logits_to_probs, classify_nli, rerank, query_predicates, score_claims
 
 @dataclass
 class Claim:
@@ -37,6 +37,24 @@ class RelationTests(unittest.TestCase):
         self.assertEqual(sum(x['expected']=='entailment' for x in data),91)
         self.assertTrue(any(x['id']=='kalank_director_false' for x in data))
         self.assertEqual(len(set(x['id'] for x in data)),len(data))
+    def test_typed_only_skips_nli_correctly(self):
+        from dataclasses import dataclass
+        @dataclass
+        class TestClaim:
+            quote:str='Kalank was produced by Karan Johar.'
+            subject:str='Kalank'
+            object:str='Karan Johar'
+            predicate:str='produced_by'
+            asserted:bool=True
+            source:int=0
+            target:int=1
+            source_id:str='a'
+            target_id:str='b'
+            start:int=0
+            end:int=35
+        accepted,trace=score_claims([TestClaim()],None,require_nli=False)
+        self.assertEqual(len(accepted),1)
+        self.assertTrue(trace[0]['typed_scope'])
     def test_query_predicate(self):
         self.assertIn('directed_by',query_predicates('Which director made the film?'))
 
