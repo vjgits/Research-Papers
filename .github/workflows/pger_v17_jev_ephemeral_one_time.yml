@@ -1,0 +1,63 @@
+name: PGER V17 Secure Ephemeral Original SAG2 JEV Execution
+on:
+  push:
+    branches: [v17-hover-official-sag2-reproduction-2026-10-28]
+    paths:
+      - '.github/workflows/pger_v17_jev_ephemeral_one_time.yml'
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: pger-v17-jev-one-time-encrypted-handoff
+  cancel-in-progress: false
+jobs:
+  original-sag2-jev-reproduction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    defaults:
+      run:
+        working-directory: v7-multihop
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Retrieve same locked no-gold HoVer pool and 120 original claims
+        uses: actions/download-artifact@v4
+        with:
+          name: pger-v17-hover-shared-120-claim-corpus
+          github-token: ${{ github.token }}
+          run-id: 40741978291
+          path: v7-multihop/v17-hover-data/prepared/
+      - name: Pin upstream SAG2 author code
+        run: |
+          git clone --quiet https://github.com/Zleap-AI/SAG-Benchmark.git sag-benchmark-v17
+          git -C sag-benchmark-v17 checkout --quiet bb7f82751ba1576219f9d9ebd021128603d130c3
+          test "$(git -C sag-benchmark-v17 rev-parse HEAD)" = "bb7f82751ba1576219f9d9ebd021128603d130c3"
+      - name: Install original SAG2 and RSA-OAEP implementation
+        run: |
+          python -m pip install 'aiohttp>=3.9' 'jieba==0.42.1' 'pyuca==1.2' 'python-dotenv>=1.0' 'regex>=2024.0' 'tiktoken>=0.12' 'cryptography>=44,<49'
+          python -m pip freeze > results-v17-original-jev-deps.txt
+      - name: Free input preflight, no secret and no paid calls
+        run: python benchmark_v17_original_jev.py --max-cases 10 --budget-usd 2.00
+      - name: Generate ephemeral RSA private key in RAM, publish public key, wait for encrypted credential, run original SAG2 JEV
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -u v17_ephemeral_jev_handoff.py
+      - name: Preserve completed original JEV scores; never archive API key or RSA material
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v17-original-jev-encrypted-handoff-pilot-full
+          path: |
+            v7-multihop/results-v17-jev-ephemeral-pilot/summary.json
+            v7-multihop/results-v17-jev-ephemeral-pilot/cases.jsonl
+            v7-multihop/results-v17-jev-ephemeral-full/summary.json
+            v7-multihop/results-v17-jev-ephemeral-full/cases.jsonl
+            v7-multihop/results-v17-original-jev-deps.txt
+          retention-days: 30
+          if-no-files-found: warn
