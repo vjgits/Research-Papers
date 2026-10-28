@@ -1,0 +1,48 @@
+name: PGER V9.5 Frozen Graph-Set Gate New-IDs Experiment
+on:
+  push:
+    branches: [v95-scalablerag-set-diagnostics-2026-10-28]
+    paths:
+      - '.github/workflows/pger_v95.yml'
+permissions:
+  contents: read
+concurrency:
+  group: pger-v95-once-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  bounded-new-question-cohort:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install free CPU dependencies
+        run: |
+          python -m pip install 'numpy>=1.24,<3' 'scipy>=1.10,<2' 'scikit-learn>=1.3,<2' 'pyahocorasick>=2,<4' 'pyarrow>=17,<27'
+          python -m pip install 'torch>=2.3,<3' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install 'sentence-transformers>=5.4,<6'
+          python -m pip freeze > results-v95-dependencies.txt
+      - name: Run frozen graph-set invariants
+        run: python benchmark_v95.py smoke
+      - name: Evaluate only fresh public IDs 160-240
+        env:
+          OMP_NUM_THREADS: '2'
+          OPENBLAS_NUM_THREADS: '2'
+          TOKENIZERS_PARALLELISM: 'false'
+          HF_HUB_DISABLE_TELEMETRY: '1'
+        run: python -u benchmark_v95.py run --start 160 --limit 80 --out results-v95
+      - name: Archive all cases and CPU costs even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v95-frozen-graph-set-new-ids
+          path: |
+            v7-multihop/results-v95/
+            v7-multihop/results-v95-dependencies.txt
+          if-no-files-found: warn
+          retention-days: 30
