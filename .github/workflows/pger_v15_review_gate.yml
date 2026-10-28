@@ -1,0 +1,31 @@
+name: PGER V15 Three-System Architecture Failure Review Gate
+on:
+  push:
+    branches: [v15-three-architecture-failure-gate-2026-10-28]
+    paths:
+      - 'v7-multihop/PGER_THREE_SYSTEM_FAILURE_LEARNING_PROTOCOL.md'
+      - 'v7-multihop/reviews/v14_failure_three_systems.json'
+      - 'v7-multihop/validate_three_system_review.py'
+      - 'v7-multihop/test_three_system_review_gate.py'
+      - '.github/workflows/pger_v15_review_gate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  before-next-retrieval-experiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate three official architectures explicitly reviewed
+        run: python validate_three_system_review.py reviews/v14_failure_three_systems.json
+      - name: Reject superficial comparison and unsupported promotion
+        run: python -m unittest test_three_system_review_gate -v
+      - name: Review is not an algorithm result
+        run: echo "V15 review governance PASS. No retrieval improvement, official baseline head-to-head or verified answer correctness is claimed."
