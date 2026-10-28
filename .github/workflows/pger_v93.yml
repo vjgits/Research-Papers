@@ -1,0 +1,60 @@
+name: PGER V9.3 Bounded Two-Stage Open-Weight Semantic Reranker
+on:
+  push:
+    branches: [v93-semantic-two-stage-2026-10-28]
+    paths:
+      - 'v7-multihop/benchmark_v93.py'
+      - 'v7-multihop/test_v93.py'
+      - '.github/workflows/pger_v93.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pger-v93-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  semantic-evidence-budget:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install free CPU model and retrieval libraries
+        run: |
+          python -m pip install 'numpy>=1.24,<3' 'scipy>=1.10,<2' 'scikit-learn>=1.3,<2' 'pyahocorasick>=2,<4' 'pyarrow>=17,<27'
+          python -m pip install 'torch>=2.3,<3' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install 'sentence-transformers>=3.3,<6'
+          python -m pip freeze > results-v93-dependencies.txt
+      - name: Verify semantic candidate controls
+        run: |
+          python -m unittest discover -s . -p 'test_v93.py' -v
+          python benchmark_v93.py smoke
+      - name: Development first 40 questions per dataset
+        env:
+          OMP_NUM_THREADS: '2'
+          OPENBLAS_NUM_THREADS: '2'
+          TOKENIZERS_PARALLELISM: 'false'
+          HF_HUB_DISABLE_TELEMETRY: '1'
+        run: python -u benchmark_v93.py run --datasets musique 2wikimultihopqa --start 0 --limit 40 --out results-v93
+      - name: Frozen confirmation next 120 questions per dataset
+        env:
+          OMP_NUM_THREADS: '2'
+          OPENBLAS_NUM_THREADS: '2'
+          TOKENIZERS_PARALLELISM: 'false'
+          HF_HUB_DISABLE_TELEMETRY: '1'
+        run: python -u benchmark_v93.py run --datasets musique 2wikimultihopqa --start 40 --limit 120 --out results-v93
+      - name: Archive all positive and negative results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v93-two-stage-semantic-benchmark
+          path: |
+            v7-multihop/results-v93/
+            v7-multihop/results-v93-dependencies.txt
+          if-no-files-found: warn
+          retention-days: 30
