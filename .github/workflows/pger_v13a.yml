@@ -1,0 +1,50 @@
+name: PGER V13A One-Time Joint Co-Necessity Candidate-Set Selection
+on:
+  push:
+    branches: [v13-joint-source-selection-2026-10-28]
+    paths:
+      - 'v7-multihop/benchmark_v13_joint.py'
+      - '.github/workflows/pger_v13a.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pger-v13a-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  necessity-set-selection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    defaults:
+      run:
+        working-directory: v7-multihop
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install low-cost open model and retrieval stack
+        run: |
+          python -m pip install 'numpy>=1.24,<3' 'scipy>=1.10,<2' 'scikit-learn>=1.3,<2' 'pyarrow>=17,<27' 'pyahocorasick>=2,<4'
+          python -m pip freeze > results-v13a-dependencies.txt
+      - name: Test joint selector and old feature parity
+        run: |
+          python benchmark_v13_joint.py smoke
+          python benchmark_v113.py smoke
+          python benchmark_v101_multihoprag.py smoke
+      - name: Train joint co-necessity from development and evaluate only final untouched question cohort
+        run: python -u benchmark_v13_joint.py run --out results-v13a
+      - name: Save all question level and negative outcomes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v13a-joint-co-necessity
+          path: |
+            v7-multihop/results-v13a/
+            v7-multihop/results-v13a-dependencies.txt
+          if-no-files-found: warn
+          retention-days: 30
