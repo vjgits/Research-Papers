@@ -1,0 +1,31 @@
+name: PGER V14A One-Time Independent EntailmentBank Proof-Schema Audit
+on:
+  push:
+    branches: [v14-entailmentbank-audit-2026-10-28]
+    paths:
+      - 'v7-multihop/audit_v14_entailmentbank.py'
+      - '.github/workflows/pger_v14_audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit-external-human-annotated-proofs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: v7-multihop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Audit original EntailmentBank proof trees, gold leaf identity and test coverage
+        run: python -u audit_v14_entailmentbank.py --out results-v14-audit
+      - name: Preserve evidence about structure, duplicates and source hashes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pger-v14-entailmentbank-data-integrity-audit
+          path: v7-multihop/results-v14-audit/
+          retention-days: 30
