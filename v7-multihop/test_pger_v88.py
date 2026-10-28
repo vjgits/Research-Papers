@@ -12,8 +12,6 @@ class V88Tests(unittest.TestCase):
   tr=relation_triples(regex_mentions(s),s)
   triples={(norm(t.h),t.r,norm(t.t)) for t in tr}
   self.assertIn(('kalank','P57','abhishek varman'),triples)
-  self.assertIn(('kalank','P57','abhishek varman'),triples)
-  self.assertIn(('kalank','P50','karan johar'),triples) if False else None
   self.assertNotIn(('kalank','P57','karan johar'),triples)
  def test_spans(self):
   s=['Abc Film was directed by Jade Jones.']
